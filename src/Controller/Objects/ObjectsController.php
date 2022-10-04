@@ -167,6 +167,7 @@ class ObjectsController extends AbstractController
     }
 
 
+    /*Extraction de PDF*/
     #[Route('/objects-pdf/{id}', name: 'object_pdf')]
     #[IsGranted("ROLE_MEMBER", message: "Seules les ADMINS peuvent faire ça")]
     public function pdfObjects(Objects $object, ManagerRegistry $doctrine): Response
