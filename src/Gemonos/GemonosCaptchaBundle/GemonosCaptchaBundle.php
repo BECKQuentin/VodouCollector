@@ -1,6 +1,6 @@
 <?php
 
-namespace Gemonos\GemonosCaptchaBundle\src;
+namespace App\Gemonos\GemonosCaptchaBundle;
 
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace Gemonos\GemonosCaptchaBundle\src\Form;
+namespace App\Gemonos\GemonosCaptchaBundle\src\Form;
 
 
-use Gemonos\GemonosCaptchaBundle\src\Entity\Captcha;
+use App\Gemonos\GemonosCaptchaBundle\src\Entity\Captcha;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

@@ -4,9 +4,13 @@ namespace App\Controller\Objects;
 
 use App\Data\SearchData;
 use App\Entity\Objects\Objects;
+use App\Entity\Site\Action;
+use App\Entity\Site\ActionCategory;
 use App\Form\Objects\ObjectsFormType;
 use App\Form\SearchFieldType;
 use App\Repository\Objects\ObjectsRepository;
+use App\Repository\Site\ActionCategoryRepository;
+use App\Repository\Site\SiteParameterRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Dompdf\Dompdf;
@@ -16,6 +20,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -26,12 +31,15 @@ class ObjectsController extends AbstractController
 {
 
     #[Route('/objects', name: 'objects')]
-    public function listingObjects(ObjectsRepository $objectsRepository,PaginatorInterface $paginator, Request $request): Response
+    public function listingObjects(ObjectsRepository $objectsRepository, SiteParameterRepository $siteParameterRepository, PaginatorInterface $paginator, Request $request): Response
     {
         $data = new SearchData();
         $data->page = $request->get('page', 1);
 
         $searchForm = $this->createForm(SearchFieldType::class, $data);
+        if (!$this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $searchForm->remove('updatedBy');
+        }
         $searchForm->handleRequest($request);
         $searchObjects = $objectsRepository->searchObjects($data);
 
@@ -46,10 +54,11 @@ class ObjectsController extends AbstractController
         }
 
         //Pagination
+        $site = $siteParameterRepository->find(1);
         $objPaginate = $paginator->paginate(
             $searchObjects,
             $data->page = $request->get('page', 1),
-            8
+            $site->getItemsByPage()
         );
 
         return $this->render('objects/objects/listing.html.twig', [
@@ -63,7 +72,7 @@ class ObjectsController extends AbstractController
 
     #[Route('/objects-add', name: 'objects_add')]
     #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
-    public function addObjects(Request $request, ManagerRegistry $doctrine, ValidatorInterface $validator): Response
+    public function addObjects(ActionCategoryRepository $actionCategoryRepository, Request $request, ManagerRegistry $doctrine, ValidatorInterface $validator): Response
     {
         $objects = new Objects();
         $form = $this->createForm(ObjectsFormType::class, $objects);
@@ -71,12 +80,19 @@ class ObjectsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-                $em = $doctrine->getManager();
-                $em->persist($objects);
-                $em->flush();
+            $action = new Action();
+            $action->setName('Objet crée');
+            $action->setObject($objects);
+            $action->setCreatedBy($this->getUser());
+            $action->setCategory($actionCategoryRepository->find(2));
 
-                $this->addFlash('success', "L'article a bien été ajoutée");
-                return $this->redirectToRoute('objects');
+            $em = $doctrine->getManager();
+            $em->persist($action);
+            $em->persist($objects);
+            $em->flush();
+
+            $this->addFlash('success', "L'article a bien été ajoutée");
+            return $this->redirectToRoute('objects');
         }
 
         return $this->render('objects/objects/add.html.twig', [
@@ -87,7 +103,7 @@ class ObjectsController extends AbstractController
 
     #[Route('/objects/{id}', name: 'objects_edit')]
     #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
-    public function editObjects(Objects $objects, Request $request, ManagerRegistry $doctrine): Response
+    public function editObjects(Objects $objects, ActionCategoryRepository $actionCategoryRepository, Request $request, ManagerRegistry $doctrine): Response
     {
 
         $user = $this->getUser();
@@ -101,8 +117,15 @@ class ObjectsController extends AbstractController
             $objects->setUpdatedAt(new \DateTimeImmutable('now'));
             $objects->setUpdatedBy($user);
 
+            $action = new Action();
+            $action->setName('Objet modifié');
+            $action->setObject($objects);
+            $action->setCreatedBy($user);
+            $action->setCategory($actionCategoryRepository->find(2));
+
             $em = $doctrine->getManager();
             $em->persist($objects);
+            $em->persist($action);
             $em->flush();
 
             $this->addFlash('success', "Les modifications ont bien été sauvegardées !");
@@ -117,10 +140,17 @@ class ObjectsController extends AbstractController
 
     #[Route('/objects-delete/{id}', name: 'objects_delete')]
     #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
-    public function deletObjects(Objects $objects, ManagerRegistry $doctrine): Response
+    public function deletObjects(Objects $objects, ActionCategoryRepository $actionCategoryRepository,  ManagerRegistry $doctrine): Response
     {
+        $action = new Action();
+        $action->setName('Objet supprimé');
+        $action->setOthersValue($objects->getCode() . ' - ' . $objects->getTitle());
+        $action->setCreatedBy($this->getUser());
+        $action->setCategory($actionCategoryRepository->find(2));
+
         $em = $doctrine->getManager();
         $em->remove($objects);
+        $em->persist($action);
         $em->flush();
 
         $this->addFlash('success', 'Vous avez supprimé '.$objects->getTitle().' !');
@@ -129,7 +159,6 @@ class ObjectsController extends AbstractController
 
 
     #[Route('/objects-view/{id}', name: 'objects_view')]
-    #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
     public function viewObjects(Objects $object, ManagerRegistry $doctrine): Response
     {
         return $this->render('objects/objects/view.html.twig', [
@@ -139,6 +168,7 @@ class ObjectsController extends AbstractController
 
 
     #[Route('/objects-pdf/{id}', name: 'object_pdf')]
+    #[IsGranted("ROLE_MEMBER", message: "Seules les ADMINS peuvent faire ça")]
     public function pdfObjects(Objects $object, ManagerRegistry $doctrine): Response
     {
         // Configure Dompdf according to your needs
@@ -171,6 +201,7 @@ class ObjectsController extends AbstractController
 
 
     #[Route('/objects-extract-csv/{idsSearchObjs}', name: 'objects_extract_csv', requirements: ['name' => '.+'])]
+    #[IsGranted("ROLE_MEMBER", message: "Seules les ADMINS peuvent faire ça")]
     public function extractObjectsCSV($idsSearchObjs, ObjectsRepository $objectsRepository, Request $request): Response
     {
         if ($idsSearchObjs !== 'null') {
@@ -238,6 +269,7 @@ class ObjectsController extends AbstractController
 
 
     #[Route('/objects-extract-xls/{idsSearchObjs}', name: 'objects_extract_xls', requirements: ['name' => '.+'])]
+    #[IsGranted("ROLE_MEMBER", message: "Seules les ADMINS peuvent faire ça")]
     public function extractObjectsXLS($idsSearchObjs, ObjectsRepository $objectsRepository, Request $request): Response
     {
 

@@ -4,20 +4,27 @@ namespace App\Entity\User;
 
 use App\Entity\Objects\Libraries;
 use App\Entity\Objects\Objects;
+use App\Entity\Site\Action;
 use App\Repository\User\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
+
+
+//#[ORM\Entity(repositoryClass: UserRepository::class)]
+//#[UniqueEntity(fields: 'emails', message: "There is already an account with this email")]
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @method string getUserIdentifier()
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -71,7 +78,7 @@ class User implements UserInterface
     private $isVerified = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=Objects::class, mappedBy="updatedBy")
+     * @ORM\OneToMany(targetEntity=Objects::class, mappedBy="updatedBy", orphanRemoval=false, cascade={"persist"})
      */
     private $objectsUpdated;
 
@@ -90,6 +97,16 @@ class User implements UserInterface
      */
     private $libraries;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Action::class, mappedBy="createdBy")
+     */
+    private $createdActions;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Action::class, mappedBy="user")
+     */
+    private $actions;
+
     public function __construct()
     {
         $this->setUpdatedAt(new \DateTimeImmutable('now'));
@@ -98,6 +115,12 @@ class User implements UserInterface
         }
         $this->objectsUpdated = new ArrayCollection();
         $this->libraries = new ArrayCollection();
+        $this->actions = new ArrayCollection();
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
     }
 
     public function getId(): ?int
@@ -177,7 +200,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getRoles(): ?array
+    public function getRoles(): array
     {
         return $this->roles;
     }
@@ -314,6 +337,54 @@ class User implements UserInterface
             if ($library->getCreatedBy() === $this) {
                 $library->setCreatedBy(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Action>
+     */
+    public function getCreatedActions(): Collection
+    {
+        return $this->createdActions;
+    }
+
+    public function addCreatedActions(Action $createdActions): self
+    {
+        if (!$this->createdActions->contains($createdActions)) {
+            $this->createdActions[] = $createdActions;
+            $createdActions->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAction(Action $createdActions): self
+    {
+        if ($this->createdActions->removeElement($createdActions)) {
+            // set the owning side to null (unless already changed)
+            if ($createdActions->getCreatedBy() === $this) {
+                $createdActions->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Action>
+     */
+    public function getActions(): Collection
+    {
+        return $this->actions;
+    }
+
+    public function addAction(Action $action): self
+    {
+        if (!$this->actions->contains($action)) {
+            $this->actions[] = $action;
+            $action->setUser($this);
         }
 
         return $this;

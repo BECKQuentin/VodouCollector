@@ -85,7 +85,7 @@ class Files
     {
         // the absolute directory path where uploaded
         // documents should be saved
-        $dirname = dirname(__DIR__,3);
+        $dirname = dirname(__DIR__,4);
         return $dirname.'\public'.$this->getUploadDir();
     }
 

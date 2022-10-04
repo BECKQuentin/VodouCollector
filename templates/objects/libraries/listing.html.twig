@@ -13,9 +13,11 @@
                     <span class="mx-5">
                         {{ library.title|upper }}
                     </span>
-                    <a class="btn btn-vodou" href="{{ path('delete_library', {id:library.id}) }}" title="Supprimer" onclick="return confirm('Etes vous sûr de vouloir supprimer cette bibliographie et TOUT SES OUVRAGES ?')">
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="btn btn-vodou" href="{{ path('delete_library', {id:library.id}) }}" title="Supprimer" onclick="return confirm('Etes vous sûr de vouloir supprimer cette bibliographie et TOUT SES OUVRAGES ?')">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    {% endif %}
                 </div>
                 <div>
                     <table class="table">
@@ -44,21 +46,25 @@
                                     <th>{{ book.year|format_datetime(locale='fr',pattern="YYYY") }}</th>
                                     <th>{{ book.quantity }}</th>
                                     <th>{{ book.pages }}</th>
-                                    <th>{{ book.notice|length > 50 ? book.notice|slice(0, 50) ~ '...' : book.notice }}</th>
+                                    <th>{{ book.notice|u.truncate(10, '...') }}</th>
                                     <th>{{ book.rentNumber }}</th>
-                                    <th></th>
                                     <td colspan="1">
                                         <div class="d-flex flex-wrap">
-                                            <div>
-                                                <a class="btn btn-vodou" href="{{ path('edit_book', {id:book.id}) }}" title="Editer">
-                                                    <i class="fa-solid fa-pen-nib"></i>
-                                                </a>
-                                            </div>
-                                            <div>
-                                                <a class="btn btn-vodou" href="{{ path('book_delete', {id:book.id}) }}" title="Supprimer" onclick="return confirm('Etes vous sûr de vouloir supprimer cet article ?')">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </a>
-                                            </div>
+                                            <a class="btn btn-vodou" href="{{ path('book', {id:book.id}) }}" title="Voir">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </a>
+                                            {% if is_granted('ROLE_ADMIN') %}
+                                                <div>
+                                                    <a class="btn btn-vodou" href="{{ path('edit_book', {id:book.id}) }}" title="Editer">
+                                                        <i class="fa-solid fa-pen-nib"></i>
+                                                    </a>
+                                                </div>
+                                                <div>
+                                                    <a class="btn btn-vodou" href="{{ path('book_delete', {id:book.id}) }}" title="Supprimer" onclick="return confirm('Etes vous sûr de vouloir supprimer cet article ?')">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </a>
+                                                </div>
+                                            {% endif %}
                                         </div>
                                     </td>
                                 </tr>

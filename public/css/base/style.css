@@ -58,6 +58,19 @@ nav {
 h2  {
     margin: 10px !important;
 }
+input:focus,
+input:active,
+textarea:focus,
+textarea:active,
+select:focus,
+select:active {
+    border: 1px solid var(--main) !important;
+    box-shadow: 0 0 4px var(--main) !important;
+}
+input:checked {
+    background-color: var(--main) !important;
+    border-color: var(--main) !important;
+}
 /*Correction Table bootstrap*/
 tbody tr:last-child {
     border-bottom: none;
@@ -86,12 +99,99 @@ tbody tr:last-child td
 .btn-vodou:hover {
     background-color: var(--main) !important;
 }
+.btn-vodou:focus,
+.btn-vodou:active {
+    box-shadow: 0 0 4px var(--main);
+}
 .btn-vodou-cancel {
     color: #FFFFFF;
     background-color: var(--main) !important;
     border-radius: 4px;
     border-bottom: solid 2px var(--main);
 }
+/*BTN VODOU NEON*/
+.btn-vodou-neon {
+    position: relative;
+    overflow: hidden;
+    border: none !important;
+    transition: 0.5s;
+}
+.btn-vodou-neon:hover {
+    box-shadow: 0 0 40px var(--main, 0 0 40px var(--main), 0 0 40px var(--main), 0 0 40px var(--main));
+    -webkit-box-reflect: below 1px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.1, transparent), to(rgba(255, 255, 255, 0.2)));
+}
+.btn-vodou-neon span {
+    position: absolute;
+    display: block;
+}
+.btn-vodou-neon span:nth-child(1) {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--main));
+    animation: animate1 1s linear infinite;
+}
+@keyframes animate1 {
+    0%{
+        left: -100%;
+    }
+    50%,100% {
+        left: 100%;
+    }
+}
+.btn-vodou span:nth-child(2) {
+    top: -100%;
+    right: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, var(--main));
+    animation: animate2 1s linear infinite;
+    animation-delay: 0.25s;
+}
+@keyframes animate2 {
+    0%{
+        top: -100%;
+    }
+    50%,100% {
+        top: 100%;
+    }
+}
+.btn-vodou span:nth-child(3) {
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(270deg, transparent, var(--main));
+    animation: animate3 1s linear infinite;
+    animation-delay: 0.5s;
+}
+@keyframes animate3 {
+    0%{
+        right: -100%;
+    }
+    50%,100% {
+        right: 100%;
+    }
+}
+.btn-vodou span:nth-child(4) {
+    bottom: -100%;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(360deg, transparent, var(--main));
+    animation: animate4 1s linear infinite;
+    animation-delay: 0.75s;
+}
+@keyframes animate4 {
+    0%{
+        bottom: -100%;
+    }
+    50%,100% {
+        bottom: 100%;
+    }
+}
+/**/
 .hr-right {
     border-right: 1px solid black;
 }
@@ -118,6 +218,8 @@ a:hover {
 a:not(.activated) span:hover {
     color: var(--main);
 }
+
+
 .logout a span {
     font-size: 1.5rem;
 }
@@ -128,6 +230,21 @@ a:not(.activated) span:hover {
     background-color: var(--main);
     font-size: 12px;
 }
+
+/*PAGINATON*/
+.pagination .active .page-link{
+    background-color: var(--main) !important;
+    color: #fff !important;
+}
+.pagination li .page-link {
+    color: var(--main);
+}
+.pagination li .page-link:active {
+    box-shadow: -1px 1px 5px 9px var(--main) !important;
+}
+.pagination li .page-link:focus {
+    box-shadow: 0 1px 2px 3px var(--main) !important;
+}
 /*MAIN*/
 #page {
     background-color: var(--second);
@@ -137,7 +254,8 @@ a:not(.activated) span:hover {
 .content_box {
     border: none;
     background-color: #FFFFFF;
-    margin: 5px 20px 5px 20px !important;
+    padding-bottom: 10px;
+    margin: 5px 20px 40px 20px !important;
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.3) 2px 4px 3px;;
 }

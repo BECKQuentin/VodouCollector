@@ -4,17 +4,16 @@
 
 {% block body %}
     <div class="content_box">
-        <h2>Tous les membres</h2>
+        <h2>Tous les membres <span>({{ users|length }})</span></h2>
 
         <table class="table">
             <thead>
             <tr>
                 <th scope="col"></th>
-                <th scope="col">Avatar</th>
                 <th scope="col">Prénom</th>
                 <th scope="col">Nom</th>
                 <th scope="col">Email</th>
-                <th scope="col">Statut</th>
+                <th scope="col">Roles</th>
                 <th scope="col"><i class="fa-solid fa-user-check"></i></th>
                 <th scope="col"><i class="fa-solid fa-lock-open"></i></th>
                 <th scope="col">Action</th>
@@ -25,31 +24,22 @@
                 {% for user in users %}
                     <tr>
                         <th>
-                            <div class="form-check">
-                                <input type="checkbox" class="boxSelectObject">
-                            </div>
+                            {{ loop.index }}
                         </th>
-                        <td>
-                            {#                        {% for img in object.images %}#}
-                            {#                            <a href="">Image</a>#}
-                            {#                        {% endfor %}#}
-                        </td>
                         <th>{{ user.firstname }}</th>
                         <th>{{ user.lastname }}</th>
                         <td>{{ user.email }}</td>
-                        <td>
-                        {% if user.status is not null %}
-                           {{ user.status.name }}
-                        {% endif %}
-                        </td>
+                        <td>{{ user.roles[0]|roles(user.roles) }}</td>
                         <td>
                             <div class="{{ user.isActive == 1 ? 'member_active_true' : 'object_active_false'}} member_active_ball"></div>
                         </td>
-                        <td>Locked</td>
+                        <td>
+
+                        </td>
                         <td colspan="1">
                             <div class="d-flex flex-wrap">
                                 <div>
-                                    <a class="btn btn-vodou" href="{{ path('admin_member_update', {id:user.id}) }}" title="Editer">
+                                    <a class="btn btn-vodou" href="{{ path('member_update', {id:user.id}) }}" title="Editer">
                                         <i class="fa-solid fa-pen-nib"></i>
                                     </a>
                                 </div>

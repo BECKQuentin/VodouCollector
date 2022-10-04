@@ -16,7 +16,7 @@ class YoutubeLinkFormType extends AbstractType
         $builder
             ->add('link', TextType::class, [
                 'label'     => false,
-                'attr' => array('style' => 'width: 450px')
+                'attr' => array('style' => 'width: 350px')
             ])
             ->add('submit', SubmitType::class, [
                 'label'     => 'Ajouter',

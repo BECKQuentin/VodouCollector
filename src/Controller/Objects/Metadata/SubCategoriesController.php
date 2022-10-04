@@ -3,8 +3,10 @@
 namespace App\Controller\Objects\Metadata;
 
 use App\Entity\Objects\Metadata\SubCategories;
+use App\Entity\Site\Action;
 use App\Form\Objects\MetaDataFormType;
 use App\Repository\Objects\SubCategoriesRepository;
+use App\Repository\Site\ActionCategoryRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,36 +21,37 @@ class SubCategoriesController extends AbstractController
 
 
     #[Route('/subCategories', name: 'subCategories')]
-    #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
-    public function addSubCategories(SubCategoriesRepository $subCategoriesRepository, Request $request, ManagerRegistry $doctrine): Response
+    #[IsGranted("ROLE_GUEST", message: "Seules les Invités peuvent faire ça")]
+    public function addSubCategories(SubCategoriesRepository $subCategoriesRepository, ActionCategoryRepository $actionCategoryRepository, Request $request, ManagerRegistry $doctrine): Response
     {
-        $metadata = new SubCategories();
-        $metadataRepository = $subCategoriesRepository;
-
-        return $this->viewReturnMetadata($metadata, $metadataRepository, $request, $doctrine);
+        return $this->viewReturnMetadata(new SubCategories(), $subCategoriesRepository, $actionCategoryRepository, $request, $doctrine);
     }
 
 
     #[Route('/subCategories-edit/{id}', name: 'subCategories_edit')]
     #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
-    public function editCategories(SubCategories $subCategories, SubCategoriesRepository $subCategoriesRepository,Request $request, ManagerRegistry $doctrine): Response
+    public function editCategories(SubCategories $subCategories, SubCategoriesRepository $subCategoriesRepository, ActionCategoryRepository $actionCategoryRepository, Request $request, ManagerRegistry $doctrine): Response
     {
-        $metadata = $subCategories;
-        $metadataRepository = $subCategoriesRepository;
-
-        return $this->viewReturnMetadata($metadata, $metadataRepository, $request, $doctrine);
+        return $this->viewReturnMetadata($subCategories, $subCategoriesRepository, $actionCategoryRepository, $request, $doctrine);
     }
 
     /**
      * @Route("/subCategories-delete/{id}", name="subCategories_delete")
      * @IsGranted("ROLE_ADMIN", message="Seules les ADMINS peuvent faire ça")
      */
-    #[Route('/floor', name: 'floor')]
+    #[Route('/subCategories-delete/{id}', name: 'subCategories_delete')]
     #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
-    public function deleteSubCategories(SubCategories $subCategories, Request $request, ManagerRegistry $doctrine): Response
+    public function deleteSubCategories(SubCategories $subCategories, ActionCategoryRepository $actionCategoryRepository, Request $request, ManagerRegistry $doctrine): Response
     {
+        $action = new Action();
+        $action->setName(self::METADATA_NAME . ' supprimé');
+        $action->setOthersValue($subCategories->getName());
+        $action->setCreatedBy($this->getUser());
+        $action->setCategory($actionCategoryRepository->find(3));
+
         $em = $doctrine->getManager();
         $em->remove($subCategories);
+        $em->persist($action);
         $em->flush();
 
         $this->addFlash('danger', 'Vous avez supprimé '.$subCategories->getName().' !');
@@ -56,7 +59,7 @@ class SubCategoriesController extends AbstractController
     }
 
     //////////////* GLOBAL METADATAS (CRU)*///////////////////
-    public function viewReturnMetadata($metadata, $metadataRepository, $request, $doctrine)
+    public function viewReturnMetadata($metadata, $metadataRepository, $actionCategoryRepository, $request, $doctrine)
     {
         $allMetadata = $metadataRepository->findAll();
         $form = $this->createForm(MetaDataFormType::class, $metadata);
@@ -64,8 +67,15 @@ class SubCategoriesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $action = new Action();
+            $action->setName(self::METADATA_NAME . ' ajout/modif');
+            $action->setOthersValue($metadata->getName());
+            $action->setCreatedBy($this->getUser());
+            $action->setCategory($actionCategoryRepository->find(3));
+
             $em = $doctrine->getManager();
             $em->persist($metadata);
+            $em->persist($action);
             $em->flush();
 
             $this->addFlash('success', "L'article a bien été ajoutée");

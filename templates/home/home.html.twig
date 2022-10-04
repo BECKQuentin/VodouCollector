@@ -18,16 +18,18 @@
         <div class="col-md-4">
             <div class="home_box home_box_second mx-2">
                 <span class="fs-3">Nombre de Bibliographie</span>
-                <span class="fs-1 py-2">23</span>
-                <span class="fs-5">dont 2 ouvrages</span>
+                <span class="fs-1 py-2">{{ libraries|length }}</span>
+                <span class="fs-5">avec {{ books|length}} ouvrages</span>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="home_box home_box_third">
-                <span class="fs-3">Nombre d'utilsateur</span>
-                <span class="fs-1 py-2">6</span>
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="col-md-4">
+                <div class="home_box home_box_third">
+                    <span class="fs-3">Nombre d'utilisateur</span>
+                    <span class="fs-1 py-2">{{ users|length }}</span>
+                </div>
             </div>
-        </div>
+        {% endif %}
 
     </div>
 

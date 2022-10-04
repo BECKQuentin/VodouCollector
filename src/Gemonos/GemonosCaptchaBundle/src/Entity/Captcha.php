@@ -1,6 +1,6 @@
 <?php
 
-namespace Gemonos\GemonosCaptchaBundle\src\Entity;
+namespace App\Gemonos\GemonosCaptchaBundle\src\Entity;
 
 
 class Captcha
@@ -10,7 +10,7 @@ class Captcha
 
     public function __construct()
     {
-        $this->code = $this->generateRandomString(4);
+        $this->code = $this->generateRandomString();
     }
 
     public function getCode(): ?string
@@ -44,7 +44,7 @@ class Captcha
     }
 
     function generateRandomString($length = 6) {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
         $charactersLength = strlen($characters);
         $randomString = '';
         for ($i = 0; $i < $length; $i++) {

@@ -47,3 +47,10 @@
 .bg_9 {
     background-color: var(--bg9) !important;
 }
+
+
+pie-chart {
+    width: 250px;
+    height: 250px;
+    padding: 20px;
+}

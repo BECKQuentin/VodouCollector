@@ -72,7 +72,7 @@ class BookController extends AbstractController
 
 
     #[Route('/book-listing/', name: 'listing_book')]
-    #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
+    #[IsGranted("ROLE_MEMBER", message: "Seules les Membre peuvent faire ça")]
     public function listingBook(BookRepository $bookRepository, Request $request, ManagerRegistry $doctrine): Response
     {
 

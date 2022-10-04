@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity\Objects\Metadata;
+namespace App\Entity\Objects\Media;
 
 use App\Entity\Objects\Objects;
 use App\Repository\Objects\ImagesRepository;

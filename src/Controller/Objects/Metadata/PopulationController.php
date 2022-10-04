@@ -3,8 +3,10 @@
 namespace App\Controller\Objects\Metadata;
 
 use App\Entity\Objects\Metadata\Population;
+use App\Entity\Site\Action;
 use App\Form\Objects\MetaDataFormType;
 use App\Repository\Objects\PopulationRepository;
+use App\Repository\Site\ActionCategoryRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,33 +21,34 @@ class PopulationController extends AbstractController
 
 
     #[Route('/population', name: 'population')]
-    #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
-    public function addPopulation(PopulationRepository $populationRepository, Request $request, ManagerRegistry $doctrine): Response
+    #[IsGranted("ROLE_GUEST", message: "Seules les Invités peuvent faire ça")]
+    public function addPopulation(PopulationRepository $populationRepository, ActionCategoryRepository $actionCategoryRepository, Request $request, ManagerRegistry $doctrine): Response
     {
-        $metadata = new Population();
-        $metadataRepository = $populationRepository;
-
-        return $this->viewReturnMetadata($metadata, $metadataRepository, $request, $doctrine);
+        return $this->viewReturnMetadata(new Population(), $populationRepository, $actionCategoryRepository, $request, $doctrine);
     }
 
 
     #[Route('/population-edit/{id}', name: 'population_edit')]
     #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
-    public function editPopulation(Population $population, PopulationRepository $populationRepository,Request $request, ManagerRegistry $doctrine): Response
+    public function editPopulation(Population $population, PopulationRepository $populationRepository, ActionCategoryRepository $actionCategoryRepository, Request $request, ManagerRegistry $doctrine): Response
     {
-        $metadata = $population;
-        $metadataRepository = $populationRepository;
-
-        return $this->viewReturnMetadata($metadata, $metadataRepository, $request, $doctrine);
+       return $this->viewReturnMetadata($population, $populationRepository, $actionCategoryRepository, $request, $doctrine);
     }
 
 
     #[Route('/population-delete/{id}', name: 'population_delete')]
     #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
-    public function deletePopulation(Population $population, Request $request, ManagerRegistry $doctrine): Response
+    public function deletePopulation(Population $population, Request $request, ActionCategoryRepository $actionCategoryRepository, ManagerRegistry $doctrine): Response
     {
+        $action = new Action();
+        $action->setName(self::METADATA_NAME . ' supprimé');
+        $action->setOthersValue($population->getName());
+        $action->setCreatedBy($this->getUser());
+        $action->setCategory($actionCategoryRepository->find(3));
+
         $em = $doctrine->getManager();
         $em->remove($population);
+        $em->persist($action);
         $em->flush();
 
         $this->addFlash('danger', 'Vous avez supprimé '.$population->getName().' !');
@@ -53,7 +56,7 @@ class PopulationController extends AbstractController
     }
 
     //////////////* GLOBAL METADATAS (CRU)*///////////////////
-    public function viewReturnMetadata($metadata, $metadataRepository, $request, $doctrine)
+    public function viewReturnMetadata($metadata, $metadataRepository, $actionCategoryRepository, $request, $doctrine)
     {
         $allMetadata = $metadataRepository->findAll();
         $form = $this->createForm(MetaDataFormType::class, $metadata);
@@ -61,8 +64,15 @@ class PopulationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $action = new Action();
+            $action->setName(self::METADATA_NAME . ' ajout/modif');
+            $action->setOthersValue($metadata->getName());
+            $action->setCreatedBy($this->getUser());
+            $action->setCategory($actionCategoryRepository->find(3));
+
             $em = $doctrine->getManager();
             $em->persist($metadata);
+            $em->persist($action);
             $em->flush();
 
             $this->addFlash('success', "L'article a bien été ajoutée");

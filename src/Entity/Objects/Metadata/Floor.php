@@ -55,12 +55,12 @@ class Floor
     /**
      * @return Collection<int, Objects>
      */
-    public function getOjects(): Collection
+    public function getObjects(): Collection
     {
         return $this->objects;
     }
 
-    public function addOject(Objects $oject): self
+    public function addObject(Objects $oject): self
     {
         if (!$this->objects->contains($oject)) {
             $this->objects[] = $oject;

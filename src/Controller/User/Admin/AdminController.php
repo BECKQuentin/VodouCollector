@@ -2,8 +2,10 @@
 
 namespace App\Controller\User\Admin;
 
+use App\Entity\Site\Action;
 use App\Entity\User\User;
 use App\Form\User\RegistrationFormType;
+use App\Repository\Site\ActionCategoryRepository;
 use App\Repository\User\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -15,39 +17,47 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminController extends AbstractController
 {
 
-    #[Route('/a/member-update/{id}', name: 'admin_member_update')]
-    #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
-    public function memberUpdateByAdmin(Request $request, UserRepository $userRepository, ManagerRegistry $doctrine)
-    {
-        $id = $request->get('id');
-        $userToUpdate = $userRepository->findOneBy(['id' => $id]);
-        $form = $this->createForm(RegistrationFormType::class, $userToUpdate);
-        $form->remove('submit');
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $em = $doctrine->getManager();
-            $em->persist($userToUpdate);
-            $em->flush();
-
-            $this->addFlash('success', "Les modifications ont bien été sauvegardées !");
-            return $this->redirectToRoute('member');
-        }
-
-        return $this->render('user/member/update.html.twig', [
-            'form' => $form->createView(),
-            'user' => $userToUpdate
-        ]);
-    }
+//    #[Route('/a/member-update/{id}', name: 'admin_member_update')]
+//    #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
+//    public function memberUpdateByAdmin(Request $request, UserRepository $userRepository, ManagerRegistry $doctrine)
+//    {
+//        $id = $request->get('id');
+//        $userToUpdate = $userRepository->findOneBy(['id' => $id]);
+//        $form = $this->createForm(RegistrationFormType::class, $userToUpdate);
+//        $form->remove('submit');
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//
+//            $em = $doctrine->getManager();
+//            $em->persist($userToUpdate);
+//            $em->flush();
+//
+//            $this->addFlash('success', "Les modifications ont bien été sauvegardées !");
+//            return $this->redirectToRoute('member');
+//        }
+//
+//        return $this->render('user/member/update.html.twig', [
+//            'form' => $form->createView(),
+//            'user' => $userToUpdate
+//        ]);
+//    }
 
 
     #[Route('/a/member-delete/{id}', name: 'admin_member_delete')]
     #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
-    public function memberDeleteByAdmin(User $user, Request $request, UserRepository $userRepository, ManagerRegistry $doctrine)
+    public function memberDeleteByAdmin(User $user, ActionCategoryRepository $actionCategoryRepository, Request $request, UserRepository $userRepository, ManagerRegistry $doctrine)
     {
+
+//        $action = new Action();
+//        $action->setName('Utilisateur supprimé');
+//        $action->setUser($user);
+//        $action->setCreatedBy($this->getUser());
+//        $action->setCategory($actionCategoryRepository->find(2));
+
         $em = $doctrine->getManager();
         $em->remove($user);
+//        $em->persist($action);
         $em->flush();
 
         $this->addFlash('success', 'Vous avez supprimé '.$user->getEmail().' !');

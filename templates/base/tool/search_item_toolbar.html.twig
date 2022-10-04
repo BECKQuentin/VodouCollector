@@ -88,7 +88,9 @@
             <div class="px-2" title="Code croissant">{{ form_row(searchForm.isSortNumeric) }}</div>
             <div class="px-2" title="Code décroissant">{{ form_row(searchForm.isSortNumericReverse) }}</div>
             <div class="px-2" title="Date de mise à jour">{{ form_row(searchForm.sortDateUpdate) }}</div>
-            <div class="px-2" title="Modifié par">{{ form_row(searchForm.updatedBy) }}</div>
+{#            {% if is_granted('ROLE_ADMIN') %}#}
+{#                <div class="px-2" title="Modifié par">{{ form_row(searchForm.updatedBy) }}</div>#}
+{#            {% endif %}#}
         </div>
 
         <hr class="my-1">

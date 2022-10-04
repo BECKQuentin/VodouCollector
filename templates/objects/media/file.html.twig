@@ -23,8 +23,12 @@
                             <div class="d-flex justify-content-between">
                                 <span class="d-flex align-items-end">{{ file.name }}</span>
                                 <div>
-                                    <a href="{{ file.name|file }}" download class="btn btn-vodou"><i class="fa-solid fa-download"></i></a>
-                                    <a href="{{ path('delete_objects_file', {id:file.id, object:object.id}) }}" title="Supprimer" class="btn btn-vodou"><i class="fa-solid fa-trash"></i></a>
+                                    {% if is_granted('ROLE_MEMBER') %}
+                                        <a href="{{ file.name|file }}" download class="btn btn-vodou"><i class="fa-solid fa-download"></i></a>
+                                    {% endif %}
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a href="{{ path('delete_objects_file', {id:file.id, object:object.id}) }}" title="Supprimer" class="btn btn-vodou"><i class="fa-solid fa-trash"></i></a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

@@ -12,6 +12,7 @@ use App\Entity\Objects\Metadata\Origin;
 use App\Entity\Objects\Metadata\Population;
 use App\Entity\Objects\Metadata\State;
 use App\Entity\Objects\Metadata\SubCategories;
+use App\Entity\User\User;
 use Svg\Tag\Text;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -48,22 +49,6 @@ class SearchFieldType extends AbstractType
                 'expanded'      => true,
                 'multiple'      => true
             ])
-//            ->add('isExposedTemp', CheckboxType::class, [
-//                'label' => 'Expo Temporaire',
-//                'required' => false,
-//            ])
-//            ->add('isExposedPerm', CheckboxType::class, [
-//                'label' => 'Expo Permanente',
-//                'required' => false,
-//            ])
-//            ->add('isExposedStock', CheckboxType::class, [
-//                'label' => 'En stock',
-//                'required' => false,
-//            ])
-//            ->add('isRent', CheckboxType::class, [
-//                'label' => 'Loué',
-//                'required' => false,
-//            ])
             ->add('categories', EntityType::class, [
                 'label' => 'Catégories',
                 'required' => false,
@@ -153,13 +138,15 @@ class SearchFieldType extends AbstractType
                 'label_attr' => ['class' => 'fa-solid fa-clock-rotate-left'],
                 'required' => false,
             ])
-            ->add('updatedBy', TextType::class, [
-                'label' => false,
-                'required' => false,
-                'attr' => [
-                    'placeholder' => 'modifié par',
-                ]
-            ])
+
+
+//            ->add('updatedBy', EntityType::class, [
+//                'label' => 'Modifié par',
+//                'required' => false,
+//                'class' => User::class,
+//                'choice_label'  => 'firstname',
+//                'multiple'  => true,
+//            ])
 
 
             ->add('submit', SubmitType::class, [

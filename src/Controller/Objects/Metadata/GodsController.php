@@ -3,8 +3,10 @@
 namespace App\Controller\Objects\Metadata;
 
 use App\Entity\Objects\Metadata\Gods;
+use App\Entity\Site\Action;
 use App\Form\Objects\MetaDataFormType;
 use App\Repository\Objects\GodsRepository;
+use App\Repository\Site\ActionCategoryRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,33 +21,35 @@ class GodsController extends AbstractController
 
 
     #[Route('/gods', name: 'gods')]
-    #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
-    public function addGods(GodsRepository $godsRepository, Request $request, ManagerRegistry $doctrine): Response
+    #[IsGranted("ROLE_GUEST", message: "Seules les Invités peuvent faire ça")]
+    public function addGods(GodsRepository $godsRepository, ActionCategoryRepository $actionCategoryRepository, Request $request, ManagerRegistry $doctrine): Response
     {
-        $metadata = new Gods();
-        $metadataRepository = $godsRepository;
-
-        return $this->viewReturnMetadata($metadata, $metadataRepository, $request, $doctrine);
+        return $this->viewReturnMetadata(new Gods(), $godsRepository, $actionCategoryRepository, $request, $doctrine);
     }
 
 
     #[Route('/gods-edit/{id}', name: 'gods_edit')]
     #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
-    public function editGods(Gods $gods, GodsRepository $godsRepository,Request $request, ManagerRegistry $doctrine): Response
+    public function editGods(Gods $gods, GodsRepository $godsRepository, ActionCategoryRepository $actionCategoryRepository, Request $request, ManagerRegistry $doctrine): Response
     {
-        $metadata = $gods;
-        $metadataRepository = $godsRepository;
-
-        return $this->viewReturnMetadata($metadata, $metadataRepository, $request, $doctrine);
+        return $this->viewReturnMetadata($gods, $godsRepository, $actionCategoryRepository, $request, $doctrine);
     }
 
 
     #[Route('/gods-delete/{id}', name: 'gods_delete')]
     #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
-    public function deleteGods(Gods $gods, Request $request, ManagerRegistry $doctrine): Response
+    public function deleteGods(Gods $gods, ActionCategoryRepository $actionCategoryRepository, Request $request, ManagerRegistry $doctrine): Response
     {
+
+        $action = new Action();
+        $action->setName(self::METADATA_NAME . ' supprimé');
+        $action->setOthersValue($gods->getName());
+        $action->setCreatedBy($this->getUser());
+        $action->setCategory($actionCategoryRepository->find(3));
+
         $em = $doctrine->getManager();
         $em->remove($gods);
+        $em->persist($action);
         $em->flush();
 
         $this->addFlash('danger', 'Vous avez supprimé '.$gods->getName().' !');
@@ -53,7 +57,7 @@ class GodsController extends AbstractController
     }
 
     //////////////* GLOBAL METADATAS (CRU)*///////////////////
-    public function viewReturnMetadata($metadata, $metadataRepository, $request, $doctrine)
+    public function viewReturnMetadata($metadata, $metadataRepository, $actionCategoryRepository, $request, $doctrine)
     {
         $allMetadata = $metadataRepository->findAll();
         $form = $this->createForm(MetaDataFormType::class, $metadata);
@@ -61,8 +65,15 @@ class GodsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $action = new Action();
+            $action->setName(self::METADATA_NAME . ' ajout/modif');
+            $action->setOthersValue($metadata->getName());
+            $action->setCreatedBy($this->getUser());
+            $action->setCategory($actionCategoryRepository->find(3));
+
             $em = $doctrine->getManager();
             $em->persist($metadata);
+            $em->persist($action);
             $em->flush();
 
             $this->addFlash('success', "L'article a bien été ajoutée");

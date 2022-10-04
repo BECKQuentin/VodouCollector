@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Data\SearchData;
 use App\Form\SearchFieldType;
+use App\Repository\Objects\BookRepository;
+use App\Repository\Objects\LibrariesRepository;
 use App\Repository\Objects\ObjectsRepository;
+use App\Repository\User\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,8 +17,12 @@ class BaseController extends AbstractController
 {
 
 
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\NoResultException
+     */
     #[Route('/', name: 'home')]
-    public function home(ObjectsRepository $objectsRepository): Response
+    public function home(ObjectsRepository $objectsRepository, LibrariesRepository $librariesRepository, BookRepository $bookRepository, UserRepository $userRepository): Response
     {
         $countObjects = $objectsRepository->countObjects();
         $countIsRent = $objectsRepository->countWhereIsLocated(1);
@@ -31,6 +38,9 @@ class BaseController extends AbstractController
             'countIsExposedPermObjects' => $countIsExposedPermObjects,
             'countIsExposedStock' => $countIsExposedStock,
             'countToFix' => $countToFix,
+            'libraries' => $librariesRepository->findAll(),
+            'books' => $bookRepository->findAll(),
+            'users' => $userRepository->findAll(),
         ]);
     }
 
@@ -51,6 +61,9 @@ class BaseController extends AbstractController
             return $this->redirectToRoute('home');
         }
         elseif ($this->isGranted('ROLE_MEMBER')) {
+            return $this->redirectToRoute('home');
+        }
+        elseif ($this->isGranted('ROLE_GUEST')) {
             return $this->redirectToRoute('home');
         }
         else {

@@ -28,7 +28,7 @@
             <tbody>
             {% if objects is defined and objects is not empty%}
                 {% for object in objects %}
-                    <tr>
+                    <tr class="table_listing_row">
 {#                        <th>#}
 {#                            <input type="checkbox" class="boxSelectObject">#}
 {#                        </th>#}
@@ -46,42 +46,68 @@
                                 </div>
                             </div>
                         </td>
-                        <th>{{ object.title }}</th>
-                        <td>{{ object.categories is same as null ? '' : object.categories.name }}</td>
-                        <td>{{ object.gods is same as null ? '' : object.gods.name }}</td>
-                        <td>Collection</td>
+                        <th title="{{ object.title }}">{{ object.title|u.truncate(10, '...') }}</th>
+                        <td>
+                            {% if object.categories != null %}
+                                <a class="list_tag_link" href="{{ path('objects', {'categories[]': object.categories.id}) }}">
+                                    {{ object.categories.name }}
+                                </a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if object.gods != null %}
+                                <a class="list_tag_link" href="{{ path('objects', {'gods[]': object.gods.id}) }}">
+                                    {{ object.gods.name }}
+                                </a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <ul>
+                                {% for book in object.book|slice(0, 5) %}
+                                    <li title="{{ book.title }}">
+                                        {{ book.title|u.truncate(10, '...') }}
+                                    </li>
+                                {% endfor %}
+                                {% if object.book|length > 5 %}
+                                    <li>...</li>
+                                {% endif %}
+                            </ul>
+
+                        </td>
                         <td>
                             {% if object.isBasemented != null %}
-                                <div class="d-flex justify-content-center align-items-center">
-                                    <div class="object_basemented px-2">Avec Socle</div>
-                                </div>
+                                <a class="list_tag_link_bg" href="{{ path('objects', {'isBasemented': 1}) }}">
+                                    <span class="object_basemented px-2">Avec Socle</span>
+                                </a>
                             {% endif %}
                             {% if object.location != null %}
                                 {% if object.location.id == 1 %}
-                                    <div class="d-flex justify-content-center align-items-center">
+                                    <a class="list_tag_link_bg" href="{{ path('objects', {'location[]': 1}) }}">
                                         <span class="object_exposed_rent px-2">{{ object.location.nameFR }}</span>
-                                    </div>
+                                    </a>
                                 {% endif %}
                                 {% if object.location.id == 2 %}
-                                    <div class="d-flex justify-content-center align-items-center">
+                                    <a class="list_tag_link_bg" href="{{ path('objects', {'location[]': 2}) }}">
                                         <span class="object_exposed_perma px-2">{{ object.location.nameFR }}</span>
-                                    </div>
+                                    </a>
                                 {% endif %}
                                 {% if object.location.id == 3 %}
-                                    <div class="d-flex justify-content-center align-items-center">
+                                    <a class="list_tag_link_bg" href="{{ path('objects', {'location[]': 3}) }}">
                                         <span class="object_exposed_tempo px-2">{{ object.location.nameFR }}</span>
-                                    </div>
+                                    </a>
                                 {% endif %}
                                 {% if object.location.id == 4 %}
-                                    <div class="d-flex justify-content-center align-items-center">
+                                    <a class="list_tag_link_bg" href="{{ path('objects', {'location[]': 4}) }}">
                                         <span class="object_exposed_stock px-2">{{ object.location.nameFR }}</span>
-                                    </div>
+                                    </a>
                                 {% endif %}
                             {% endif %}
                         </td>
                         <td>
                             {% if object.floor %}
-                                {{ object.floor.name }}
+                                <a class="list_tag_link" href="{{ path('objects', {'floor[]': object.floor.id}) }}">
+                                    {{ object.floor.name }}
+                                </a>
                             {% endif %}
                             <div class="d-flex">
                                 {% if object.showcaseCode %}
@@ -100,6 +126,13 @@
                                         <i class="fa-solid fa-eye"></i>
                                     </a>
                                 </div>
+                                {% if is_granted('ROLE_MEMBER') %}
+                                    <div>
+                                        <a class="btn btn-vodou" href="{{ path('object_pdf', {id:object.id}) }}" title="fichier PDF">
+                                            <i class="fa-solid fa-file-pdf"></i>
+                                        </a>
+                                    </div>
+                                {% endif %}
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <div>
                                         <a class="btn btn-vodou" href="{{ path('objects_edit', {id:object.id}) }}" title="Editer">
@@ -110,6 +143,10 @@
                             </div>
                         </td>
                     </tr>
+
+
+
+
                 {% endfor %}
             {% endif %}
             </tbody>

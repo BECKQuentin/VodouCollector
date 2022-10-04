@@ -1,0 +1,95 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <div class="content_box">
+        <h2>Statistics</h2>
+        <hr>
+
+
+        <div class="row">
+            <h3 class="mx-4 mb-3">Nombre d'Objets par :</h3>
+
+            <div class="col-4 d-flex flex-column align-items-center my-4">
+                <h4 class="text-center m-0">Categories</h4>
+                <pie-chart
+                        data="{% for dataCategories in arrDatasCategories %}{{ dataCategories }}{% if loop.index is not same as arrDatasCategories|length %};{% endif %}{% endfor %} "
+                        labels="{% for labelCategories in arrLabelsCategories %}{{ labelCategories }}{% if loop.index is not same as arrLabelsCategories|length %};{% endif %}{% endfor %}"
+                        gap="0.02"
+                        donut="0.2">
+                </pie-chart>
+            </div>
+
+            <div class="col-4 d-flex flex-column align-items-center my-4">
+                <h4 class="text-center m-0">Divinités</h4>
+                <pie-chart
+                        data="{% for dataGods in arrDatasGods %}{{ dataGods }}{% if loop.index is not same as arrDatasGods|length %};{% endif %}{% endfor %} "
+                        labels="{% for labelGods in arrLabelsGods %}{{ labelGods }}{% if loop.index is not same as arrLabelsGods|length %};{% endif %}{% endfor %}"
+                        gap="0.02"
+                        donut="0.2">
+                </pie-chart>
+            </div>
+
+            <div class="col-4 d-flex flex-column align-items-center my-4">
+                <h4 class="text-center m-0">Origine</h4>
+                <pie-chart
+                        data="{% for dataOrigins in arrDatasOrigins %}{{ dataOrigins }}{% if loop.index is not same as arrDatasOrigins|length %};{% endif %}{% endfor %} "
+                        labels="{% for labelOrigins in arrLabelsOrigins %}{{ labelOrigins }}{% if loop.index is not same as arrLabelsOrigins|length %};{% endif %}{% endfor %}"
+                        gap="0.02"
+                        donut="0.2">
+                </pie-chart>
+            </div>
+
+            <div class="col-4 d-flex flex-column align-items-center my-4">
+                <h4 class="text-center m-0">Population</h4>
+                <pie-chart
+                        data="{% for dataPopulations in arrDatasPopulations %}{{ dataPopulations }}{% if loop.index is not same as arrDatasPopulations|length %};{% endif %}{% endfor %} "
+                        labels="{% for labelPopulations in arrLabelsPopulations %}{{ labelPopulations }}{% if loop.index is not same as arrLabelsPopulations|length %};{% endif %}{% endfor %}"
+                        gap="0.02"
+                        donut="0.2">
+                </pie-chart>
+            </div>
+
+            <div class="col-4 d-flex flex-column align-items-center my-4">
+                <h4 class="text-center m-0">Matériaux</h4>
+                <pie-chart
+                        data="{% for dataMaterials in arrDatasMaterials %}{{ dataMaterials }}{% if loop.index is not same as arrDatasMaterials|length %};{% endif %}{% endfor %} "
+                        labels="{% for labelMaterials in arrLabelsMaterials %}{{ labelMaterials }}{% if loop.index is not same as arrLabelsMaterials|length %};{% endif %}{% endfor %}"
+                        gap="0.02"
+                        donut="0.2">
+                </pie-chart>
+            </div>
+
+            <div class="col-4 d-flex flex-column align-items-center my-4">
+                <h4 class="text-center m-0">Locations</h4>
+                <pie-chart
+                        data="{% for dataLocations in arrDatasLocations %}{{ dataLocations }}{% if loop.index is not same as arrDatasLocations|length %};{% endif %}{% endfor %} "
+                        labels="{% for labelLocations in arrLabelsLocations %}{{ labelLocations }}{% if loop.index is not same as arrLabelsLocations|length %};{% endif %}{% endfor %}"
+                        gap="0.02"
+                        donut="0.2">
+                </pie-chart>
+            </div>
+
+            <div class="col-4 d-flex flex-column align-items-center my-4">
+                <h4 class="text-center m-0">Etages</h4>
+                <pie-chart
+                        data="{% for dataFloors in arrDatasFloors %}{{ dataFloors }}{% if loop.index is not same as arrDatasFloors|length %};{% endif %}{% endfor %} "
+                        labels="{% for labelFloors in arrLabelsFloors %}{{ labelFloors }}{% if loop.index is not same as arrLabelsFloors|length %};{% endif %}{% endfor %}"
+                        gap="0.02"
+                        donut="0.2">
+                </pie-chart>
+            </div>
+        </div>
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+{% endblock %}

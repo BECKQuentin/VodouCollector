@@ -2,7 +2,7 @@
 
 namespace App\Repository\Objects;
 
-use App\Entity\Objects\Metadata\Images;
+use App\Entity\Objects\Media\Images;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

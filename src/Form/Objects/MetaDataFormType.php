@@ -14,7 +14,7 @@ class MetaDataFormType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label'     => 'Nom',
-                'required'  => false
+                'required'  => true
             ])
             ->add('submit', SubmitType::class, [
                 'label'     => 'Ajouter une categorie',

@@ -1,33 +1,36 @@
+{% extends 'base.html.twig' %}
+
 {% block login %}
 
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <h1 class="text-center m-5">Login</h1>
+    <h1 class="text-center mx-5 my-4">Login</h1>
 
     <div class="d-flex flex-column align-items-center">
-        <form action="{{ path('app_login') }}" method="post" class="">
-            <div class="form-group d-flex justify-content-between">
+        <form action="{{ path('app_login') }}" method="post" style="max-width: 280px">
+            <div class="form-group">
                 <label for="inputEmail">Email:</label>
-                <input type="text" id="inputEmail" name="email" value="{{ last_username }}"/>
+                <input class="form-control" type="text" id="inputEmail" name="email" value="{{ last_username }}"/>
             </div>
-            <div class="form-group d-flex justify-content-between">
+            <div class="form-group">
                 <label for="password">Mot de passe:</label>
-                <input type="password" id="password" name="password"/>
+                <input class="form-control" type="password" id="password" name="password"/>
             </div>
 
-            <input type="hidden" name="_csrf_token"
-                   value="{{ csrf_token('authenticate') }}"
-            >
+            {% if csrf_token('authenticate') %}
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+            {% endif %}
 
             <div class="checkbox mb-3">
                 <label>
                     <input type="checkbox" name="_remember_me"> Se souvenir de moi
                 </label>
             </div>
-            {# If you want to control the URL the user is redirected to on success
-        <input type="hidden" name="_target_path" value="/account"/> #}
+
+
+            {% include '@GemonosCaptchaBundle/Resources/views/form.html.twig' %}
 
             <button type="submit" class="btn btn-vodou">Connexion</button>
         </form>

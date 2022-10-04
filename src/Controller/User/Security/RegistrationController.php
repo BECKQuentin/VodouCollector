@@ -1,9 +1,7 @@
 <?php
-////
+
 namespace App\Controller\User\Security;
-////
-////use App\Entity\User\User;
-////use App\Form\User\RegistrationFormType;
+
 use App\Entity\User\User;
 use App\Form\User\RegistrationFormType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -24,7 +22,7 @@ class RegistrationController extends AbstractController
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->remove('status')->remove('modify');
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -37,7 +35,7 @@ class RegistrationController extends AbstractController
                 $plaintextPassword
             );
             $user->setPassword($hashedPassword);
-            $user->setRoles(['ROLE_MEMBER']);
+            $user->setRoles(['ROLE_GUEST']);
 
             $em = $doctrine->getManager();
             $em->persist($user);
@@ -47,7 +45,8 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('member', ['id' => $user->getId()]);
         }
         return $this->render('user/member/add.html.twig', [
-            'form' => $form->createView(),
+            'form'          => $form->createView(),
+            'adding_member' => true
         ]);
     }
 }

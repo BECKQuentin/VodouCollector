@@ -30,63 +30,74 @@
         <link rel="stylesheet" href="{{asset('css/objects/media.css')}}">
         <link rel="stylesheet" href="{{asset('css/search/search.css')}}">
         <link rel="stylesheet" href="{{asset('css/site/style.css')}}">
+        <link rel="stylesheet" href="{{asset('css/bundles/captcha.css')}}">
+        <!--Bundles-->
 
 
 {#        <link rel="stylesheet" href="{{asset('styles/mediaQueries.styles')}}">#}
 {#        <link rel="stylesheet" href="{{asset('styles/error.styles')}}">#}
     {% endblock %}
 
+
+
+
+
 </head>
 
 <body>
-{% if is_granted('ROLE_MEMBER') %}
 
-    <header>
-{#        {{ render(controller(#}
-{#            'App\\Controller\\BaseController::header', {routeName: route_name}#}
-{#        )) }}#}
-    </header>
-        <div class="d-flex">
-            <div id="toolbar" class="col-2">
-                {% include 'base/tool/toolbar.html.twig'%}
-            </div>            
-            <div id="page" class="offset-2 col-10">
-
-                <div class="d-flex">
-                    <div class="col-9 m-0 p-0">
-                        {% if app.request.get('_route') == 'objects' %}
-                            {% include 'base/tool/search_item_toolbar.html.twig' %}
-                        {% else %}
-                            <a href="{{ path('objects') }}">
-                                <div id="search_item_toolbar_button" class="search form-group">
-                                    <div class="form-control">Rechercher</div>
-                                </div>
-                            </a>
-                        {% endif %}
-                    </div>
-                    <div class="col-3 m-0 p-0">
-                        {% include 'base/tool/login.html.twig' %}
-                    </div>
+    {% if app.user %}
+        <header>
+        </header>
+            <div class="d-flex">
+                <div id="toolbar" class="col-2">
+                    {% include 'base/tool/toolbar.html.twig'%}
                 </div>
+                <div id="page" class="offset-2 col-10">
 
-                <div class="mx-3">
-                    {% include "base/flash.html.twig" %}
-                </div>
+                    <div class="d-flex">
+                        <div class="col-9 m-0 p-0">
+                            {% if app.request.get('_route') == 'objects' %}
+                                {% include 'base/tool/search_item_toolbar.html.twig' %}
+                            {% else %}
+                                <a href="{{ path('objects') }}">
+                                    <div id="search_item_toolbar_button" class="search form-group">
+                                        <div class="form-control">Rechercher</div>
+                                    </div>
+                                </a>
+                            {% endif %}
+                        </div>
+                        <div class="col-3 m-0 p-0">
+                            {% include 'base/tool/login.html.twig' %}
+                        </div>
+                    </div>
 
-                <div id="content">
-                    {% block body %}
+                    <div class="mx-3">
+                        {% include "base/flash.html.twig" %}
+                    </div>
+
+                    <div id="content">
+                        {% block body %}
 
 
-                    {% endblock %}
+                        {% endblock %}
+                    </div>
                 </div>
             </div>
-        </div>
+    {% else %}
+        {% block login %}
 
-{% else %}
-    {{ render(controller(
-        'App\\Controller\\User\\Security\\SecurityController::login'
-    )) }}
-{% endif %}
+        {% endblock %}
+    {% endif %}
+
+
+
+{#        {{ render(controller(#}
+{#            'App\\Controller\\User\\Security\\SecurityController::login'#}
+{#        )) }}#}
+{#    {% endif %}#}
+
+
 
 {% block javascripts %}
 {#     Bootstrap#}
@@ -106,6 +117,7 @@
     <script src="{{ asset('js/tool/search.js') }}"></script>
     <script src="{{ asset('js/tool/formObjects.js') }}"></script>
     <script src="{{ asset('js/site/style.js') }}"></script>
+    <script src="{{ asset('js/site/statistics.js') }}"></script>
 {% endblock %}
 </body>
 </html>

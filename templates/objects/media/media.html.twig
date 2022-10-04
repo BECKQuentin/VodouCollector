@@ -20,11 +20,14 @@
                         </div>
                         <div class="d-flex justify-content-between">
                             <span class="d-flex align-items-end">{{ img.code }}</span>
-                            <div>
-                                <a href="{{ img.name|image }}" download class="btn btn-vodou"><i class="fa-solid fa-download"></i></a>
-                                <a href="{{ path('delete_objects_img', {id:img.id, object:object.id}) }}" title="Supprimer" class="btn btn-vodou"><i class="fa-solid fa-trash"></i></a>
-                            </div>
-
+                                <div>
+                                    {% if is_granted('ROLE_MEMBER') %}
+                                        <a href="{{ img.name|image }}" download class="btn btn-vodou"><i class="fa-solid fa-download"></i></a>
+                                    {% endif %}
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a href="{{ path('delete_objects_img', {id:img.id, object:object.id}) }}" title="Supprimer" class="btn btn-vodou"><i class="fa-solid fa-trash"></i></a>
+                                    {% endif %}
+                                </div>
                         </div>
                     </div>
                 {% endfor %}

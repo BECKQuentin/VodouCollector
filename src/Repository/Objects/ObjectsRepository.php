@@ -84,7 +84,7 @@ class ObjectsRepository extends ServiceEntityRepository
         );
     }
 
-    /////////SEARCH/////////
+    /////////SEARCH////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Find/search articles by title/content
     public function searchObjects(SearchData $searchData)
     {
@@ -119,13 +119,13 @@ class ObjectsRepository extends ServiceEntityRepository
                 ->setParameter('q', "%{$searchData->q}%");
         }
 
-        if(!empty($searchData->updatedBy)) {
-            $query = $query
-                ->select('updatedBy', 'o')
-                ->join('o.updatedBy', 'upBy')
-                ->orWhere('upBy.name LIKE :updatedBy')
-                ->setParameter('updatedBy', "%{$searchData->updatedBy}%");
-        }
+//        if(!empty($searchData->updatedBy)) {
+//            $query = $query
+//                ->select('user', 'u')
+//                ->orWhere('u.')
+//                ->andWhere('u.updatedBy == o.updatedBy')
+//                ->setParameter('updatedBy', "%{$searchData->updatedBy}%");
+//        }
 
 
         if(!empty($searchData->isBasemented)) {

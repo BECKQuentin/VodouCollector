@@ -1,8 +1,10 @@
-<div class="d-flex align-items-end px-2 p-2">
-    {{ form_start(form) }}
-        <div class="d-flex">
-                {{ form_row(form.link) }}
-                {{ form_row(form.submit) }}
+{% if is_granted('ROLE_ADMIN') %}
+        <div class="d-flex align-items-end px-2 p-2">
+                {{ form_start(form) }}
+                <div class="d-flex">
+                        {{ form_row(form.link) }}
+                        {{ form_row(form.submit) }}
+                </div>
+                {{ form_end(form) }}
         </div>
-    {{ form_end(form) }}
-</div>
+{% endif %}

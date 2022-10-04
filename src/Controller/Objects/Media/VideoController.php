@@ -4,10 +4,14 @@ namespace App\Controller\Objects\Media;
 
 use App\Entity\Objects\Media\Videos;
 use App\Entity\Objects\Objects;
+use App\Entity\Site\Action;
 use App\Form\Objects\MediaFormType;
+use App\Repository\Objects\ObjectsRepository;
 use App\Repository\Objects\VideosRepository;
+use App\Repository\Site\ActionCategoryRepository;
 use App\Service\UploadService;
 use Doctrine\Persistence\ManagerRegistry;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +22,8 @@ class VideoController extends AbstractController
 {
 
     #[Route('/objects/{id}/video', name: 'objects_videos')]
-    public function videoIndex(Objects $objects, Request $request, UploadService $uploadService, VideosRepository $videosRepository, ManagerRegistry $doctrine): Response
+    #[IsGranted("ROLE_MEMBER", message: "Seules les Membres peuvent faire ça")]
+    public function videoIndex(Objects $objects, Request $request, UploadService $uploadService, VideosRepository $videosRepository, ActionCategoryRepository $actionCategoryRepository, ManagerRegistry $doctrine): Response
     {
         $form = $this->createForm(MediaFormType::class, $objects);
         $form->handleRequest($request);
@@ -40,8 +45,16 @@ class VideoController extends AbstractController
                         $vid->setObjects($objects);
                         $objects->addVideo($vid);
 
+                        $action = new Action();
+                        $action->setName('Video ajouté');
+                        $action->setObject($objects);
+                        $action->setOthersValue($vid->getName());
+                        $action->setCreatedBy($this->getUser());
+                        $action->setCategory($actionCategoryRepository->find(2));
+
                         $em = $doctrine->getManager();
                         $em->persist($objects);
+                        $em->persist($action);
                         $em->flush();
                     } else {
                         $this->addFlash('danger', 'Ceci n\'est pas une vidéo valide');
@@ -60,15 +73,24 @@ class VideoController extends AbstractController
 
 
     #[Route('/video-delete/{id}/{object}', name: 'delete_objects_vid')]
-    public function videoDelete(Videos $videos, Request $request, UploadService $uploadService, ManagerRegistry $doctrine) {
+    #[IsGranted("ROLE_MEMBER", message: "Seules les Membres peuvent faire ça")]
+    public function videoDelete(Videos $videos, ActionCategoryRepository $actionCategoryRepository, ObjectsRepository $objectsRepository, Request $request, UploadService $uploadService, ManagerRegistry $doctrine) {
 
         $objId = $request->get('object');
 
         $filesystem = new Filesystem();
         $filesystem->remove($videos->getAbsolutePath());
 
+        $action = new Action();
+        $action->setName('Vidéo supprimé');
+        $action->setObject($objectsRepository->findOneBy(['id' => $objId]));
+        $action->setOthersValue($videos->getName());
+        $action->setCreatedBy($this->getUser());
+        $action->setCategory($actionCategoryRepository->find(2));
+
         $em = $doctrine->getManager();
         $em->remove($videos);
+        $em->persist($action);
         $em->flush();
 
         return($this->redirectToRoute('objects_videos',

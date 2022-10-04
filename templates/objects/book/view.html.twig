@@ -20,11 +20,16 @@
         </div>
 
         <div class="px-4">
-            <div class="ul">
+
+            <div class="ul my-3">
+                <h5>Bibliographie</h5>
                 {% for library in book.libraries %}
-                    <li>{{ library.name }}</li>
+                    <li>{{ library.title }}</li>
                 {% endfor %}
             </div>
+
+            <hr>
+
             <div class="d-flex align-items-center">
                 <em>Auteur :&nbsp;</em>
                 {{ book.author }}
@@ -39,7 +44,7 @@
             </div>
             <div class="d-flex align-items-center">
                 <em>Année :&nbsp;</em>
-                {{ book.year }}
+                {{ book.year|format_datetime(locale='fr',pattern="YYYY") }}
             </div>
             <div class="d-flex align-items-center">
                 <em>Tome :&nbsp;</em>

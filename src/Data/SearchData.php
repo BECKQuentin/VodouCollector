@@ -40,5 +40,5 @@ class SearchData
     public bool $isSortNumeric = false;
     public bool $isSortNumericReverse = false;
     public bool $sortDateUpdate = false;
-    public null|string $updatedBy = '';
+//    public null|array $updatedBy = [];
 }

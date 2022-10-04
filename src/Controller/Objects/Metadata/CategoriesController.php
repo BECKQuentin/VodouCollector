@@ -3,8 +3,10 @@
 namespace App\Controller\Objects\Metadata;
 
 use App\Entity\Objects\Metadata\Categories;
+use App\Entity\Site\Action;
 use App\Form\Objects\MetaDataFormType;
 use App\Repository\Objects\CategoriesRepository;
+use App\Repository\Site\ActionCategoryRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,33 +21,35 @@ class CategoriesController extends AbstractController
 
 
     #[Route('/categories', name: 'categories')]
-    #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
-    public function addCategories(CategoriesRepository $categoriesRepository, Request $request, ManagerRegistry $doctrine): Response
+    #[IsGranted("ROLE_GUEST", message: "Seules les Invités peuvent faire ça")]
+    public function addCategories(CategoriesRepository $categoriesRepository, ActionCategoryRepository $actionCategoryRepository, Request $request, ManagerRegistry $doctrine): Response
     {
-        $metadata = new Categories();
-        $metadataRepository = $categoriesRepository;
-
-        return $this->viewReturnMetadata($metadata, $metadataRepository, $request, $doctrine);
+        return $this->viewReturnMetadata(new Categories(), $categoriesRepository, $actionCategoryRepository, $request, $doctrine);
     }
 
 
     #[Route('/categories-edit/{id}', name: 'categories_edit')]
     #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
-    public function editCategories(Categories $categories, CategoriesRepository $categoriesRepository,Request $request, ManagerRegistry $doctrine): Response
+    public function editCategories(Categories $categories, CategoriesRepository $categoriesRepository, ActionCategoryRepository $actionCategoryRepository, Request $request, ManagerRegistry $doctrine): Response
     {
-        $metadata = $categories;
-        $metadataRepository = $categoriesRepository;
-
-        return $this->viewReturnMetadata($metadata, $metadataRepository, $request, $doctrine);
+        return $this->viewReturnMetadata($categories, $categoriesRepository, $actionCategoryRepository, $request, $doctrine);
     }
 
 
     #[Route('/categories-delete/{id}', name: 'categories_delete')]
     #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
-    public function deleteCategories(Categories $categories, Request $request, ManagerRegistry $doctrine): Response
+    public function deleteCategories(Categories $categories, ActionCategoryRepository $actionCategoryRepository, Request $request, ManagerRegistry $doctrine): Response
     {
+        $action = new Action();
+        $action->setName(self::METADATA_NAME . ' supprimé');
+        $action->setOthersValue($categories->getName());
+        $action->setCreatedBy($this->getUser());
+        $action->setCategory($actionCategoryRepository->find(3));
+
+
         $em = $doctrine->getManager();
         $em->remove($categories);
+        $em->persist($action);
         $em->flush();
 
         $this->addFlash('danger', 'Vous avez supprimé '.$categories->getName().' !');
@@ -55,7 +59,7 @@ class CategoriesController extends AbstractController
 
 
     //////////////* GLOBAL METADATAS (CRU)*///////////////////
-    public function viewReturnMetadata($metadata, $metadataRepository, $request, $doctrine)
+    public function viewReturnMetadata($metadata, $metadataRepository, $actionCategoryRepository, $request, $doctrine)
     {
         $allMetadata = $metadataRepository->findAll();
         $form = $this->createForm(MetaDataFormType::class, $metadata);
@@ -63,8 +67,15 @@ class CategoriesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $action = new Action();
+            $action->setName(self::METADATA_NAME . ' ajout/modif');
+            $action->setOthersValue($metadata->getName());
+            $action->setCreatedBy($this->getUser());
+            $action->setCategory($actionCategoryRepository->find(3));
+
             $em = $doctrine->getManager();
             $em->persist($metadata);
+            $em->persist($action);
             $em->flush();
 
             $this->addFlash('success', "L'article a bien été ajoutée");

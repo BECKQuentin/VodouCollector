@@ -3,6 +3,8 @@
 {% block body %}
     <div class="content_box">
 
+        {% include 'objects/objects/navbar_objects_link.html.twig' %}
+
         <div class="row">
             <div class="col-5">
                 <div id="carouselFormObjects" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
@@ -47,17 +49,7 @@
                         ({{ object.quantity }} exemplaires)
                     {% endif %}
                 </p>
-                <h1>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <a class="btn btn-vodou" href="{{ path('objects_edit', {id:object.id}) }}" title="Editer">
-                            <i class="fa-solid fa-pen-nib"></i>
-                        </a>
-                        <a class="btn btn-vodou" href="{{ path('object_pdf', {id:object.id}) }}" title="fichier PDF">
-                            <i class="fa-solid fa-file-pdf"></i>
-                        </a>
-                    {% endif %}
-                    {{ object.code }} - {{ object.title }}
-                </h1>
+                <h1>{{ object.code }} - {{ object.title }}</h1>
                 <div class="d-flex">
                     <h4>
                         {% if object.categories is defined and object.categories is not null %}
@@ -175,7 +167,7 @@
                     {% if object.museumCatalogue is defined and object.museumCatalogue is not null %}
                         {% for museumCatalogue in object.museumCatalogue%}
                             <li style="list-style: none">
-                                {{ museumCatalogue.name|slice(0, 50) ~ '...' }}
+                                {{ museumCatalogue.name|u.truncate(20, '...') }}
                                 <span class="badge_vodou" title="Nombre d'objets dans la parution">{{ museumCatalogue.objects|length }}</span>
                             </li>
                         {% endfor %}
@@ -192,13 +184,24 @@
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                                 <li style="list-style: none">
-                                    {{ book.title|slice(0, 50) ~ '...' }}
+                                    {{ book.title|u.truncate(40, '...') }}
                                     <span class="badge_vodou" title="Nombre d'objets dans l'ouvrage">{{ book.objects|length }}</span>
                                 </li>
                             </div>
                         {% endfor %}
                     {% endif %}
                 </ul>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-12 px-4">
+                <em>Matériaux :&nbsp;</em>
+                {% for material in object.materials %}
+                    {{ material.name }} -
+                {% endfor %}
             </div>
         </div>
 

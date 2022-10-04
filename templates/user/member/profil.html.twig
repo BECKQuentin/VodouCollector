@@ -21,31 +21,43 @@
         <div class="d-flex justify-content-center flex-wrap">
 
 
-            <a class="btn-vodou card-profil card d-flex justify-center align-items-center m-2"
-               href="{{ path('member_update') }}">
+            <a class="btn-vodou btn-vodou-neon card-profil card d-flex justify-center align-items-center m-2"
+               href="{{ path('member_update', {id: app.user.id}) }}">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
                 <div class="card-body">
-                    <div class="text-center"><i class="fa-solid fa-user-gear"></i></i></div>
+                    <div class="text-center"><i class="fa-solid fa-user-gear"></i></div>
                     <h5 class="card-title">Modifier mon profil</h5>
                 </div>
             </a>
 
-{#            {% if is_granted('ROLE_ADMIN') %}#}
-                <a class="btn-vodou card-profil card d-flex justify-center align-items-center m-2"
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="btn-vodou btn-vodou-neon card-profil card d-flex justify-center align-items-center m-2"
                    href="{{ path('member_add') }}">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
                     <div class="card-body">
                         <div class="text-center"><i class="fa-solid fa-user-plus"></i></div>
                         <h5 class="card-title">Ajouter un membre</h5>
                     </div>
                 </a>
 
-                <a class="btn-vodou card-profil card d-flex justify-center align-items-center m-2"
+                <a class="btn-vodou btn-vodou-neon card-profil card d-flex justify-center align-items-center m-2"
                    href="{{ path('member') }}">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
                     <div class="card-body">
-                        <div class="text-center"><i class="fa-solid fa-users"></i></i></div>
+                        <div class="text-center"><i class="fa-solid fa-users"></i></div>
                         <h5 class="card-title">Voir tout les membres</h5>
                     </div>
                 </a>
-{#            {% endif %}#}
+            {% endif %}
         </div>
 
 

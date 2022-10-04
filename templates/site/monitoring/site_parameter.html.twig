@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <div class="content_box">
+        <h2>Paramètre du site</h2>
+
+        <hr>
+
+        <div class="mx-4">
+            {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-3">
+                        <div class="d-flex">
+                            {{ form_row(form.limitActionLog) }}
+                            <div title="Limite d'action dans 'Monitoring/Action Log'"><i class="fa-solid fa-circle-info"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-3">
+                        {{ form_row(form.itemsByPage) }}
+                    </div>
+                </div>
+                <div class="row">
+                    {{ form_row(form.submit) }}
+                </div>
+            {{ form_end(form) }}
+        </div>
+
+
+
+    </div>
+
+
+
+
+{% endblock %}

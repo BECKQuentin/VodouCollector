@@ -6,6 +6,8 @@ use App\Repository\Objects\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * @ORM\Entity(repositoryClass=BookRepository::class)
@@ -78,6 +80,15 @@ class Book
     {
         $this->libraries = new ArrayCollection();
         $this->objects = new ArrayCollection();
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addConstraint(new UniqueEntity([
+            'fields' => 'title',
+            'errorPath' => 'title',
+            'message' => 'Ce titre existe déjà !',
+        ]));
     }
 
     public function getId(): ?int

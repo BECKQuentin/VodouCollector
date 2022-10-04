@@ -6,7 +6,9 @@ use App\Entity\User\Status;
 use App\Entity\User\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -24,6 +26,7 @@ class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $builder
             ->add('email', EmailType::class, [
                 'label'     => 'Email',
@@ -33,7 +36,7 @@ class RegistrationFormType extends AbstractType
                 'type'      => PasswordType::class,
                 'invalid_message' => 'Le mot de passe doit correspondre',
                 'options' => ['attr' => ['class' => 'password-field']],
-                'required' => true,
+                'required' => $isAdmin ?? true ,
                 'first_options'  => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Répeter le mot de passe'],
                 'constraints' => [
@@ -48,6 +51,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+
             ->add('firstname', TextType::class, [
                 'label'     => 'Prénom',
                 'required'  => true,
@@ -56,36 +60,51 @@ class RegistrationFormType extends AbstractType
                 'label'     => 'Nom',
                 'required'  => true,
             ])
-            ->add('avatar', FileType::class, [
-                'label'     => 'Avatar',
-                'required'  => false,
-//                'constraints' => [
-//                    new File([
-//                        'maxSize' => '5M'
-//                    ])
-//                ]
-            ])
-            ->add('status', EntityType::class, [
-                'class'     => Status::class,
-                'choice_label' => 'name',
-                'multiple' => false,
+//            ->add('avatar', FileType::class, [
+//                'label'     => 'Avatar',
+//                'required'  => false,
+////                'constraints' => [
+////                    new File([
+////                        'maxSize' => '5M'
+////                    ])
+////                ]
+//            ])
+            ->add('roles', ChoiceType::class, [
+                'choices'   => [
+                    'Admin' => 'ROLE_ADMIN',
+                    'Membre' => 'ROLE_MEMBER',
+                    'Invité' => 'ROLE_GUEST',
+                ],
                 'expanded' => true,
-                'label'     => 'Statut',
-                'required'  => false,
             ])
-            ->add('modify', SubmitType::class, [
-                'label'     => 'Modifier',
-                'attr'      => [
-                    'class' => 'btn-vodou mt-3'
-                ]
-            ])
+//            ->add('status', EntityType::class, [
+//                'class'     => Status::class,
+//                'choice_label' => 'name',
+//                'multiple' => false,
+//                'expanded' => true,
+//                'label'     => 'Statut',
+//                'required'  => false,
+//            ])
             ->add('submit', SubmitType::class, [
-                'label'     => 'S \'inscrire',
+                'label'     => 'Valider',
                 'attr'      => [
                     'class' => 'btn-vodou mt-3'
                 ]
             ])
         ;
+
+        // Data transformer
+        $builder->get('roles')
+            ->addModelTransformer(new CallbackTransformer(
+                function ($rolesArray) {
+                    // transform the array to a string
+                    return count($rolesArray)? $rolesArray[0]: null;
+                },
+                function ($rolesString) {
+                    // transform the string back to an array
+                    return [$rolesString];
+                }
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -3,26 +3,26 @@
 namespace App\Entity\Objects;
 
 use App\Entity\Objects\Media\Files;
+use App\Entity\Objects\Media\Images;
 use App\Entity\Objects\Media\Videos;
 use App\Entity\Objects\Media\Youtube;
 use App\Entity\Objects\Metadata\Categories;
 use App\Entity\Objects\Metadata\ExpositionLocation;
 use App\Entity\Objects\Metadata\Floor;
 use App\Entity\Objects\Metadata\Gods;
-use App\Entity\Objects\Metadata\Images;
 use App\Entity\Objects\Metadata\Materials;
 use App\Entity\Objects\Metadata\MuseumCatalogue;
 use App\Entity\Objects\Metadata\Origin;
 use App\Entity\Objects\Metadata\Population;
 use App\Entity\Objects\Metadata\State;
 use App\Entity\Objects\Metadata\SubCategories;
+use App\Entity\Site\Action;
 use App\Entity\User\User;
 use App\Repository\Objects\ObjectsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
@@ -150,6 +150,7 @@ class Objects
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="objectsUpdated")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $updatedBy;
 
@@ -223,6 +224,11 @@ class Objects
      */
     private $book;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Action::class, mappedBy="object", cascade={"persist", "remove"})
+     */
+    private $actions;
+
     public function __construct()
     {
         $this->setUpdatedAt(new \DateTimeImmutable('now'));
@@ -240,6 +246,7 @@ class Objects
         $this->youtubes = new ArrayCollection();
         $this->museumCatalogue = new ArrayCollection();
         $this->book = new ArrayCollection();
+        $this->actions = new ArrayCollection();
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -821,6 +828,36 @@ class Objects
     public function removeBook(Book $book): self
     {
         $this->book->removeElement($book);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Action>
+     */
+    public function getActions(): Collection
+    {
+        return $this->actions;
+    }
+
+    public function addAction(Action $action): self
+    {
+        if (!$this->actions->contains($action)) {
+            $this->actions[] = $action;
+            $action->setObject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAction(Action $action): self
+    {
+        if ($this->actions->removeElement($action)) {
+            // set the owning side to null (unless already changed)
+            if ($action->getObject() === $this) {
+                $action->setObject(null);
+            }
+        }
 
         return $this;
     }

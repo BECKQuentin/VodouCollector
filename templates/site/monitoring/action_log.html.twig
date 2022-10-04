@@ -3,7 +3,8 @@
 {% block body %}
 
     <div class="content_box">
-        <h2>Monitoring</h2>
+        <h2>Action Log</h2>
+        <hr>
 
 
         <table class="table">
@@ -25,7 +26,7 @@
                     <td>{{ action.name }}</td>
                     <td>
                         {% if action.object != null %}
-                            <a class="list_tag_link" href="{{ path('objects', {id:action.object.id}) }}" title="{{ action.object.title }}">
+                            <a class="list_tag_link" href="{{ path('objects_view', {id:action.object.id}) }}" title="{{ action.object.title }}">
                                 {{ action.object.title|u.truncate(20, '...') }}
                             </a>
                         {% endif %}

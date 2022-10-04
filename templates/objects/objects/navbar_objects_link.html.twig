@@ -1,78 +1,91 @@
 <div class="navbar_objects d-flex align-items-center">
 
-    {% if route_name != 'objects_edit' %}
+
+    {% if route_name != 'objects_view' %}
         <h4 class="p-2 btn-vodou">
-            <a href="{{ path('objects_edit', {id:object.id}) }}">
-                {{ object.title }}
+            <a href="{{ path('objects_view', {id:object.id}) }}">
+                {{ object.title|u.truncate(20, '...') }}
             </a>
         </h4>
     {% else %}
         <h4 class="p-2">
-            {{ object.title }}
+            {{ object.title|u.truncate(20, '...') }}
         </h4>
     {% endif %}
 
-    {% if route_name != 'objects_medias' %}
-        <a href="{{ path('objects_medias', {id:object.id}) }}" class="btn btn-vodou">
-            <i class="fa-solid fa-images"></i>
-        </a>
-    {% else %}
-        <div class="p-3">
-            <i class="fa-solid fa-images"></i>
-        </div>
+    {% if is_granted('ROLE_ADMIN') %}
+        {% if route_name != 'objects_edit' %}
+            <a href="{{ path('objects_edit', {id:object.id}) }}" class="btn btn-vodou">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <i class="fa-solid fa-pen"></i>
+            </a>
+        {% else %}
+            <div class="p-3">
+                <i class="fa-solid fa-pen"></i>
+            </div>
+        {% endif %}
     {% endif %}
 
-    {% if route_name != 'objects_videos' %}
-        <a href="{{ path('objects_videos', {id:object.id}) }}" class="btn btn-vodou">
-            <i class="fa-solid fa-film "></i>
-        </a>
-    {% else %}
-        <div class="p-3">
-            <i class="fa-solid fa-film"></i>
-        </div>
+
+
+    {% if is_granted('ROLE_MEMBER') %}
+        {% if route_name != 'objects_medias' %}
+            <a href="{{ path('objects_medias', {id:object.id}) }}" class="btn btn-vodou">
+                <i class="fa-solid fa-images"></i>
+            </a>
+        {% else %}
+            <div class="p-3">
+                <i class="fa-solid fa-images"></i>
+            </div>
+            <div class="fs-8 m-0 p-0">( jpg, png, gif )</div>
+        {% endif %}
+
+        {% if route_name != 'objects_videos' %}
+            <a href="{{ path('objects_videos', {id:object.id}) }}" class="btn btn-vodou">
+                <i class="fa-solid fa-film "></i>
+            </a>
+        {% else %}
+            <div class="p-3">
+                <i class="fa-solid fa-film"></i>
+            </div>
+            <div class="fs-8 m-0 p-0">( avi, flv, mov, webm, mp4, wmv, 3gp )</div>
+        {% endif %}
+
+        {% if route_name != 'objects_youtube' %}
+            <a href="{{ path('objects_youtube', {id:object.id}) }}" class="btn btn-vodou">
+                <i class="fa-brands fa-youtube"></i>
+            </a>
+        {% else %}
+            <div class="p-3">
+                <i class="fa-brands fa-youtube"></i>
+            </div>
+        {% endif %}
+
+        {% if route_name != 'objects_files' %}
+            <a href="{{ path('objects_files', {id:object.id}) }}" class="btn btn-vodou">
+                <i class="fa-solid fa-file"></i>
+            </a>
+        {% else %}
+            <div class="p-3">
+                <i class="fa-solid fa-file"></i>
+            </div>
+            <div class="fs-8 m-0 p-0">( pdf, xls )</div>
+        {% endif %}
+
+            <div>
+                <a class="btn btn-vodou" href="{{ path('object_pdf', {id:object.id}) }}" title="fichier PDF">
+                    <i class="fa-solid fa-file-pdf"></i>
+                </a>
+            </div>
     {% endif %}
 
-    {% if route_name != 'objects_youtube' %}
-        <a href="{{ path('objects_youtube', {id:object.id}) }}" class="btn btn-vodou">
-            <i class="fa-brands fa-youtube"></i>
-        </a>
-    {% else %}
-        <div class="p-3">
-            <i class="fa-brands fa-youtube"></i>
-        </div>
-    {% endif %}
 
-    {% if route_name != 'objects_files' %}
-        <a href="{{ path('objects_files', {id:object.id}) }}" class="btn btn-vodou">
-            <i class="fa-solid fa-file"></i>
-        </a>
-    {% else %}
-        <div class="p-3">
-            <i class="fa-solid fa-file"></i>
-        </div>
-    {% endif %}
 
-    {% if route_name == 'objects_medias' %}
-        <div class="fs-8 m-0 p-0">( jpg, png, gif )</div>
-    {% elseif route_name == "objects_videos" %}
-        <div class="fs-8 m-0 p-0">( avi, flv, mov, webm, mp4, wmv, 3gp )</div>
-    {% elseif route_name == "objects_files" %}
-        <div class="fs-8 m-0 p-0">( pdf, xls )</div>
-    {% elseif route_name == "objects_youtube" %}
-        <div class="fs-8 m-0 p-0">( lien youtube )</div>
-    {% endif %}
 
-    <div>
-        <a class="btn btn-vodou" href="{{ path('objects_view', {id:object.id}) }}" title="Voir">
-            <i class="fa-solid fa-eye"></i>
-        </a>
-    </div>
 
-    <div>
-        <a class="btn btn-vodou" href="{{ path('object_pdf', {id:object.id}) }}" title="fichier PDF">
-            <i class="fa-solid fa-file-pdf"></i>
-        </a>
-    </div>
 
 
 </div>

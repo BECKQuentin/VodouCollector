@@ -17,6 +17,8 @@ class AppExtension extends AbstractExtension
             new TwigFilter('image', [$this, 'getImagesPath']),
             new TwigFilter('video', [$this, 'getVideosPath']),
             new TwigFilter('file', [$this, 'getFilesPath']),
+
+            new TwigFilter('roles', [$this, 'printRoles']),
         ];
     }
     public function getFunctions(): array
@@ -37,5 +39,18 @@ class AppExtension extends AbstractExtension
     public function getFilesPath($files): string
     {
         return '/upload/files/objects/'.$files;
+    }
+
+    public function printRoles($role) {
+        if ($role === 'ROLE_ADMIN') {
+            return 'Administrateur';
+        } elseif ($role === 'ROLE_MEMBER') {
+            return 'Membre';
+        } elseif ($role === 'ROLE_GUEST') {
+            return 'Invité';
+        } else {
+            return 'Pas de Rôle';
+        }
+
     }
 }

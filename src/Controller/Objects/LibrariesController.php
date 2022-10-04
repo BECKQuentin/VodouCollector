@@ -16,7 +16,7 @@ class LibrariesController extends AbstractController
 {
 
     #[Route('/libraries', name: 'libraries')]
-    #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
+    #[IsGranted("ROLE_MEMBER", message: "Seules les Membre peuvent faire ça")]
     public function listingLibraries(LibrariesRepository $librariesRepository): Response
     {
         $libraries = $librariesRepository->findAll();

@@ -4,6 +4,8 @@ namespace App\Form\Objects;
 
 use App\Entity\Objects\Book;
 use App\Entity\Objects\Libraries;
+use GemonosBundleCaptcha\src\Form\CaptchaFormType;
+use GemonosBundleCaptcha\src\GemonosCaptchaBundle;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -33,7 +35,7 @@ class BookFormType extends AbstractType
             ])
             ->add('title', TextType::class, [
                 'label'     => 'Titre',
-                'required'  => false
+                'required'  => true
             ])
             ->add('city', TextType::class, [
                 'label'     => 'Ville',

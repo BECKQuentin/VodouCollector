@@ -14,7 +14,9 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nom</th>
-                            <th scope="col">Action</th>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <th scope="col">Action</th>
+                            {% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -22,40 +24,45 @@
                         <tr>
                             <th scope="row">{{ loop.index }}</th>
                             <th>{{ item.name }}</th>
-                            <td colspan="1">
-                                <div class="d-flex flex-wrap">
-                                    <div>
-                                        <a class="btn btn-vodou" href="{{ path(editRoute, {id:item.id}) }}" title="Editer">
-                                            <i class="fa-solid fa-pen-nib"></i>
-                                        </a>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <td colspan="1">
+                                    <div class="d-flex flex-wrap">
+                                        <div>
+                                            <a class="btn btn-vodou" href="{{ path(editRoute, {id:item.id}) }}" title="Editer">
+                                                <i class="fa-solid fa-pen-nib"></i>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a class="btn btn-vodou" href="{{ path(deleteRoute, {id:item.id}) }}" title="Supprimer" onclick="return confirm('Etes vous sûr de vouloir supprimer cet article ?')">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <a class="btn btn-vodou" href="{{ path(deleteRoute, {id:item.id}) }}" title="Supprimer" onclick="return confirm('Etes vous sûr de vouloir supprimer cet article ?')">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </td>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
 
             </div>
-            <div class="col-md-7">
-                <h4>Ajouter</h4>
-                <div class="mx-5">
-                    {{ form_start(form) }}
-                    <div class="row">
-                        <div class="col-md-10">{{ form_row(form.name) }}</div>
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="col-md-7">
+                    <h4>Ajouter</h4>
+                    <div class="mx-5">
+                        {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col-md-10">{{ form_row(form.name) }}</div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            {{ form_row(form.submit) }}
+                        </div>
+                        {{ form_end(form) }}
                     </div>
-                    <hr>
-                    <div class="row">
-                        {{ form_row(form.submit) }}
-                    </div>
-                    {{ form_end(form) }}
                 </div>
-            </div>
+            {% endif %}
+
         </div>
     </div>
 
