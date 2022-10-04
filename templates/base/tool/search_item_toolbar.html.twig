@@ -1,0 +1,109 @@
+<div id="search_item_toolbar">
+    {{ form_start(searchForm) }}
+    <div id="search_filter_query">
+        <div class="row">
+            <div class="col-11 px-1">
+                {{ form_row(searchForm.q) }}
+            </div>
+            <div class="col-1 px-0">
+                <div id="deploy_search_filter" class="btn btn-vodou">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="search_filter_to_hide" class="hide fadeIn">
+        <h5 class="text-center">Filtres de Recherche</h5>
+        <div id="filter_circle_info" title="Les mots-clés sont recherchés dans :
+        Code,
+        Titre,
+        Catégories,
+        Période(ère),
+        Population,
+        Origine,
+        Divinités,
+        Description,
+        Période,
+        Mode d'acquisition,
+        Fonction d'usage,
+        Remarques sur l'état,
+        Remarques,
+        ">
+            <i class="fa-solid fa-circle-info"></i>
+        </div>
+
+        <hr class="my-1">
+
+        <div class="row mb-2">
+            <div class="col-2 hr-right">
+                {{ form_row(searchForm.isBasemented) }}
+            </div>
+            <div id="expositionLocation" class="col-2">
+                {{ form_row(searchForm.location) }}
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-4">
+                {{ form_row(searchForm.categories) }}
+            </div>
+            <div class="col-4">
+                {{ form_row(searchForm.subCategories) }}
+            </div>
+            <div class="col-4">
+                {{ form_row(searchForm.gods) }}
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4">
+                {{ form_row(searchForm.relatedGods) }}
+            </div>
+            <div class="col-4">
+                {{ form_row(searchForm.population) }}
+                {{ form_row(searchForm.origin) }}
+            </div>
+            <div class="col-4">
+                {{ form_row(searchForm.materials) }}
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-4">
+                {{ form_row(searchForm.state) }}
+            </div>
+            <div class="col-4">
+                {{ form_row(searchForm.floor) }}
+            </div>
+            <div class="col-4">
+                {{ form_row(searchForm.showcaseCode) }}
+                {{ form_row(searchForm.shelf) }}
+            </div>
+        </div>
+        <div class="d-flex justify-content-center align-items-center py-2">
+            <div class="text-center">Trier par :</div>
+            <div class="px-2" title="Ordre Alphabétique">{{ form_row(searchForm.isSortAlpha) }}</div>
+            <div class="px-2" title="Ordre Alphabétique inverse">{{ form_row(searchForm.isSortAlphaReverse) }}</div>
+            <div class="px-2" title="Code croissant">{{ form_row(searchForm.isSortNumeric) }}</div>
+            <div class="px-2" title="Code décroissant">{{ form_row(searchForm.isSortNumericReverse) }}</div>
+            <div class="px-2" title="Date de mise à jour">{{ form_row(searchForm.sortDateUpdate) }}</div>
+            <div class="px-2" title="Modifié par">{{ form_row(searchForm.updatedBy) }}</div>
+        </div>
+
+        <hr class="my-1">
+
+        <div class="d-flex justify-content-between">
+            <div class="px-1">
+                <button class="btn btn-vodou my-3">
+                    <a href="{{ path('objects') }}">Réinitialiser filtre</a>
+                </button>
+            </div>
+            <div class="px-1">
+                {{ form_row(searchForm.submit) }}
+            </div>
+        </div>
+
+    </div>
+    {{ form_end(searchForm) }}
+</div>

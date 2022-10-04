@@ -1,0 +1,151 @@
+{{ form_start(form) }}
+
+{#<div class="row">#}
+{#    <ul>#}
+{#        {% for error in errors %}<li>{{ error.message }}</li>{% endfor %}#}
+{#    </ul>#}
+{#</div>#}
+
+<div id="objectsForm">
+    <div class="row mb-2">
+        <div class="col-md-2">{{ form_row(form.code) }}</div>
+        <div class="col-md-9">{{ form_row(form.title) }}</div>
+        <div class="no_arrow col-md-1">{{ form_row(form.quantity) }}</div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-md-2">
+            {{ form_row(form.categories) }}
+            {{ form_row(form.subCategories) }}
+        </div>
+        <div class="col-md-2">
+            {{ form_row(form.population) }}
+            {{ form_row(form.origin) }}
+        </div>
+        <div class="col-md-2">{{ form_row(form.gods) }}</div>
+        <div class="col-md-2">{{ form_row(form.relatedGods) }}</div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div id="carouselFormObjects" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                {% if object is defined and object.images.count > 0 %}
+                    <div class="carousel-inner">
+                        {% for img in object.images %}
+                            <div class="carousel-item {{ loop.first ? 'active' }}">
+                                <div class="img-ratio" style="--ratio:80%;">
+                                    <div class="img">
+                                        <img src="{{ img.name|image }}" alt="">
+                                    </div>
+                                </div>
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5 class="m-0">{{ img.code }}</h5>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselFormObjects" role="button" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselFormObjects" role="button" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                {% else %}
+                    <div class="img-ratio" style="--ratio:80%;">
+                        <div class="img">
+                            <img src="{{ asset('upload/defaultsImages/cropped-logo-musee-vodou.png') }}" alt="">
+                        </div>
+                    </div>
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 class="m-0">Cette objet n'a pas d'image</h5>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-8 form_description">
+            {{ form_row(form.description) }}
+        </div>
+    </div>
+    <hr>
+    {#            <div class="row">#}
+    {#                <div class="col-md-2">{{ form_row(form.era) }}</div>#}
+    {#                <div class="col-md-2">{{ form_row(form.historicDetail) }}</div>#}
+    {#            </div>#}
+
+    <div class="row mb-2">
+        <div class="col-md-3">{{ form_row(form.historicDetail) }}</div>
+        <div class="col-md-3">{{ form_row(form.historicDate) }}</div>
+        <div class="col-md-2">{{ form_row(form.era) }}</div>
+    </div>
+
+
+    <div class="row mb-2">
+        <div class="no_arrow col-md-2">{{ form_row(form.materials) }}</div>
+        <div class="no_arrow col-md-1">
+            {{ form_row(form.weight) }}
+            {{ form_row(form.sizeHigh) }}
+        </div>
+        <div class="no_arrow col-md-1">
+            {{ form_row(form.sizeLength) }}
+            {{ form_row(form.sizeDepth) }}
+        </div>
+        <div class="col-md-8">
+            <div class="col-12">{{ form_row(form.stateCommentary) }}</div>
+            <div class="row">
+                <div class="col-6">{{ form_row(form.state) }}</div>
+                <div class="col-6"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">{{ form_row(form.museumCatalogue) }}</div>
+        <div class="col-6">{{ form_row(form.book) }}</div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-md-12">{{ form_row(form.commentary) }}</div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-md-12">{{ form_row(form.remarks) }}</div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-md-2">
+            {{ form_row(form.isBasemented) }}
+        </div>
+        <div id="expositionLocation" class="col-md-2">
+            {{ form_row(form.location) }}
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="d-flex justify-content-center align-items-end">
+            <div id="form_floor" class="col-md-3 p-1">{{ form_row(form.floor) }}</div>
+            <div id="form_showCaseCode" class="col-md-3 p-1">{{ form_row(form.showCaseCode) }}</div>
+            <div id="form_shelf" class="col-md-3 p-1">{{ form_row(form.shelf) }}</div>
+        </div>
+    </div>
+
+
+    <hr>
+    <div class="row">
+        {{ form_row(form.submit) }}
+    </div>
+    {{ form_end(form) }}
+
+
+</div>
+
+{% if is_granted('ROLE_ADMIN') %}
+    {% if object is defined %}
+        <div class="danger-zone">
+
+        </div>
+        <div class="d-flex justify-content-end my-4 py-2">
+            <a class="btn btn-vodou" href="{{ path('objects_delete', {id:object.id}) }}" title="Supprimer" onclick="return confirm('Etes vous sûr de vouloir supprimer cet article ?')">
+                <i class="fa-solid fa-trash"></i>
+            </a>
+        </div>
+    {% endif %}
+{% endif %}
+
+
+
+

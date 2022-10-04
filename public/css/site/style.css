@@ -1,0 +1,49 @@
+#color_choice {
+    background-color: #FFFFFF;
+    margin: 5px 20px 5px 20px !important;
+    width: auto;
+}
+#color_choice input{
+    height: 35px;
+    width: 35px !important;
+    border-radius: 50% !important;
+}
+#color_choice input[type=color]::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
+    padding: 0;
+}
+
+/*LIBRARY*/
+.bubble_color {
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+}
+.bg_1 {
+    background-color: var(--bg1) !important;
+}
+.bg_2 {
+    background-color: var(--bg2) !important;
+}
+.bg_3 {
+    background-color: var(--bg3) !important;
+}
+.bg_4 {
+    background-color: var(--bg4) !important;
+}
+.bg_5 {
+    background-color: var(--bg5) !important;
+}
+.bg_6 {
+    background-color: var(--bg6) !important;
+}
+.bg_7 {
+    background-color: var(--bg7) !important;
+}
+.bg_8 {
+    background-color: var(--bg8) !important;
+}
+.bg_9 {
+    background-color: var(--bg9) !important;
+}

@@ -1,0 +1,28 @@
+.bootstrap-tagsinput {
+    margin-left: 1rem;
+}
+.tag {
+    color: white !important;
+    background-color: var(--main) !important;
+    padding: 3px 8px !important;
+    border-radius: 10px !important;
+}
+.tag:hover {
+    animation: growUp 1s forwards;
+    border-radius: 6px !important;
+}
+/*autocomplete edit tags*/
+.ui-menu-item {
+    color: white;
+    list-style: none;
+    text-decoration: none;
+    margin: 2px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    width: max-content;
+    background-color: var(--main);
+}
+.ui-menu-item:hover {
+    cursor: pointer;
+}
+

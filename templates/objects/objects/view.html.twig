@@ -1,0 +1,318 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="content_box">
+
+        <div class="row">
+            <div class="col-5">
+                <div id="carouselFormObjects" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                    {% if object is defined and object.images.count > 0 %}
+                        <div class="carousel-inner">
+                            {% for img in object.images %}
+                                <div class="carousel-item {{ loop.first ? 'active' }}">
+                                    <div class="img-ratio" style="--ratio:80%;">
+                                        <div class="img">
+                                            <img src="{{ img.name|image }}" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5 class="m-0">{{ img.code }}</h5>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselFormObjects" role="button" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselFormObjects" role="button" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    {% else %}
+                        <div class="img-ratio" style="--ratio:80%;">
+                            <div class="img">
+                                <img src="{{ asset('upload/defaultsImages/cropped-logo-musee-vodou.png') }}" alt="">
+                            </div>
+                        </div>
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5 class="m-0">Cette objet n'a pas d'image</h5>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-7">
+                <p class="p-0 m-0">
+                    {% if object.quantity != 1 %}
+                        ({{ object.quantity }} exemplaires)
+                    {% endif %}
+                </p>
+                <h1>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="btn btn-vodou" href="{{ path('objects_edit', {id:object.id}) }}" title="Editer">
+                            <i class="fa-solid fa-pen-nib"></i>
+                        </a>
+                        <a class="btn btn-vodou" href="{{ path('object_pdf', {id:object.id}) }}" title="fichier PDF">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </a>
+                    {% endif %}
+                    {{ object.code }} - {{ object.title }}
+                </h1>
+                <div class="d-flex">
+                    <h4>
+                        {% if object.categories is defined and object.categories is not null %}
+                            {{ object.categories.name }}
+                        {% else %}
+                            Pas de catégorie
+                        {% endif %}
+                        -
+                        {% if object.subCategories is defined and object.subCategories is not null %}
+                            {{ object.subCategories.name }}
+                        {% else %}
+                            Pas de sous-catégorie
+                        {% endif %}
+                   </h4>
+                </div>
+                <div class="col-12">
+                    <div class="d-flex align-items-center">
+                        <em>Population :&nbsp;</em>
+                        {% if object.population is defined and object.population is not null %}
+                            {{ object.population.name }}
+                        {% else %}
+                            <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <em>Origine :&nbsp;</em>
+                        {% if object.origin is defined and object.origin is not null %}
+                            {{ object.origin.name }}
+                        {% else %}
+                            <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <em>Divinité :&nbsp;</em>
+                        {% if object.gods is defined and object.gods is not null %}
+                            {{ object.gods.name }}
+                        {% else %}
+                            <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <em>Divinité associées :&nbsp;</em>
+                        {% if object.relatedGods is defined and object.relatedGods is not null %}
+                            {% for relatedGod in object.relatedGods %}
+                                {{ relatedGod.name }},
+                            {% endfor %}
+                        {% else %}
+                            <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <em>Datation :&nbsp;</em>
+                        {% if object.era is defined and object.era is not null %}
+                            {{ object.era }}
+                        {% else %}
+                            <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <em>Fonction d'usage :&nbsp;</em>
+                        {% if object.commentary is defined and object.commentary is not null %}
+                            {{ object.commentary }}
+                        {% else %}
+                            <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <em>Remarques :&nbsp;</em>
+                        {% if object.remarks is defined and object.remarks is not null %}
+                            {{ object.remarks }}
+                        {% else %}
+                            <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 p-4">
+                {% if object.description is defined and object.description is not null %}
+                    <em>Description : <br></em>
+                    {{ object.description }}
+                {% else %}
+                    Pas de déscription
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 px-4">
+                <em>Etat :&nbsp;</em>
+                {% if object.state is defined and object.state is not null %}
+                    {{ object.state.name }}
+                {% else %}
+                    <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                {% endif %}
+            </div>
+            <div class="col-12 px-4 pb-4">
+                <em>Remarque sur l'état :&nbsp;</em>
+                {% if object.stateCommentary is defined and object.stateCommentary is not null %}
+                    {{ object.stateCommentary }}
+                {% else %}
+                    <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                {% endif %}
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-6 px-4">
+                <em class="text-center">Parution du Musée :&nbsp;</em>
+                <ul class="px-2">
+                    {% if object.museumCatalogue is defined and object.museumCatalogue is not null %}
+                        {% for museumCatalogue in object.museumCatalogue%}
+                            <li style="list-style: none">
+                                {{ museumCatalogue.name|slice(0, 50) ~ '...' }}
+                                <span class="badge_vodou" title="Nombre d'objets dans la parution">{{ museumCatalogue.objects|length }}</span>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="col-6 px-4">
+                <em>Ouvrages Bibliographie :&nbsp;</em>
+                <ul class="px-2">
+                    {% if object.book is defined and object.book is not null %}
+                        {% for book in object.book%}
+                            <div class="d-flex">
+                                <a class="mx-2" href="{{ path('book', {id: book.id}) }}">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                                <li style="list-style: none">
+                                    {{ book.title|slice(0, 50) ~ '...' }}
+                                    <span class="badge_vodou" title="Nombre d'objets dans l'ouvrage">{{ book.objects|length }}</span>
+                                </li>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-4 px-4">
+                <div class="d-flex align-items-center">
+                    <em>Poids :&nbsp;</em>
+                    {% if object.weight is defined and object.weight is not null %}
+                        {{ object.weight }} g
+                    {% else %}
+                        <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                    {% endif %}
+                </div>
+                <div class="d-flex align-items-center">
+                    <em>Hauteur :&nbsp;</em>
+                    {% if object.sizeHigh is defined and object.sizeHigh is not null %}
+                        {{ object.sizeHigh }} cm
+                    {% else %}
+                        <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                    {% endif %}
+                </div>
+                <div class="d-flex align-items-center">
+                    <em>Longueur :&nbsp;</em>
+                    {% if object.sizeLength is defined and object.sizeLength is not null %}
+                        {{ object.sizeLength }} cm
+                    {% else %}
+                        <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                    {% endif %}
+                </div>
+                <div class="d-flex align-items-center">
+                    <em>Profondeur :&nbsp;</em>
+                    {% if object.sizeDepth is defined and object.sizeDepth is not null %}
+                        {{ object.sizeDepth }} cm
+                    {% else %}
+                        <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-4 px-4">
+                <div class="d-flex align-items-center">
+                    <em>Exposition :&nbsp;</em>
+                    {% if object.location is defined and object.location is not null %}
+                        {{ object.location.nameFR }}
+                    {% else %}
+                        <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                    {% endif %}
+                </div>
+                <div class="d-flex align-items-center">
+                    <em>Etage :&nbsp;</em>
+                    {% if object.floor is defined and object.floor is not null %}
+                        {{ object.floor }}
+                    {% else %}
+                        <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                    {% endif %}
+                </div>
+                <div class="d-flex align-items-center">
+                    <em>N° Virtrine :&nbsp;</em>
+                    {% if object.showcaseCode is defined and object.showcaseCode is not null %}
+                        {{ object.showcaseCode }}
+                    {% else %}
+                        <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                    {% endif %}
+                </div>
+                <div class="d-flex align-items-center">
+                    <em>N° Etagère :&nbsp;</em>
+                    {% if object.shelf is defined and object.shelf is not null %}
+                        {{ object.shelf }}
+                    {% else %}
+                        <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-4 px-4">
+                <div class="d-flex align-items-center">
+                    <em>Mode d'acquisition :&nbsp;</em>
+                    {% if object.historicDetail is defined and object.historicDetail is not null %}
+                        {{ object.historicDetail }}
+                    {% else %}
+                        <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                    {% endif %}
+                </div>
+                <div class="d-flex align-items-center">
+                    <em>Date d'acquisition :&nbsp;</em>
+                    {% if object.historicDate is defined and object.historicDate is not null %}
+                        {{ object.historicDate|format_datetime(locale='fr',pattern="dd MMMM YYYY") }}
+                    {% else %}
+                        <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                    {% endif %}
+                </div>
+                <div class="d-flex align-items-center">
+                    <em>Crée le :&nbsp;</em>
+                    {% if object.createdAt is defined and object.createdAt is not null %}
+                        {{ object.createdAt|format_datetime(locale='fr',pattern="dd MMMM YYYY") }}
+                    {% else %}
+                        <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                    {% endif %}
+                </div>
+                <div class="d-flex align-items-center">
+                    <em>Modifié le :&nbsp;</em>
+                    {% if object.updatedAt is defined and object.updatedAt is not null %}
+                        {{ object.updatedAt|format_datetime(locale='fr',pattern="dd MMMM YYYY") }}
+                    {% else %}
+                        <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+{% endblock %}

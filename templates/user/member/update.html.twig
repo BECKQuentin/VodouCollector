@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="content_box">
+        <h2>Modifier Utilisateur</h2>
+
+        <div class="mx-5 pb-3">
+            {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-md-4">{{ form_row(form.firstname) }}</div>
+                    <div class="col-md-4">{{ form_row(form.lastname) }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">{{ form_row(form.avatar) }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">{{ form_row(form.status) }}</div>
+                    <div class="col-md-8"></div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    {{ form_row(form.modify) }}
+                    <a href="{{ path('profil') }}"><div class="btn btn-vodou-cancel btn-red mt-3">Retour</div></a>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+

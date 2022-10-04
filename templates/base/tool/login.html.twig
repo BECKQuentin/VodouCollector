@@ -1,0 +1,39 @@
+<div class="login d-flex align-items-center justify-content-between">
+    <div class="login_notif mx-3">
+        <a href="">
+            <i class="fa-solid fa-bell"></i>
+        </a>
+    </div>
+    <div class="user_profil d-flex align-items-center">
+        <a class="nav-link" href="#" title="Mon profil">
+            <span>
+                {% if app.user %}
+                    <a href="{{ path('profil') }}" class="login_user_profil">
+                        {% if app.user.avatar %}
+                            {{ app.user.avatar }}
+                        {% else %}
+                            <i class="fa-solid fa-user-astronaut"></i>
+                        {% endif %}
+                        {{ app.user.firstname|upper }} {{ app.user.lastname|capitalize }}
+                    </a>
+                {% endif %}
+            </span>
+        </a>
+        <div class="login_dropdown dropdown show">
+            <a class="btn dropdown-toggle shadow-none" href="#" role="button" id="loginDropdownLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span><i class="fa-solid fa-ellipsis-vertical"></i></span>
+            </a>
+            <div class="dropdown-menu px-2" aria-labelledby="loginDropdownLinkStatus">
+                <a href="" class="dropdown-item">{{ app.user.status.name }}</a>
+                <a href="{{ path('profil') }}" class="dropdown-item">Profil<i class="fa-solid fa-user-gear px-2"></i></a>
+                <a href="{{ path('app_logout') }}" class="dropdown-item">Se déconnecter<i class="fa-solid fa-arrow-right-to-bracket px-2"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+{#<i class="fa-solid fa-arrow-right-from-bracket"></i>#}
+
+
+
+
+

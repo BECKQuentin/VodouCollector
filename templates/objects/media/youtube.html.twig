@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <div class="content_box">
+        <div class="d-flex justify-content-between">
+            {% include 'objects/objects/navbar_objects_link.html.twig' %}
+            {% include 'objects/objects/navbar_objects_tool_youtube.html.twig' %}
+        </div>
+
+        {% if object.youtubes.count > 0 %}
+            <div class="d-flex flex-wrap pt-2 {{ object.youtubes.count == 0 ? 'justify-content-center' }}">
+                {% for ytb in object.youtubes %}
+                    <!-- 16:9 aspect ratio -->
+                    <div class="card_youtube p-2 mb-3 m-2">
+
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{ ytb.link }}" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+                        <div class="d-flex justify-content-end">
+                            <div>
+                                <a href="{{ ytb.link }}" download class="btn btn-vodou"><i class="fa-solid fa-download"></i></a>
+                                <a href="{{ path('delete_objects_youtube', {id:ytb.id, object:object.id}) }}" title="Supprimer" class="btn btn-vodou"><i class="fa-solid fa-trash"></i></a>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        {% else %}
+            <div class="d-flex flex-column text-center pt-5 pb-5">
+                <p class="fs-2"><i class="fa-solid fa-ban"></i></p>
+                <p>Cette objet n'a pas de lien Youtube</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

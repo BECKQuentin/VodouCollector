@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <div class="content_box">
+        <div class="d-flex justify-content-between">
+            {% include 'objects/objects/navbar_objects_link.html.twig' %}
+            {% include 'objects/objects/navbar_objects_tool_standard.html.twig' %}
+        </div>
+
+        <div class="d-flex flex-wrap pt-2 {{ object.videos.count == 0 ? 'justify-content-center' }}">
+                {% if object.videos.count > 0 %}
+                    {% for vid in object.videos%}
+                        <!-- 16:9 aspect ratio -->
+                        <div class="card_media p-2 mb-3 m-2">
+                            <div>
+                                <video controls>
+                                    <source src="{{ vid.name|video }}">
+                                </video>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="d-flex align-items-end">{{ vid.code }}</span>
+                                <div>
+                                    <a href="{{ vid.name|video }}" download class="btn btn-vodou"><i class="fa-solid fa-download"></i></a>
+                                    <a href="{{ path('delete_objects_vid', {id:vid.id, object:object.id}) }}" title="Supprimer" class="btn btn-vodou"><i class="fa-solid fa-trash"></i></a>
+                                </div>
+
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="d-flex flex-column text-center pt-5 pb-5">
+                        <p class="fs-2"><i class="fa-solid fa-ban"></i></p>
+                        <p>Cette objet n'a pas de vidéo</p>
+                    </div>
+                {% endif %}
+
+            </div>
+
+    </div>
+{% endblock %}

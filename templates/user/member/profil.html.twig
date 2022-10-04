@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="d-flex justify-content-center flex-column">
+
+        <div class="content_box col-md-4 align-self-center">
+            <h5 class="text-center m-3">Mon Profil</h5>
+            <hr>
+            <div class="member_infos">
+                {% if app.user %}
+                    <p class="text-center mb-2">{{ app.user.firstname|upper }} {{ app.user.lastname|capitalize }}</p>
+                    <p class="text-center mb-2">{{ app.user.email }}</p>
+                    <p class="text-center mb-2">Tel : </p>
+                    <p class="text-center mb-2">Mot de passe : *******</p>
+                {% endif %}
+            </div>
+        </div>
+
+
+        <div class="d-flex justify-content-center flex-wrap">
+
+
+            <a class="btn-vodou card-profil card d-flex justify-center align-items-center m-2"
+               href="{{ path('member_update') }}">
+                <div class="card-body">
+                    <div class="text-center"><i class="fa-solid fa-user-gear"></i></i></div>
+                    <h5 class="card-title">Modifier mon profil</h5>
+                </div>
+            </a>
+
+{#            {% if is_granted('ROLE_ADMIN') %}#}
+                <a class="btn-vodou card-profil card d-flex justify-center align-items-center m-2"
+                   href="{{ path('member_add') }}">
+                    <div class="card-body">
+                        <div class="text-center"><i class="fa-solid fa-user-plus"></i></div>
+                        <h5 class="card-title">Ajouter un membre</h5>
+                    </div>
+                </a>
+
+                <a class="btn-vodou card-profil card d-flex justify-center align-items-center m-2"
+                   href="{{ path('member') }}">
+                    <div class="card-body">
+                        <div class="text-center"><i class="fa-solid fa-users"></i></i></div>
+                        <h5 class="card-title">Voir tout les membres</h5>
+                    </div>
+                </a>
+{#            {% endif %}#}
+        </div>
+
+
+
+
+
+
+
+    </div>
+
+    </div>
+{% endblock %}

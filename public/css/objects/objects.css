@@ -1,0 +1,35 @@
+/*Listing*/
+.object_exposed {
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+}
+.object_basemented {
+    background-color: darkkhaki;
+    border-radius: 4px;
+    margin: 5px 0;
+}
+.object_exposed_rent {
+    background-color: darkgoldenrod;
+    border-radius: 4px;
+    margin: 5px 0;
+}
+.object_exposed_perma {
+    background-color: darkgreen;
+    border-radius: 4px;
+    margin: 5px 0;
+}
+.object_exposed_tempo {
+    background-color: darkcyan;
+    border-radius: 4px;
+    margin: 5px 0;
+}
+.object_exposed_stock {
+    background-color: darkred;
+    border-radius: 4px;
+    margin: 5px 0;
+}
+.form_description textarea{
+    min-height: calc(15em) !important;
+}
+

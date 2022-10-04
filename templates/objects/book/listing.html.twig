@@ -1,0 +1,53 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="content_box">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th>Titre</th>
+                    <th>Auteur</th>
+                    <th>Editeur</th>
+                    <th>Ville</th>
+                    <th>Année</th>
+                    <th>Pages</th>
+                    <th>N° Prêt</th>
+                    <th>Action</th>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.author }}</td>
+                        <td>{{ book.editor }}</td>
+                        <td>{{ book.city }}</td>
+                        <td>{{ book.year|format_datetime(locale='fr',pattern="YYYY") }}</td>
+                        <td>{{ book.quantity }}{{ book.pages }}</td>
+                        <td>{{ book.rentNumber }}</td>
+                        <td colspan="1">
+                            <div class="d-flex flex-wrap">
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <div>
+                                        <a class="btn btn-vodou" href="{{ path('edit_book', {id:book.id}) }}" title="Editer">
+                                            <i class="fa-solid fa-pen"></i>
+                                        </a>
+                                    </div>
+                                {% endif %}
+                                <div>
+                                    <a class="btn btn-vodou" href="{{ path('book', {id:book.id}) }}" title="Voir">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+{% endblock %}

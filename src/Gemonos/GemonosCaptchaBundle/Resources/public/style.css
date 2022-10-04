@@ -1,0 +1,8 @@
+.captcha_img_box {
+    display: flex;
+    border: 1px solid red;
+}
+.captcha_img_box img {
+    height: 150px;
+    width: 150px;
+}

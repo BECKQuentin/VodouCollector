@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tous les objets{% endblock %}
+
+{% block body %}
+    <div class="content_box">
+        <h4 class="p-1">Resultats : {{ totalItemsCount ?? '' }} objets</h4>
+
+        <div class="position-relative">
+            {% include 'base/tool/sort_item_toolbar.html.twig' %}
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+{#                <th scope="col"></th>#}
+                <th scope="col">#</th>
+                <th scope="col">Image</th>
+                <th scope="col">Titre</th>
+                <th scope="col">Categories</th>
+                <th scope="col">Dieux</th>
+                <th scope="col">Collection</th>
+                <th scope="col">Exposition</th>
+                <th scope="col">Emplacement</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if objects is defined and objects is not empty%}
+                {% for object in objects %}
+                    <tr>
+{#                        <th>#}
+{#                            <input type="checkbox" class="boxSelectObject">#}
+{#                        </th>#}
+                        <th scope="row">{{ object.code }}</th>
+                        <td>
+                            <div style="width: 80px !important;">
+                                <div class="img-ratio" style="--ratio:150%;">
+                                    <div class="img">
+                                        {% for img in object.images %}
+                                            {% if loop.first %}
+                                                <img src="{{ img.name|image }}" alt="">
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <th>{{ object.title }}</th>
+                        <td>{{ object.categories is same as null ? '' : object.categories.name }}</td>
+                        <td>{{ object.gods is same as null ? '' : object.gods.name }}</td>
+                        <td>Collection</td>
+                        <td>
+                            {% if object.isBasemented != null %}
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <div class="object_basemented px-2">Avec Socle</div>
+                                </div>
+                            {% endif %}
+                            {% if object.location != null %}
+                                {% if object.location.id == 1 %}
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <span class="object_exposed_rent px-2">{{ object.location.nameFR }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if object.location.id == 2 %}
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <span class="object_exposed_perma px-2">{{ object.location.nameFR }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if object.location.id == 3 %}
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <span class="object_exposed_tempo px-2">{{ object.location.nameFR }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if object.location.id == 4 %}
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <span class="object_exposed_stock px-2">{{ object.location.nameFR }}</span>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if object.floor %}
+                                {{ object.floor.name }}
+                            {% endif %}
+                            <div class="d-flex">
+                                {% if object.showcaseCode %}
+                                    {{ object.showcaseCode }} -
+                                {% endif %}
+                                {% if object.shelf %}
+                                    {{ object.shelf }}
+                                {% endif %}
+                            </div>
+                        </td>
+
+                        <td colspan="1">
+                            <div class="d-flex flex-wrap">
+                                <div>
+                                    <a class="btn btn-vodou" href="{{ path('objects_view', {id:object.id}) }}" title="Voir">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+                                </div>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <div>
+                                        <a class="btn btn-vodou" href="{{ path('objects_edit', {id:object.id}) }}" title="Editer">
+                                            <i class="fa-solid fa-pen-nib"></i>
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+        {{ knp_pagination_render(objects) }}
+    </div>
+
+{% endblock %}

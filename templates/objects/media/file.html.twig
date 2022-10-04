@@ -1,0 +1,62 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <div class="content_box">
+        <div class="d-flex justify-content-between">
+            {% include 'objects/objects/navbar_objects_link.html.twig' %}
+            {% include 'objects/objects/navbar_objects_tool_standard.html.twig' %}
+        </div>
+
+        <div class="d-flex flex-wrap pt-2 {{ object.files.count == 0 ? 'justify-content-center' }}">
+
+            {% if object.files.count > 0 %}
+                {% for file in object.files%}
+                    {% if file.extension == "pdf" %}
+                        <div class="card_file p-2 mb-3 m-2">
+                            <div>
+                                <object type="application/pdf" width="100%" height="100%">
+                                    <param name="src" value="{{ file.name|file }}" />
+                                    <p>Votre navigateur n'affiche pas les pdf</p>
+                                </object>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="d-flex align-items-end">{{ file.name }}</span>
+                                <div>
+                                    <a href="{{ file.name|file }}" download class="btn btn-vodou"><i class="fa-solid fa-download"></i></a>
+                                    <a href="{{ path('delete_objects_file', {id:file.id, object:object.id}) }}" title="Supprimer" class="btn btn-vodou"><i class="fa-solid fa-trash"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="card_file p-2 mb-3 m-2">
+                            <div>
+                                <div class="d-flex align-items-center fs-4">
+                                    <i class="fa-solid fa-eye-slash p-2"></i>Désolé
+                                </div>
+                                <p>Votre navigateur n'affiche pas ce format</p>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="d-flex align-items-end">{{ file.name }}</span>
+                                <div>
+                                    <a href="{{ file.name|file }}" download class="btn btn-vodou"><i class="fa-solid fa-download"></i></a>
+                                    <a href="{{ path('delete_objects_file', {id:file.id, object:object.id}) }}" title="Supprimer" class="btn btn-vodou"><i class="fa-solid fa-trash"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- 16:9 aspect ratio -->
+
+                {% endfor %}
+            {% else %}
+                <div class="d-flex flex-column text-center pt-5 pb-5">
+                    <p class="fs-2"><i class="fa-solid fa-ban"></i></p>
+                    <p>Cette objet n'a pas de fichier annexe</p>
+                </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+{% endblock %}

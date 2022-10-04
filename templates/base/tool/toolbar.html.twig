@@ -1,0 +1,131 @@
+<div class="d-flex flex-column">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link{{ route_name == 'home' ? 'activated' }}" href="/" title="Accueil">
+                <div class="logo">
+                    <img src="{{ asset('upload/defaultsImages/cropped-logo-musee-vodou.png') }}" alt="" style="height : 40px">
+                </div>
+            </a>
+        </li>
+        <li class="nav-item dropend toolbar_dropdown">
+            <a class="nav-link dropdown-toggle {{ route_name == 'objects' ? 'activated' or route_name == 'objects-add' ? 'activated' }}"
+               href="{{ path('objects') }}" title="Objets"
+               id="navbarDropdownObjects" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span><i class="fa-solid fa-database"></i> Objets</span>
+            </a>
+            <div class="dropdown-menu px-2" aria-labelledby="navbarDropdownObjects">
+                <a class="dropdown-item {{ route_name == 'objects' ? 'activated' or route_name == 'objects-add' ? 'activated' }}"
+                   href="{{ path('objects') }}">
+                    <span><i class="fa-solid fa-database"></i>Tous les objets</span>
+                </a>
+                <a class="dropdown-item" href="{{ path('objects_add') }}">
+                    <span><i class="fa-solid fa-plus"></i>Ajouter un objet</span>
+                </a>
+                <a class="dropdown-item" href="">
+                    <span><i class="fa-solid fa-clock"></i>Objets récents</span>
+                </a>
+            </div>
+        </li>
+        <li class="nav-item dropend toolbar_dropdown">
+            <a class="nav-link dropdown-toggle " href="#" title="Tags"
+               id="navbarDropdownTags" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span><i class="fa-solid fa-tags"></i>Categories</span>
+            </a>
+            <div class="dropdown-menu px-2" aria-labelledby="navbarDropdownTags">
+                <a class="dropdown-item" href="{{ path('categories') }}">
+                    <span><i class="fa-solid fa-object-group"></i>Categories</span>
+                </a>
+                <a class="dropdown-item" href="{{ path('subCategories') }}">
+                    <span><i class="fa-solid fa-object-ungroup"></i>Sous-Categories</span>
+                </a>
+                <a class="dropdown-item" href="{{ path('population') }}">
+                    <span><i class="fa-solid fa-person"></i>Population</span>
+                </a>
+                <a class="dropdown-item" href="{{ path('origin') }}">
+                    <span><i class="fa-brands fa-pagelines"></i>Origine</span>
+                </a>
+                <a class="dropdown-item" href="{{ path('gods') }}">
+                    <span><i class="fa-solid fa-person-praying"></i>Divinité</span>
+                </a>
+                <a class="dropdown-item" href="{{ path('materials') }}">
+                    <span><i class="fa-solid fa-brush"></i>Matériaux</span>
+                </a>
+                <a class="dropdown-item" href="{{ path('state') }}">
+                    <span><i class="fa-solid fa-recycle"></i>Etat</span>
+                </a>
+                <a class="dropdown-item" href="{{ path('floor') }}">
+                    <span><i class="fa-solid fa-chess-rook"></i>Etage</span>
+                </a>
+                <a class="dropdown-item" href="{{ path('museumCatalogue') }}">
+                    <span><i class="fa-solid fa-book-open"></i>Catalogue</span>
+                </a>
+            </div>
+        </li>
+        <li class="nav-item dropend toolbar_dropdown">
+            <a class="nav-link dropdown-toggle {{ route_name == 'libraries' ? 'activated' or route_name == 'library_edit' ? 'activated' }}"
+               href="{{ path('libraries') }}" title="Collections"
+               id="navbarDropdownCollection" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span><i class="fa-solid fa-folder-tree"></i>Bilbio</span>
+            </a>
+            <div class="dropdown-menu px-2" aria-labelledby="navbarDropdownCollection">
+                <a class="dropdown-item" href="{{ path('libraries') }}">
+                    <span><i class="fa-solid fa-book"></i>Bilbiographie</span>
+                </a>
+                <a class="dropdown-item" href="{{ path('library_add') }}">
+                    <span><i class="fa-solid fa-plus"></i>Ajouter une bibliographie</span>
+                </a>
+                <a class="dropdown-item" href="{{ path('listing_book') }}">
+                    <span><i class="fa-solid fa-book-open"></i>Ouvrages</span>
+                </a>
+                <a class="dropdown-item" href="{{ path('book_add') }}">
+                    <span><i class="fa-solid fa-plus"></i>Ajouter un ouvrage</span>
+                </a>
+            </div>
+        </li>
+        <hr>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#" title="Message">
+                <span><i class="fa-solid fa-message"></i></span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" title="Calendrier">
+                <span><i class="fa-solid fa-calendar"></i></span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ route_name == 'profil' ? 'activated' }}" href="{{ path('profil') }}">
+                <span><i class="fa-solid fa-user-group"></i>Profil</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="" title="Graphiques">
+                <span><i class="fa-solid fa-chart-line"></i></span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ route_name == 'style' ? 'activated' }}" href="{{ path('style') }}" title="Stylisation">
+                <span><i class="fa-solid fa-palette"></i>Stylisation</span>
+            </a>
+        </li>
+        <hr>
+        <li class="nav-item dropend toolbar_dropdown">
+            <a class="nav-link dropdown-toggle {{ route_name == 'monitoring' ? 'activated' }}" href="{{ path('monitoring') }}" title="Monitoring"
+               id="navbarDropdownMonitoring" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span><i class="fa-solid fa-desktop"></i></span>
+            </a>
+            <div class="dropdown-menu px-2" aria-labelledby="navbarDropdownMonitoring">
+                <a class="dropdown-item" href="">
+                    <span><i class="fa-solid fa-list-ul"></i>Action Log</span>
+                </a>
+                <a class="dropdown-item" href="">
+                    <span><i class="fa-solid fa-plus"></i>#</span>
+                </a>
+                <a class="dropdown-item" href="">
+                    <span><i class="fa-solid fa-clock"></i>#</span>
+                </a>
+            </div>
+        </li>
+    </ul>
+</div>
