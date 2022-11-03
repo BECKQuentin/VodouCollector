@@ -14,11 +14,8 @@
 .navbar-nav li  .dropdown-menu a:hover {
     background-color: inherit;
 }
-.navbar-nav li  a span {
-    margin: 0 15px !important;
-}
-.navbar-nav li a span i {
-    padding-right: 5px;
+.navbar-nav li a i {
+    margin: 0 5px 0 15px !important;
 }
 .navbar-nav li a:hover {
     animation: border 1s forwards, growUp 1s forwards;

@@ -115,4 +115,31 @@ class MemberController extends AbstractController
 
 
     }
+
+
+    #[Route('/member-block/{id}', name: 'member_block')]
+    #[IsGranted('ROLE_ADMIN', message: 'Seuls les Admins peuvent faire ça !')]
+    public function blockMember(User $user, ManagerRegistry $doctrine, UserRepository $userRepository): Response
+    {
+
+        if ($user->isIsActive()) {
+            $user->setIsActive(false);
+            $this->addFlash('success', "Utilisateur bloqué");
+        } else {
+            $user->setIsActive(true);
+            $this->addFlash('success', "Utilisateur débloqué !");
+        }
+
+        $em = $doctrine->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        $users = $userRepository->findAll();
+
+        return $this->render('user/member/listing.html.twig', [
+            'users' => $users,
+        ]);
+    }
+
+
 }

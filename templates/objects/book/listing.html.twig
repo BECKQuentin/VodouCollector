@@ -10,10 +10,10 @@
                     <th>Titre</th>
                     <th>Auteur</th>
                     <th>Editeur</th>
-                    <th>Ville</th>
-                    <th>Année</th>
-                    <th>Pages</th>
-                    <th>N° Prêt</th>
+                    <th class="d-none d-xs-table-cell">Ville</th>
+                    <th class="d-none d-sm-table-cell">Année</th>
+                    <th class="d-none d-md-table-cell">Pages</th>
+                    <th class="d-none d-md-table-cell">N° Prêt</th>
                     <th>Action</th>
             </thead>
             <tbody>
@@ -23,10 +23,10 @@
                         <td>{{ book.title }}</td>
                         <td>{{ book.author }}</td>
                         <td>{{ book.editor }}</td>
-                        <td>{{ book.city }}</td>
-                        <td>{{ book.year|format_datetime(locale='fr',pattern="YYYY") }}</td>
-                        <td>{{ book.quantity }}{{ book.pages }}</td>
-                        <td>{{ book.rentNumber }}</td>
+                        <td class="d-none d-xs-table-cell">{{ book.city }}</td>
+                        <td class="d-none d-sm-table-cell">{{ book.year|format_datetime(locale='fr',pattern="YYYY") }}</td>
+                        <td class="d-none d-md-table-cell">{{ book.quantity }}{{ book.pages }}</td>
+                        <td class="d-none d-md-table-cell">{{ book.rentNumber }}</td>
                         <td colspan="1">
                             <div class="d-flex flex-wrap">
                                 {% if is_granted('ROLE_ADMIN') %}

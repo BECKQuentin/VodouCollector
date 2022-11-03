@@ -6,7 +6,27 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import './styles/base/style.scss';
+import './styles/base/home.scss';
+import './styles/base/responsive.css';
+import './styles/base/toolbar.css';
+import './styles/objects/form.css';
+import './styles/objects/media.css';
+import './styles/objects/objects.css';
+import './styles/objects/tags.css';
+import './styles/search/search.css';
+import './styles/site/style.css';
+import './styles/bundles/captcha.css';
+import './styles/app.scss';
+
 
 // start the Stimulus application
+// import './js/tool/search';
+import './js/tool/formObjects';
+import './js/site/statistics';
+// import './js/site/style';
+
 import './bootstrap';
+import 'bootstrap/dist/js/bootstrap.bundle.min';

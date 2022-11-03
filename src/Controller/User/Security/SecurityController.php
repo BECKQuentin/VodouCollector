@@ -5,6 +5,7 @@ namespace App\Controller\User\Security;
 
 
 use App\Gemonos\GemonosCaptchaBundle\src\Entity\Captcha;
+use App\Repository\User\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,13 +16,16 @@ class SecurityController extends AbstractController
 {
 
     #[Route('/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
+    public function login(AuthenticationUtils $authenticationUtils, UserRepository $userRepository, Request $request): Response
     {
          if ($this->getUser()) {
              return $this->redirectToRoute('home');
          }
 
         $captcha = new Captcha();
+
+//        $user = $userRepository->find(14);
+//        dd($user);
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();

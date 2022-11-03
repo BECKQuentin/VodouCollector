@@ -22,11 +22,6 @@ class SiteParameter
      */
     private $limitActionLog;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $itemsByPage;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -40,18 +35,6 @@ class SiteParameter
     public function setLimitActionLog(?int $limitActionLog): self
     {
         $this->limitActionLog = $limitActionLog;
-
-        return $this;
-    }
-
-    public function getItemsByPage(): ?int
-    {
-        return $this->itemsByPage;
-    }
-
-    public function setItemsByPage(?int $itemsByPage): self
-    {
-        $this->itemsByPage = $itemsByPage;
 
         return $this;
     }

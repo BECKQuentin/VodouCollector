@@ -43,8 +43,8 @@ class Captcha
 
     }
 
-    function generateRandomString($length = 6) {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+    function generateRandomString($length = 4) {
+        $characters = '0123456789';
         $charactersLength = strlen($characters);
         $randomString = '';
         for ($i = 0; $i < $length; $i++) {

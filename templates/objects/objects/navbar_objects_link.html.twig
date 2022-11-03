@@ -8,7 +8,7 @@
             </a>
         </h4>
     {% else %}
-        <h4 class="p-2">
+        <h4 class="p-2 btn-vodou-active">
             {{ object.title|u.truncate(20, '...') }}
         </h4>
     {% endif %}
@@ -16,14 +16,10 @@
     {% if is_granted('ROLE_ADMIN') %}
         {% if route_name != 'objects_edit' %}
             <a href="{{ path('objects_edit', {id:object.id}) }}" class="btn btn-vodou">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
                 <i class="fa-solid fa-pen"></i>
             </a>
         {% else %}
-            <div class="p-3">
+            <div class="p-2 btn-vodou-active">
                 <i class="fa-solid fa-pen"></i>
             </div>
         {% endif %}
@@ -37,10 +33,11 @@
                 <i class="fa-solid fa-images"></i>
             </a>
         {% else %}
-            <div class="p-3">
+            <div class="p-2 btn-vodou-active">
                 <i class="fa-solid fa-images"></i>
+                <div class="fs-8 m-0 px-1">( jpg, png, gif )</div>
             </div>
-            <div class="fs-8 m-0 p-0">( jpg, png, gif )</div>
+
         {% endif %}
 
         {% if route_name != 'objects_videos' %}
@@ -48,10 +45,10 @@
                 <i class="fa-solid fa-film "></i>
             </a>
         {% else %}
-            <div class="p-3">
+            <div class="p-2 btn-vodou-active">
                 <i class="fa-solid fa-film"></i>
+                <div class="fs-8 m-0 px-1">( avi, flv, mov, webm, mp4, wmv, 3gp )</div>
             </div>
-            <div class="fs-8 m-0 p-0">( avi, flv, mov, webm, mp4, wmv, 3gp )</div>
         {% endif %}
 
         {% if route_name != 'objects_youtube' %}
@@ -59,7 +56,7 @@
                 <i class="fa-brands fa-youtube"></i>
             </a>
         {% else %}
-            <div class="p-3">
+            <div class="p-2 btn-vodou-active">
                 <i class="fa-brands fa-youtube"></i>
             </div>
         {% endif %}
@@ -69,12 +66,11 @@
                 <i class="fa-solid fa-file"></i>
             </a>
         {% else %}
-            <div class="p-3">
+            <div class="p-2 btn-vodou-active">
                 <i class="fa-solid fa-file"></i>
+                <div class="fs-8 m-0 px-1">( pdf, xls )</div>
             </div>
-            <div class="fs-8 m-0 p-0">( pdf, xls )</div>
         {% endif %}
-
             <div>
                 <a class="btn btn-vodou" href="{{ path('object_pdf', {id:object.id}) }}" title="fichier PDF">
                     <i class="fa-solid fa-file-pdf"></i>

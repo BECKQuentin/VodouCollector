@@ -1,0 +1,17 @@
+{% extends "email/base.html.twig" %}
+
+{% block bodyEmail %}
+
+    Bonjour {{ user.name }}, <br><br>
+
+    Vous avez été invité à rejoindre notre inventaire.
+
+    <p style="color: rgb(139, 22, 16); text-decoration: underline">Pensez à changer votre mot de passe à la première connection !</p><br>
+
+    Vous pouvez vous
+    <a style="padding: 5px 10px; margin: 0 5px; background-color: rgb(139, 22, 16); color: #fff; border-radius: 2px" href="{{ loginLink.url }}">
+        CONNECTER
+    </a> dès à présent.<br><br>
+
+    Ce lien est limité aux nombres de connection et expire à {{ loginLink.expiresAt|date('H:i d-m-Y') }}.
+{% endblock %}

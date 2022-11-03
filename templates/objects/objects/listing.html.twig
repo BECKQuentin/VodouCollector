@@ -1,8 +1,11 @@
 {% extends 'base.html.twig' %}
 
+
 {% block title %}Tous les objets{% endblock %}
 
 {% block body %}
+
+
     <div class="content_box">
         <h4 class="p-1">Resultats : {{ totalItemsCount ?? '' }} objets</h4>
 
@@ -25,7 +28,7 @@
                 <th scope="col">Action</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody data-controller="bookmark">
             {% if objects is defined and objects is not empty%}
                 {% for object in objects %}
                     <tr class="table_listing_row">
@@ -140,18 +143,36 @@
                                         </a>
                                     </div>
                                 {% endif %}
+
+
+                                <!--Ajout aux favoris-->
+                                <div>
+                                    <button data-action="click->bookmark#saveBookmark"
+                                            data-url="{{ path('objects_bookmark', {id:object.id}) }}"
+                                            class="btn btn-vodou">
+                                        {% if object.id not in bookmarks %}
+                                            <i title="Ajouter aux favoris" class="fa-regular fa-bookmark"></i>
+                                        {% else %}
+                                            <i title="Retirer des favoris" class="fa-solid fa-bookmark"></i>
+                                        {% endif %}
+                                    </button>
+                                </div>
+
                             </div>
                         </td>
                     </tr>
-
-
 
 
                 {% endfor %}
             {% endif %}
             </tbody>
         </table>
+
+{#        //lazy loading#}
         {{ knp_pagination_render(objects) }}
+
     </div>
+
+
 
 {% endblock %}

@@ -18,10 +18,6 @@ class SiteParameterFormType extends AbstractType
                 'label' => 'Limite d\'action disponibles',
                 'required' => false,
             ])
-            ->add('itemsByPage', IntegerType::class, [
-                'label' => 'Nombre d\'items par page',
-                'required' => false,
-            ])
             ->add('submit', SubmitType::class, [
                 'label'     => 'Valider',
                 'attr'      => [

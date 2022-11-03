@@ -1,0 +1,10 @@
+{% extends "email/base.html.twig" %}
+
+{% block bodyEmail %}
+
+    Bonjour {{ user.name }}, <br><br>
+
+    Merci de bien vouloir <a href="{{ signedUrl|raw }}">Confirmez votre inscription</a>.<br><br>
+
+    Ce lien expire dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+{% endblock %}

@@ -16,13 +16,24 @@
             <a class="btn dropdown-toggle shadow-none" href="#" role="button" id="loginDropdownLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span><i class="fa-solid fa-ellipsis-vertical"></i></span>
             </a>
-            <div class="dropdown-menu px-2" aria-labelledby="loginDropdownLinkStatus">
-                <a href="{{ path('profil') }}" class="dropdown-item">Profil<i class="fa-solid fa-user-gear px-2"></i></a>
+            <div class="dropdown-menu px-2" aria-labelledby="loginDropdownLink">
+                <a href="{{ path('profil') }}" class="dropdown-item link_underline text-right">Profil<i class="fa-solid fa-user-gear px-2"></i></a>
                 <div class="text-end dropdown-item disabled">{{ app.user.roles[0]|roles(app.user.roles) }}</div>
-                <a href="{{ path('app_logout') }}" class="dropdown-item">Se déconnecter<i class="fa-solid fa-arrow-right-to-bracket px-2"></i></a>
+                <a href="{{ path('app_logout') }}" class="dropdown-item link_underline text-right">Se déconnecter<i class="fa-solid fa-arrow-right-to-bracket px-2"></i></a>
             </div>
         </div>
     </div>
+
+{#    <div class="dropdown">#}
+{#        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">#}
+{#            Dropdown button#}
+{#        </button>#}
+{#        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">#}
+{#            <li><a class="dropdown-item" href="#">Action</a></li>#}
+{#            <li><a class="dropdown-item" href="#">Another action</a></li>#}
+{#            <li><a class="dropdown-item" href="#">Something else here</a></li>#}
+{#        </ul>#}
+{#    </div>#}
 </div>
 
 

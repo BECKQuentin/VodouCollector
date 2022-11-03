@@ -59,7 +59,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     public function authenticate(Request $request): Passport
     {
         //Vérification Captcha
-        if ($this->verifyCaptcha($request) === true) {
+        if ($this->verifyCaptcha($request)) {
             $email = $request->request->get('email', '');
 
             $request->getSession()->set(Security::LAST_USERNAME, $email);
@@ -74,7 +74,6 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         } else {
             throw new CustomUserMessageAuthenticationException('Captcha Incorrect');
         }
-
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider): ?User

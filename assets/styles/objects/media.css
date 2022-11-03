@@ -1,0 +1,47 @@
+.navbar_objects i {
+    font-size: 21px;
+}
+
+/*Custom Input File*/
+.custom-file{
+    display: none;
+}
+.custom-file-input {
+    display: none;
+}
+
+/*Media*/
+.card_media {
+    border: 1px solid var(--main);
+    border-radius: 2px;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.card_media:hover {
+    cursor: pointer;
+}
+/*Video*/
+.card_media video {
+    width: 100%;
+}
+/*File*/
+.card_file {
+    border: 1px solid var(--main);
+    border-radius: 2px;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+/*Youtube*/
+.card_youtube {
+    border: 1px solid var(--main);
+    border-radius: 2px;
+    width: 560px;
+    height: 315px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

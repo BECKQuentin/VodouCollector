@@ -1,138 +1,311 @@
-<div class="d-flex flex-column">
-    <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-            <a class="nav-link{{ route_name == 'home' ? 'activated' }}" href="/" title="Accueil">
-                <div class="logo">
-                    <img src="{{ asset('upload/defaultsImages/cropped-logo-musee-vodou.png') }}" alt="" style="height : 40px">
-                </div>
-            </a>
-        </li>
-        <li class="nav-item dropend toolbar_dropdown">
-            <a class="nav-link dropdown-toggle {{ route_name == 'objects' or route_name == 'objects_add' ? 'activated' }}"
-               href="{{ path('objects') }}" title="Objets"
-               id="navbarDropdownObjects" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span><i class="fa-solid fa-database"></i>Objets</span>
-            </a>
-            <div class="dropdown-menu px-2" aria-labelledby="navbarDropdownObjects">
-                <a class="dropdown-item {{ route_name == 'objects' ? 'activated' ? 'activated' }}"
-                   href="{{ path('objects') }}">
-                    <span><i class="fa-solid fa-database"></i>Tous les objets</span>
-                </a>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <a class="dropdown-item {{ route_name == 'objects_add' ? 'activated' }}" href="{{ path('objects_add') }}">
-                        <span><i class="fa-solid fa-plus"></i>Ajouter un objet</span>
-                    </a>
-                {% endif %}
-{#                <a class="dropdown-item" href="">#}
-{#                    <span><i class="fa-solid fa-clock"></i>Objets récents</span>#}
-{#                </a>#}
-            </div>
-        </li>
-        <li class="nav-item dropend toolbar_dropdown">
-            <a class="nav-link dropdown-toggle {{ route_name == 'categories' or route_name == 'subCategories' or route_name == 'population' or route_name == 'origin' or route_name == 'gods' or route_name == 'materials' or route_name == 'state' or route_name == 'floor' or route_name == 'museumCatalogue' ? 'activated' }}" href="#" title="Tags"
-               id="navbarDropdownTags" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span><i class="fa-solid fa-tags"></i>Categories</span>
-            </a>
-            <div class="dropdown-menu px-2" aria-labelledby="navbarDropdownTags">
-                <a class="dropdown-item {{ route_name == 'categories' ? 'activated' }}" href="{{ path('categories') }}">
-                    <span><i class="fa-solid fa-object-group"></i>Categories</span>
-                </a>
-                <a class="dropdown-item {{ route_name == 'subCategories' ? 'activated' }}" href="{{ path('subCategories') }}">
-                    <span><i class="fa-solid fa-object-ungroup"></i>Sous-Categories</span>
-                </a>
-                <a class="dropdown-item {{ route_name == 'population' ? 'activated' }}" href="{{ path('population') }}">
-                    <span><i class="fa-solid fa-person"></i>Population</span>
-                </a>
-                <a class="dropdown-item {{ route_name == 'origin' ? 'activated' }}" href="{{ path('origin') }}">
-                    <span><i class="fa-brands fa-pagelines"></i>Origine</span>
-                </a>
-                <a class="dropdown-item {{ route_name == 'gods' ? 'activated' }}" href="{{ path('gods') }}">
-                    <span><i class="fa-solid fa-person-praying"></i>Divinité</span>
-                </a>
-                <a class="dropdown-item {{ route_name == 'materials' ? 'activated' }}" href="{{ path('materials') }}">
-                    <span><i class="fa-solid fa-brush"></i>Matériaux</span>
-                </a>
-                <a class="dropdown-item {{ route_name == 'state' ? 'activated' }}" href="{{ path('state') }}">
-                    <span><i class="fa-solid fa-recycle"></i>Etat</span>
-                </a>
-                <a class="dropdown-item {{ route_name == 'floor' ? 'activated' }}" href="{{ path('floor') }}">
-                    <span><i class="fa-solid fa-chess-rook"></i>Etage</span>
-                </a>
-                <a class="dropdown-item {{ route_name == 'museumCatalogue' ? 'activated' }}" href="{{ path('museumCatalogue') }}">
-                    <span><i class="fa-solid fa-book-open"></i>Catalogue</span>
-                </a>
-            </div>
-        </li>
-        <li class="nav-item dropend toolbar_dropdown">
-            <a class="nav-link dropdown-toggle {{ route_name == 'libraries' or route_name == 'library_add' or route_name == 'listing_book' or route_name == 'book_add' ? 'activated' }}"
-               href="{{ path('libraries') }}" title="Collections"
-               id="navbarDropdownCollection" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span><i class="fa-solid fa-folder-tree"></i>Bilbio</span>
-            </a>
-            <div class="dropdown-menu px-2" aria-labelledby="navbarDropdownCollection">
-                <a class="dropdown-item {{ route_name == 'libraries' ? 'activated' }}" href="{{ path('libraries') }}">
-                    <span><i class="fa-solid fa-book"></i>Bilbiographie</span>
-                </a>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <a class="dropdown-item {{ route_name == 'library_add' ? 'activated' }}" href="{{ path('library_add') }}">
-                        <span><i class="fa-solid fa-plus"></i>Ajouter une bibliographie</span>
-                    </a>
-                {% endif %}
-                <a class="dropdown-item {{ route_name == 'listing_book' ? 'activated' }}" href="{{ path('listing_book') }}">
-                    <span><i class="fa-solid fa-book-open"></i>Ouvrages</span>
-                </a>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <a class="dropdown-item {{ route_name == 'book_add' ? 'activated' }}" href="{{ path('book_add') }}">
-                        <span><i class="fa-solid fa-plus"></i>Ajouter un ouvrage</span>
-                    </a>
-                {% endif %}
-            </div>
-        </li>
-        <hr>
+<nav class="navbar navbar-expand-custom">
 
-        <li class="nav-item">
-            <a class="nav-link" href="#" title="Message">
-                <span><i class="fa-solid fa-message"></i></span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#" title="Calendrier">
-                <span><i class="fa-solid fa-calendar"></i></span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ route_name == 'profil' ? 'activated' }}" href="{{ path('profil') }}">
-                <span><i class="fa-solid fa-user-group"></i>Profil</span>
-            </a>
-        </li>
-        <li class="nav-item ">
-            <a class="nav-link {{ route_name == 'statistics' ? 'activated' }}" href="{{ path('statistics') }}" title="Graphiques">
-                <span><i class="fa-solid fa-chart-line"></i>Statistics</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ route_name == 'style' ? 'activated' }}" href="{{ path('style') }}" title="Stylisation">
-                <span><i class="fa-solid fa-palette"></i>Stylisation</span>
-            </a>
-        </li>
 
-        <hr>
+    
 
-        {% if is_granted('ROLE_ADMIN') %}
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse w-100" id="navbarNavDropdown">
+        <ul class="navbar-nav d-flex flex-column">
+            <li class="d-none d-sm-block nav-item">
+                <a class="nav-link{{ route_name == 'home' ? 'activated' }}" href="/" title="Accueil">
+                    <div class="logo">
+                        <img src="{{ asset('upload/defaultsImages/cropped-logo-musee-vodou.png') }}" alt="" style="height : 40px">
+                    </div>
+                </a>
+            </li>
             <li class="nav-item dropend toolbar_dropdown">
-                <a class="nav-link dropdown-toggle {{ route_name == 'action_log' or route_name == 'site_parameter' ? 'activated' }}" href="{{ path('action_log') }}" title="Monitoring"
-                   id="navbarDropdownMonitoring" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span><i class="fa-solid fa-desktop"></i>Monitoring</span>
+                <a class="nav-link link_underline {{ route_name == 'objects' or route_name == 'objects_add' ? 'activated' }}"
+                   href="{{ path('objects') }}" title="Objets"
+                   id="navbarDropdownObjects" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa-solid fa-database"></i><span class="d-inline d-sm-none d-md-inline">Objets</span>
                 </a>
-                <div class="dropdown-menu px-2" aria-labelledby="navbarDropdownMonitoring">
-                    <a class="dropdown-item {{ route_name == 'action_log' ? 'activated' }}" href="{{ path('action_log') }}">
-                        <span><i class="fa-solid fa-list-ul"></i>Action Log</span>
+                <div class="dropdown-menu px-2" aria-labelledby="navbarDropdownObjects">
+                    <a class="dropdown-item link_underline {{ route_name == 'objects' ? 'activated' ? 'activated' }}"
+                       href="{{ path('objects') }}">
+                        <span><i class="fa-solid fa-database"></i>Tous les objets</span>
                     </a>
-                    <a class="dropdown-item {{ route_name == 'site_parameter' ? 'activated' }}" href="{{ path('site_parameter') }}">
-                        <span><i class="fa-solid fa-screwdriver-wrench"></i>Paramètre Site</span>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="dropdown-item link_underline {{ route_name == 'objects_add' ? 'activated' }}" href="{{ path('objects_add') }}">
+                            <span><i class="fa-solid fa-plus"></i>Ajouter un objet</span>
+                        </a>
+                    {% endif %}
+                    <a class="dropdown-item" href="{{ path('bookmarks') }}">
+                        <span><i class="fa-solid fa-bookmark"></i>Favoris</span>
+                    </a>
+                    <a class="dropdown-item" href="">
+                        <span><i class="fa-solid fa-clock"></i>Objets récents</span>
                     </a>
                 </div>
             </li>
-        {% endif %}
-    </ul>
-</div>
+            <li class="nav-item dropend toolbar_dropdown">
+                <a class="nav-link link_underline {{ route_name == 'categories' or route_name == 'subCategories' or route_name == 'population' or route_name == 'origin' or route_name == 'gods' or route_name == 'materials' or route_name == 'state' or route_name == 'floor' or route_name == 'museumCatalogue' ? 'activated' }}"
+                   href="{{ path('categories') }}" title="Categories"
+                   id="navbarDropdownTags" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa-solid fa-tags"></i><span class="d-inline d-sm-none d-md-inline">Categories</span>
+                </a>
+                <div class="dropdown-menu px-2" aria-labelledby="navbarDropdownTags">
+                    <a class="dropdown-item link_underline {{ route_name == 'categories' ? 'activated' }}" href="{{ path('categories') }}">
+                        <span><i class="fa-solid fa-object-group"></i>Categories</span>
+                    </a>
+                    <a class="dropdown-item link_underline {{ route_name == 'subCategories' ? 'activated' }}" href="{{ path('subCategories') }}">
+                        <span><i class="fa-solid fa-object-ungroup"></i>Sous-Categories</span>
+                    </a>
+                    <a class="dropdown-item link_underline {{ route_name == 'population' ? 'activated' }}" href="{{ path('population') }}">
+                        <span><i class="fa-solid fa-person"></i>Population</span>
+                    </a>
+                    <a class="dropdown-item link_underline {{ route_name == 'origin' ? 'activated' }}" href="{{ path('origin') }}">
+                        <span><i class="fa-brands fa-pagelines"></i>Origine</span>
+                    </a>
+                    <a class="dropdown-item link_underline {{ route_name == 'gods' ? 'activated' }}" href="{{ path('gods') }}">
+                        <span><i class="fa-solid fa-person-praying"></i>Divinité</span>
+                    </a>
+                    <a class="dropdown-item link_underline {{ route_name == 'materials' ? 'activated' }}" href="{{ path('materials') }}">
+                        <span><i class="fa-solid fa-brush"></i>Matériaux</span>
+                    </a>
+                    <a class="dropdown-item link_underline {{ route_name == 'state' ? 'activated' }}" href="{{ path('state') }}">
+                        <span><i class="fa-solid fa-recycle"></i>Etat</span>
+                    </a>
+                    <a class="dropdown-item link_underline {{ route_name == 'floor' ? 'activated' }}" href="{{ path('floor') }}">
+                        <span><i class="fa-solid fa-chess-rook"></i>Etage</span>
+                    </a>
+                    <a class="dropdown-item link_underline {{ route_name == 'museumCatalogue' ? 'activated' }}" href="{{ path('museumCatalogue') }}">
+                        <span><i class="fa-solid fa-book-open"></i>Catalogue</span>
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item dropend toolbar_dropdown">
+                <a class="nav-link link_underline {{ route_name == 'libraries' or route_name == 'library_add' or route_name == 'listing_book' or route_name == 'book_add' ? 'activated' }}"
+                   href="{{ path('libraries') }}" title="Collections"
+                   id="navbarDropdownCollection" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa-solid fa-folder-tree"></i><span class="d-inline d-sm-none d-md-inline">Bilbio</span>
+                </a>
+                <div class="dropdown-menu px-2" aria-labelledby="navbarDropdownCollection">
+                    <a class="dropdown-item link_underline {{ route_name == 'libraries' ? 'activated' }}" href="{{ path('libraries') }}">
+                        <span><i class="fa-solid fa-book"></i>Bilbiographie</span>
+                    </a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="dropdown-item link_underline {{ route_name == 'library_add' ? 'activated' }}" href="{{ path('library_add') }}">
+                            <span><i class="fa-solid fa-plus"></i>Ajouter une bibliographie</span>
+                        </a>
+                    {% endif %}
+                    <a class="dropdown-item link_underline {{ route_name == 'listing_book' ? 'activated' }}" href="{{ path('listing_book') }}">
+                        <span><i class="fa-solid fa-book-open"></i>Ouvrages</span>
+                    </a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="dropdown-item link_underline {{ route_name == 'book_add' ? 'activated' }}" href="{{ path('book_add') }}">
+                            <span><i class="fa-solid fa-plus"></i>Ajouter un ouvrage</span>
+                        </a>
+                    {% endif %}
+                </div>
+            </li>
+            <hr>
+
+            <li class="nav-item">
+                <a class="nav-link link_underline" href="#" title="Message">
+                    <i class="fa-solid fa-message"></i><span></span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link link_underline" href="#" title="Calendrier">
+                    <i class="fa-solid fa-calendar"></i><span></span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link link_underline {{ route_name == 'profil' ? 'activated' }}" href="{{ path('profil') }}">
+                    <i class="fa-solid fa-user-group"></i><span class="d-inline d-sm-none d-md-inline">Profil</span>
+                </a>
+            </li>
+            {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item ">
+                    <a class="nav-link link_underline {{ route_name == 'statistics' ? 'activated' }}" href="{{ path('statistics') }}" title="Graphiques">
+                        <i class="fa-solid fa-chart-line"></i><span class="d-inline d-sm-none d-md-inline">Statistics</span>
+                    </a>
+                </li>
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link link_underline {{ route_name == 'style' ? 'activated' }}" href="{{ path('style') }}" title="Stylisation">
+                    <i class="fa-solid fa-palette"></i><span class="d-inline d-sm-none d-md-inline">Stylisation</span>
+                </a>
+            </li>
+
+            <hr>
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item dropend toolbar_dropdown">
+                    <a class="nav-link link_underline {{ route_name == 'action_log' or route_name == 'site_parameter' ? 'activated' }}" href="{{ path('action_log') }}" title="Monitoring"
+                       id="navbarDropdownMonitoring" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa-solid fa-desktop"></i><span class="d-inline d-sm-none d-md-inline">Monitoring</span>
+                    </a>
+                    <div class="dropdown-menu px-2" aria-labelledby="navbarDropdownMonitoring">
+                        <a class="dropdown-item link_underline {{ route_name == 'news_add' or route_name == 'news_edit' ? 'activated' }}" href="{{ path('news_add') }}">
+                            <span><i class="fa-regular fa-newspaper"></i></i>News</span>
+                        </a>
+                        <a class="dropdown-item link_underline {{ route_name == 'action_log' ? 'activated' }}" href="{{ path('action_log') }}">
+                            <span><i class="fa-solid fa-list-ul"></i>Action Log</span>
+                        </a>
+                        <a class="dropdown-item link_underline {{ route_name == 'site_parameter' ? 'activated' }}" href="{{ path('site_parameter') }}">
+                            <span><i class="fa-solid fa-screwdriver-wrench"></i>Paramètre Site</span>
+                        </a>
+                    </div>
+                </li>
+            {% endif %}
+        </ul>
+
+        <div class="d-block d-sm-none">
+            {% include 'base/tool/navbar_mobile_footer.html.twig' %}
+        </div>
+
+    </div>
+</nav>
+
+
+{#///////////////////////////////////////////#}
+
+
+{#<div class="d-flex flex-column">#}
+{#    <ul class="navbar-nav mr-auto">#}
+{#        <li class="nav-item">#}
+{#            <a class="nav-link{{ route_name == 'home' ? 'activated' }}" href="/" title="Accueil">#}
+{#                <div class="logo">#}
+{#                    <img src="{{ asset('upload/defaultsImages/cropped-logo-musee-vodou.png') }}" alt="" style="height : 40px">#}
+{#                </div>#}
+{#            </a>#}
+{#        </li>#}
+{#        <li class="nav-item dropend toolbar_dropdown">#}
+{#            <a class="nav-link link_underline {{ route_name == 'objects' or route_name == 'objects_add' ? 'activated' }}"#}
+{#               href="{{ path('objects') }}" title="Objets"#}
+{#               id="navbarDropdownObjects" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#                <i class="fa-solid fa-database"></i><span class="d-none d-md-inline">Objets</span>#}
+{#            </a>#}
+{#            <div class="dropdown-menu px-2" aria-labelledby="navbarDropdownObjects">#}
+{#                <a class="dropdown-item link_underline {{ route_name == 'objects' ? 'activated' ? 'activated' }}"#}
+{#                   href="{{ path('objects') }}">#}
+{#                    <span><i class="fa-solid fa-database"></i>Tous les objets</span>#}
+{#                </a>#}
+{#                {% if is_granted('ROLE_ADMIN') %}#}
+{#                    <a class="dropdown-item link_underline {{ route_name == 'objects_add' ? 'activated' }}" href="{{ path('objects_add') }}">#}
+{#                        <span><i class="fa-solid fa-plus"></i>Ajouter un objet</span>#}
+{#                    </a>#}
+{#                {% endif %}#}
+{#                <a class="dropdown-item" href="">#}
+{#                    <span><i class="fa-solid fa-clock"></i>Objets récents</span>#}
+{#                </a>#}
+{#            </div>#}
+{#        </li>#}
+{#        <li class="nav-item dropend toolbar_dropdown">#}
+{#            <a class="nav-link link_underline {{ route_name == 'categories' or route_name == 'subCategories' or route_name == 'population' or route_name == 'origin' or route_name == 'gods' or route_name == 'materials' or route_name == 'state' or route_name == 'floor' or route_name == 'museumCatalogue' ? 'activated' }}"#}
+{#               href="{{ path('categories') }}" title="Categories"#}
+{#               id="navbarDropdownTags" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#                <i class="fa-solid fa-tags"></i><span class="d-none d-md-inline">Categories</span>#}
+{#            </a>#}
+{#            <div class="dropdown-menu px-2" aria-labelledby="navbarDropdownTags">#}
+{#                <a class="dropdown-item link_underline {{ route_name == 'categories' ? 'activated' }}" href="{{ path('categories') }}">#}
+{#                    <span><i class="fa-solid fa-object-group"></i>Categories</span>#}
+{#                </a>#}
+{#                <a class="dropdown-item link_underline {{ route_name == 'subCategories' ? 'activated' }}" href="{{ path('subCategories') }}">#}
+{#                    <span><i class="fa-solid fa-object-ungroup"></i>Sous-Categories</span>#}
+{#                </a>#}
+{#                <a class="dropdown-item link_underline {{ route_name == 'population' ? 'activated' }}" href="{{ path('population') }}">#}
+{#                    <span><i class="fa-solid fa-person"></i>Population</span>#}
+{#                </a>#}
+{#                <a class="dropdown-item link_underline {{ route_name == 'origin' ? 'activated' }}" href="{{ path('origin') }}">#}
+{#                    <span><i class="fa-brands fa-pagelines"></i>Origine</span>#}
+{#                </a>#}
+{#                <a class="dropdown-item link_underline {{ route_name == 'gods' ? 'activated' }}" href="{{ path('gods') }}">#}
+{#                    <span><i class="fa-solid fa-person-praying"></i>Divinité</span>#}
+{#                </a>#}
+{#                <a class="dropdown-item link_underline {{ route_name == 'materials' ? 'activated' }}" href="{{ path('materials') }}">#}
+{#                    <span><i class="fa-solid fa-brush"></i>Matériaux</span>#}
+{#                </a>#}
+{#                <a class="dropdown-item link_underline {{ route_name == 'state' ? 'activated' }}" href="{{ path('state') }}">#}
+{#                    <span><i class="fa-solid fa-recycle"></i>Etat</span>#}
+{#                </a>#}
+{#                <a class="dropdown-item link_underline {{ route_name == 'floor' ? 'activated' }}" href="{{ path('floor') }}">#}
+{#                    <span><i class="fa-solid fa-chess-rook"></i>Etage</span>#}
+{#                </a>#}
+{#                <a class="dropdown-item link_underline {{ route_name == 'museumCatalogue' ? 'activated' }}" href="{{ path('museumCatalogue') }}">#}
+{#                    <span><i class="fa-solid fa-book-open"></i>Catalogue</span>#}
+{#                </a>#}
+{#            </div>#}
+{#        </li>#}
+{#        <li class="nav-item dropend toolbar_dropdown">#}
+{#            <a class="nav-link link_underline {{ route_name == 'libraries' or route_name == 'library_add' or route_name == 'listing_book' or route_name == 'book_add' ? 'activated' }}"#}
+{#               href="{{ path('libraries') }}" title="Collections"#}
+{#               id="navbarDropdownCollection" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#                <i class="fa-solid fa-folder-tree"></i><span class="d-none d-md-inline">Bilbio</span>#}
+{#            </a>#}
+{#            <div class="dropdown-menu px-2" aria-labelledby="navbarDropdownCollection">#}
+{#                <a class="dropdown-item link_underline {{ route_name == 'libraries' ? 'activated' }}" href="{{ path('libraries') }}">#}
+{#                    <span><i class="fa-solid fa-book"></i>Bilbiographie</span>#}
+{#                </a>#}
+{#                {% if is_granted('ROLE_ADMIN') %}#}
+{#                    <a class="dropdown-item link_underline {{ route_name == 'library_add' ? 'activated' }}" href="{{ path('library_add') }}">#}
+{#                        <span><i class="fa-solid fa-plus"></i>Ajouter une bibliographie</span>#}
+{#                    </a>#}
+{#                {% endif %}#}
+{#                <a class="dropdown-item link_underline {{ route_name == 'listing_book' ? 'activated' }}" href="{{ path('listing_book') }}">#}
+{#                    <span><i class="fa-solid fa-book-open"></i>Ouvrages</span>#}
+{#                </a>#}
+{#                {% if is_granted('ROLE_ADMIN') %}#}
+{#                    <a class="dropdown-item link_underline {{ route_name == 'book_add' ? 'activated' }}" href="{{ path('book_add') }}">#}
+{#                        <span><i class="fa-solid fa-plus"></i>Ajouter un ouvrage</span>#}
+{#                    </a>#}
+{#                {% endif %}#}
+{#            </div>#}
+{#        </li>#}
+{#        <hr>#}
+
+{#        <li class="nav-item">#}
+{#            <a class="nav-link link_underline" href="#" title="Message">#}
+{#                <i class="fa-solid fa-message"></i><span></span>#}
+{#            </a>#}
+{#        </li>#}
+{#        <li class="nav-item">#}
+{#            <a class="nav-link link_underline" href="#" title="Calendrier">#}
+{#                <i class="fa-solid fa-calendar"></i><span></span>#}
+{#            </a>#}
+{#        </li>#}
+{#        <li class="nav-item">#}
+{#            <a class="nav-link link_underline {{ route_name == 'profil' ? 'activated' }}" href="{{ path('profil') }}">#}
+{#                <i class="fa-solid fa-user-group"></i><span class="d-none d-md-inline">Profil</span>#}
+{#            </a>#}
+{#        </li>#}
+{#        {% if is_granted('ROLE_ADMIN') %}#}
+{#            <li class="nav-item ">#}
+{#                <a class="nav-link link_underline {{ route_name == 'statistics' ? 'activated' }}" href="{{ path('statistics') }}" title="Graphiques">#}
+{#                    <i class="fa-solid fa-chart-line"></i><span class="d-none d-md-inline">Statistics</span>#}
+{#                </a>#}
+{#            </li>#}
+{#        {% endif %}#}
+{#        <li class="nav-item">#}
+{#            <a class="nav-link link_underline {{ route_name == 'style' ? 'activated' }}" href="{{ path('style') }}" title="Stylisation">#}
+{#                <i class="fa-solid fa-palette"></i><span class="d-none d-md-inline">Stylisation</span>#}
+{#            </a>#}
+{#        </li>#}
+
+{#        <hr>#}
+
+{#        {% if is_granted('ROLE_ADMIN') %}#}
+{#            <li class="nav-item dropend toolbar_dropdown">#}
+{#                <a class="nav-link link_underline {{ route_name == 'action_log' or route_name == 'site_parameter' ? 'activated' }}" href="{{ path('action_log') }}" title="Monitoring"#}
+{#                   id="navbarDropdownMonitoring" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#                    <i class="fa-solid fa-desktop"></i><span class="d-none d-md-inline">Monitoring</span>#}
+{#                </a>#}
+{#                <div class="dropdown-menu px-2" aria-labelledby="navbarDropdownMonitoring">#}
+{#                    <a class="dropdown-item link_underline {{ route_name == 'news_add' or route_name == 'news_edit' ? 'activated' }}" href="{{ path('news_add') }}">#}
+{#                        <span><i class="fa-solid fa-screwdriver-wrench"></i>News</span>#}
+{#                    </a>#}
+{#                    <a class="dropdown-item link_underline {{ route_name == 'action_log' ? 'activated' }}" href="{{ path('action_log') }}">#}
+{#                        <span><i class="fa-solid fa-list-ul"></i>Action Log</span>#}
+{#                    </a>#}
+{#                    <a class="dropdown-item link_underline {{ route_name == 'site_parameter' ? 'activated' }}" href="{{ path('site_parameter') }}">#}
+{#                        <span><i class="fa-solid fa-screwdriver-wrench"></i>Paramètre Site</span>#}
+{#                    </a>#}
+{#                </div>#}
+{#            </li>#}
+{#        {% endif %}#}
+{#    </ul>#}
+{#</div>#}

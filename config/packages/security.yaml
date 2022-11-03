@@ -21,6 +21,14 @@ security:
             custom_authenticator: App\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
+            access_denied_handler: App\Security\AccessDeniedHandler
+
+            login_link:
+                check_route: login_check
+                signature_properties: [ 'id']
+                max_uses: 5
+                lifetime: 259200
+
 
 #            remember_me:
 #                secret: '%kernel.secret%'
@@ -57,6 +65,7 @@ security:
         ROLE_SUPER_ADMIN: ROLE_ADMIN
         ROLE_ADMIN: ROLE_MEMBER
         ROLE_MEMBER: ROLE_GUEST
+        ROLE_GUEST: ROLE_GUEST
 #        # ROLE_USER: IS_AUTHENTICATED_ANONYMOUSLY
 
 when@test:

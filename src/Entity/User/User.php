@@ -5,6 +5,7 @@ namespace App\Entity\User;
 use App\Entity\Objects\Libraries;
 use App\Entity\Objects\Objects;
 use App\Entity\Site\Action;
+use App\Entity\Site\News;
 use App\Repository\User\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -73,11 +74,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $status;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $isVerified = false;
-
-    /**
      * @ORM\OneToMany(targetEntity=Objects::class, mappedBy="updatedBy", orphanRemoval=false, cascade={"persist"})
      */
     private $objectsUpdated;
@@ -107,15 +103,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $actions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=News::class, mappedBy="createdBy", orphanRemoval=true)
+     */
+    private $news;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $bookmark = [];
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
+
+
     public function __construct()
     {
         $this->setUpdatedAt(new \DateTimeImmutable('now'));
         if ($this->getCreatedAt() === null) {
             $this->setCreatedAt(new \DateTimeImmutable('now'));
         }
+        if ($this->getBookmark() === null) {
+            $this->setBookmark([]);
+        }
+        if ($this->isIsActive() === null) {
+            $this->setIsActive(1);
+        }
         $this->objectsUpdated = new ArrayCollection();
         $this->libraries = new ArrayCollection();
         $this->actions = new ArrayCollection();
+        $this->news = new ArrayCollection();
     }
 
     public function getUserIdentifier(): string
@@ -244,18 +264,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
 //        return $this->getUserIdentifier();
 
-    }
-
-    public function isVerified(): bool
-    {
-        return $this->isVerified;
-    }
-
-    public function setIsVerified(bool $isVerified): self
-    {
-        $this->isVerified = $isVerified;
-
-        return $this;
     }
 
     /**
@@ -389,5 +397,61 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, News>
+     */
+    public function getNews(): Collection
+    {
+        return $this->news;
+    }
+
+    public function addNews(News $news): self
+    {
+        if (!$this->news->contains($news)) {
+            $this->news[] = $news;
+            $news->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNews(News $news): self
+    {
+        if ($this->news->removeElement($news)) {
+            // set the owning side to null (unless already changed)
+            if ($news->getCreatedBy() === $this) {
+                $news->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getBookmark(): ?array
+    {
+        return $this->bookmark;
+    }
+
+    public function setBookmark(array $bookmark): self
+    {
+        $this->bookmark = $bookmark;
+
+        return $this;
+    }
+
+    public function isIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+
 
 }

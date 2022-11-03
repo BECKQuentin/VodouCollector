@@ -6,11 +6,11 @@
         <h2>Statistics</h2>
         <hr>
 
+        <h3 class="mx-4 mb-3">Nombre d'Objets par :</h3>
 
-        <div class="row">
-            <h3 class="mx-4 mb-3">Nombre d'Objets par :</h3>
+        <div class="d-flex justify-content-center flex-wrap">
 
-            <div class="col-4 d-flex flex-column align-items-center my-4">
+            <div class="d-flex flex-column align-items-center my-4">
                 <h4 class="text-center m-0">Categories</h4>
                 <pie-chart
                         data="{% for dataCategories in arrDatasCategories %}{{ dataCategories }}{% if loop.index is not same as arrDatasCategories|length %};{% endif %}{% endfor %} "
@@ -20,7 +20,7 @@
                 </pie-chart>
             </div>
 
-            <div class="col-4 d-flex flex-column align-items-center my-4">
+            <div class="d-flex flex-column align-items-center my-4">
                 <h4 class="text-center m-0">Divinités</h4>
                 <pie-chart
                         data="{% for dataGods in arrDatasGods %}{{ dataGods }}{% if loop.index is not same as arrDatasGods|length %};{% endif %}{% endfor %} "
@@ -30,7 +30,7 @@
                 </pie-chart>
             </div>
 
-            <div class="col-4 d-flex flex-column align-items-center my-4">
+            <div class="d-flex flex-column align-items-center my-4">
                 <h4 class="text-center m-0">Origine</h4>
                 <pie-chart
                         data="{% for dataOrigins in arrDatasOrigins %}{{ dataOrigins }}{% if loop.index is not same as arrDatasOrigins|length %};{% endif %}{% endfor %} "
@@ -40,7 +40,7 @@
                 </pie-chart>
             </div>
 
-            <div class="col-4 d-flex flex-column align-items-center my-4">
+            <div class="d-flex flex-column align-items-center my-4">
                 <h4 class="text-center m-0">Population</h4>
                 <pie-chart
                         data="{% for dataPopulations in arrDatasPopulations %}{{ dataPopulations }}{% if loop.index is not same as arrDatasPopulations|length %};{% endif %}{% endfor %} "
@@ -50,7 +50,7 @@
                 </pie-chart>
             </div>
 
-            <div class="col-4 d-flex flex-column align-items-center my-4">
+            <div class="d-flex flex-column align-items-center my-4">
                 <h4 class="text-center m-0">Matériaux</h4>
                 <pie-chart
                         data="{% for dataMaterials in arrDatasMaterials %}{{ dataMaterials }}{% if loop.index is not same as arrDatasMaterials|length %};{% endif %}{% endfor %} "
@@ -60,7 +60,7 @@
                 </pie-chart>
             </div>
 
-            <div class="col-4 d-flex flex-column align-items-center my-4">
+            <div class="d-flex flex-column align-items-center my-4">
                 <h4 class="text-center m-0">Locations</h4>
                 <pie-chart
                         data="{% for dataLocations in arrDatasLocations %}{{ dataLocations }}{% if loop.index is not same as arrDatasLocations|length %};{% endif %}{% endfor %} "
@@ -70,7 +70,7 @@
                 </pie-chart>
             </div>
 
-            <div class="col-4 d-flex flex-column align-items-center my-4">
+            <div class="d-flex flex-column align-items-center my-4">
                 <h4 class="text-center m-0">Etages</h4>
                 <pie-chart
                         data="{% for dataFloors in arrDatasFloors %}{{ dataFloors }}{% if loop.index is not same as arrDatasFloors|length %};{% endif %}{% endfor %} "

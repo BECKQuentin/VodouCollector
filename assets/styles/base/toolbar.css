@@ -1,0 +1,141 @@
+#toolbar {
+    /*margin-top: 50px !important;*/
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100vh;
+}
+.overlay_page {
+    animation: overlay 1 0.8s forwards;
+}
+.navbar-collapse {
+    z-index: 9999;
+    background-color: #fff;
+}
+.navbar-nav li a {
+    border-bottom: 2px solid transparent;
+}
+.navbar-nav li  .dropdown-menu a:hover {
+    background-color: inherit;
+}
+.navbar-nav li a i {
+    margin: 0 5px 0 15px !important;
+}
+/*.navbar-nav li a:hover {*/
+/*    animation: border 1s forwards, growUp 1s forwards;*/
+/*}*/
+
+
+.link_underline {
+    position: relative;
+    /*border-bottom: 2px solid var(--main);*/
+}
+.link_underline:after {
+    content: '';
+    background-color: var(--main);
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    -webkit-transition: width .7s;
+}
+.link_underline:hover:after {
+    width: 100%;
+    -webkit-transition: width 0.7s;
+}
+
+@keyframes border {
+    from {
+        border-bottom: 2px solid var(--main);
+        width: 0;
+    }
+    to {
+        border-bottom: 2px solid var(--main);
+        width: 100%;
+    }
+}
+@keyframes growUp {
+    from {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.035);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes overlay {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0.25;
+    }
+}
+
+
+
+
+/*en-dessous*/
+@media (max-width: 576px) {
+    #toolbar {
+        height: 60px;
+        width: 100vw;
+        /*display: flex;*/
+    }
+    #page {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 60px;
+    }
+    nav .nav-item {
+        display: flex;
+        justify-content: center;
+    }
+    nav .nav-link {
+        text-align: center;
+        width: 100%;
+    }
+}
+
+/*Au-dessus*/
+@media (min-width: 576px){
+
+    .navbar-expand-custom {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+    }
+    .navbar-expand-custom .navbar-nav {
+        flex-direction: row;
+    }
+    .navbar-expand-custom .dropdown-menu {
+        position: absolute;
+    }
+    .navbar-expand-custom .nav-link {
+        padding-right: .5rem;
+        padding-left: .5rem;
+    }
+    .navbar-expand-custom > .container {
+        flex-wrap: nowrap;
+    }
+    .navbar-expand-custom .navbar-collapse {
+        display: block !important;
+        flex-basis: auto;
+    }
+    .navbar-expand-custom .navbar-toggler {
+        display: none;
+    }
+    .toolbar_dropdown:hover .dropdown-menu {
+        position: absolute;
+        display: block;
+        margin-top: 0;
+        top: 0;
+        left: 100%;
+    }
+}
+

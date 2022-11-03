@@ -1,8 +1,13 @@
 {% extends "base.html.twig" %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('site_style') }}
+{% endblock %}
+
 {% block body %}
-    <div class="row m-0">
-        <div class="content_box col-3">
+    <div class="d-flex flex-wrap">
+        <div class="content_box">
             <h3 class="p-2">Stylisation</h3>
             <div id="color_choice" class="pb-5">
                 <h5>Choix des couleurs</h5>
@@ -35,7 +40,7 @@
             </div>
         </div>
 
-        <div class="content_box col-8">
+        <div class="content_box">
             <h3 class="p-2">Choix des Menus</h3>
             <div class="pb-5">
                 <h5>A venir</h5>

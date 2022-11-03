@@ -10,7 +10,6 @@ use App\Form\Objects\ObjectsFormType;
 use App\Form\SearchFieldType;
 use App\Repository\Objects\ObjectsRepository;
 use App\Repository\Site\ActionCategoryRepository;
-use App\Repository\Site\SiteParameterRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Dompdf\Dompdf;
@@ -22,8 +21,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -31,7 +32,7 @@ class ObjectsController extends AbstractController
 {
 
     #[Route('/objects', name: 'objects')]
-    public function listingObjects(ObjectsRepository $objectsRepository, SiteParameterRepository $siteParameterRepository, PaginatorInterface $paginator, Request $request): Response
+    public function listingObjects(ObjectsRepository $objectsRepository, PaginatorInterface $paginator, SessionInterface $session, Request $request): Response
     {
         $data = new SearchData();
         $data->page = $request->get('page', 1);
@@ -54,14 +55,14 @@ class ObjectsController extends AbstractController
         }
 
         //Pagination
-        $site = $siteParameterRepository->find(1);
         $objPaginate = $paginator->paginate(
             $searchObjects,
             $data->page = $request->get('page', 1),
-            $site->getItemsByPage()
+            10
         );
 
         return $this->render('objects/objects/listing.html.twig', [
+            'bookmarks'      => $this->getUser()->getBookmark(),
             'objects'       => $objPaginate,
             'searchForm'    => $searchForm->createView(),
             'totalItemsCount' => count($searchObjects),
@@ -166,7 +167,6 @@ class ObjectsController extends AbstractController
         ]);
     }
 
-
     /*Extraction de PDF*/
     #[Route('/objects-pdf/{id}', name: 'object_pdf')]
     #[IsGranted("ROLE_MEMBER", message: "Seules les ADMINS peuvent faire ça")]
@@ -176,8 +176,12 @@ class ObjectsController extends AbstractController
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
 
+
+
         // Instantiate Dompdf with our options
         $dompdf = new Dompdf($pdfOptions);
+
+        $dompdf->setOptions($pdfOptions->setIsRemoteEnabled(true));
 
         // Retrieve the HTML generated in our twig file
         $html = $this->renderView('objects/objects/others/object_pdf.html.twig', [
@@ -193,8 +197,10 @@ class ObjectsController extends AbstractController
         // Render the HTML as PDF
         $dompdf->render();
 
+
+
         // Output the generated PDF to Browser (force download)
-        $dompdf->stream($object->getTitle().".pdf", [
+        $dompdf->stream($object->getCode() . '-' . $object->getTitle().".pdf", [
             "Attachment" => true
         ]);
         return new Response();

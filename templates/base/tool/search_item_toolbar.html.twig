@@ -1,3 +1,8 @@
+{% block javascripts %}
+{#    {{ parent() }}#}
+    {{ encore_entry_script_tags('search') }}
+{% endblock %}
+
 <div id="search_item_toolbar">
     {{ form_start(searchForm) }}
     <div id="search_filter_query">

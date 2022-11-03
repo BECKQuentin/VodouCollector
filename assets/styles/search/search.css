@@ -1,0 +1,91 @@
+.sort_item_toolbar {
+    display: flex;
+}
+.sort_item_toolbar a{
+    border-bottom: 2px solid var(--main);
+}
+.sort_item_toolbar a:hover {
+    background-color: var(--main);
+}
+.sort_item_toolbar_top {
+    position: fixed;
+    top: 50px;
+    background-color: #ffffff;
+}
+#expositionLocation #location {
+    display: flex;
+}
+#expositionLocation #location .form-check {
+    margin: 0 8px;
+}
+#expositionLocation #location .form-check .form-check-label {
+    white-space: nowrap;
+}
+#search_item_toolbar_button {
+    border-radius: 5px;
+    margin: 10px 10px 5px 20px !important;
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 4px 3px;
+}
+#search_item_toolbar {
+    padding: 0 10px;
+    position: relative;
+    margin: 10px 10px 5px 20px !important;
+}
+#search_filter_to_hide {
+    position: relative;
+}
+#deploy_search_filter {
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 4px 3px;
+}
+#search_filter_query #q {
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 4px 3px;
+}
+#search_filter_to_hide {
+    position: absolute;
+    z-index: 500;
+    width: 90%;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 4px 3px;
+    background-color: var(--second) !important;
+}
+#search_filter_to_hide.fadeOut {
+    display: block;
+    animation: showSearch 0.8s;
+}
+#search_filter_to_hide.fadeIn {
+    animation: hideSearch 0.8s;
+}
+#filter_circle_info {
+    position: absolute;
+    z-index: 550;
+    top: 3px;
+    right: 3px;
+}
+#filter_circle_info:hover {
+    cursor: pointer;
+}
+
+
+
+@keyframes showSearch {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+
+    }
+}
+@keyframes hideSearch {
+    from {
+        transform: translateY(0);
+        display: block;
+    }
+    to {
+        transform: translateY(-100%);
+        display: none;
+    }
+}
+

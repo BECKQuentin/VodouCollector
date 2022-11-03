@@ -1,0 +1,16 @@
+/*#expositionLocation #objects_form_location {*/
+/*    display: flex;*/
+/*}*/
+/*#expositionLocation #objects_form_location .form-check {*/
+/*    margin: 0 20px;*/
+/*}*/
+#expositionLocation #objects_form_location .form-check .form-check-label {
+    white-space: nowrap;
+}
+#objectsForm .form-group label {
+    white-space: nowrap;
+}
+#objects_form_museumCatalogue,
+#objects_form_book {
+    min-height: 150px;
+}

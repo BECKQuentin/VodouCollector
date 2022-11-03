@@ -1,0 +1,47 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <div class="content_box">
+        <div class="d-flex align-items-center">
+            <h2>Actualités</h2>
+            <div title="Les actualités apparaissent sur la page d'Accueil"><i class="fa-solid fa-circle-info"></i></div>
+        </div>
+
+
+        <hr>
+
+
+
+        <div class="mx-4">
+            {{ form_start(form) }}
+
+            <div class="row">
+                {{ form_row(form.title) }}
+            </div>
+
+            <div class="row">
+                {{ form_row(form.description) }}
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    {{ form_row(form.expireAt) }}
+                </div>
+                <div class="col-4">
+                    <div title="Les Admins sont admins, membres et invités. Les membres sont membres et invités."><i class="fa-solid fa-circle-info"></i></div>
+                    {{ form_row(form.roles) }}
+
+                </div>
+            </div>
+
+            <div class="row">
+                {{ form_row(form.submit) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+
+    </div>
+
+
+{% endblock %}

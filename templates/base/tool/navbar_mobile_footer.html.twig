@@ -1,0 +1,10 @@
+<div class="user_profil d-flex justify-content-between">
+    {% if app.user %}
+        <a class="nav-link p-0" href="{{ path('profil') }}" title="Mon profil">
+                    <span href="" class="login_user_profil">
+                        {{ app.user.firstname|upper|u.truncate(10, '...') }} {{ app.user.lastname|capitalize|u.truncate(10, '...') }}
+                    </span>
+        </a>
+    {% endif %}
+    <a href="{{ path('app_logout') }}" class="dropdown-item link_underline text-right">Se déconnecter<i class="fa-solid fa-arrow-right-to-bracket px-2"></i></a>
+</div>
