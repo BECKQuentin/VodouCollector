@@ -59,7 +59,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     public function authenticate(Request $request): Passport
     {
         //Vérification Captcha
-        if ($this->verifyCaptcha($request)) {
+//        if ($this->verifyCaptcha($request)) {
             $email = $request->request->get('email', '');
 
             $request->getSession()->set(Security::LAST_USERNAME, $email);
@@ -71,9 +71,9 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
                     new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
                 ]
             );
-        } else {
-            throw new CustomUserMessageAuthenticationException('Captcha Incorrect');
-        }
+//        } else {
+//            throw new CustomUserMessageAuthenticationException('Captcha Incorrect');
+//        }
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider): ?User
@@ -122,16 +122,16 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
 
-    private function verifyCaptcha($request) {
-
-        $captchaRequest = $request->request->get('captcha');
-        $captchaCode = $request->request->get('captchaCode');
-
-        if ($captchaRequest === $captchaCode) {
-            return true;
-        } else {
-            // fail captcha with a custom error
-            throw new CustomUserMessageAuthenticationException('Captcha Incorrect');
-        }
-    }
+//    private function verifyCaptcha($request) {
+//
+//        $captchaRequest = $request->request->get('captcha');
+//        $captchaCode = $request->request->get('captchaCode');
+//
+//        if ($captchaRequest === $captchaCode) {
+//            return true;
+//        } else {
+//            // fail captcha with a custom error
+//            throw new CustomUserMessageAuthenticationException('Captcha Incorrect');
+//        }
+//    }
 }
