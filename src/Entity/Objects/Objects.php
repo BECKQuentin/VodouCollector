@@ -210,7 +210,7 @@ class Objects
     private $files;
 
     /**
-     * @ORM\OneToMany(targetEntity=Youtube::class, mappedBy="objects")
+     * @ORM\OneToMany(targetEntity=Youtube::class, mappedBy="objects", cascade={"persist", "remove"})
      */
     private $youtubes;
 

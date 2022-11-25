@@ -8,9 +8,12 @@
 .overlay_page {
     animation: overlay 1 0.8s forwards;
 }
+nav {
+    padding: 0;
+}
 .navbar-collapse {
     z-index: 9999;
-    background-color: #fff;
+    background-color: white;
 }
 .navbar-nav li a {
     border-bottom: 2px solid transparent;
@@ -20,6 +23,9 @@
 }
 .navbar-nav li a i {
     margin: 0 5px 0 15px !important;
+}
+.nav-link {
+    color: black;
 }
 /*.navbar-nav li a:hover {*/
 /*    animation: border 1s forwards, growUp 1s forwards;*/

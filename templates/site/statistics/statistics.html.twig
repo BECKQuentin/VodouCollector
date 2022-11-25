@@ -11,7 +11,7 @@
         <div class="d-flex justify-content-center flex-wrap">
 
             <div class="d-flex flex-column align-items-center my-4">
-                <h4 class="text-center m-0">Categories</h4>
+                <h4 class="text-center m-0">Catégories</h4>
                 <pie-chart
                         data="{% for dataCategories in arrDatasCategories %}{{ dataCategories }}{% if loop.index is not same as arrDatasCategories|length %};{% endif %}{% endfor %} "
                         labels="{% for labelCategories in arrLabelsCategories %}{{ labelCategories }}{% if loop.index is not same as arrLabelsCategories|length %};{% endif %}{% endfor %}"

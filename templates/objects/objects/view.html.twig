@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <div class="content_box">
+    <div id="object_view" class="content_box">
 
         {% include 'objects/objects/navbar_objects_link.html.twig' %}
 
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="carousel-caption d-none d-md-block">
-                            <h5 class="m-0">Cette objet n'a pas d'image</h5>
+                            <h5 class="m-0">Cet objet n'a pas d'image</h5>
                         </div>
                     {% endif %}
                 </div>
@@ -55,18 +55,16 @@
                         {% if object.categories is defined and object.categories is not null %}
                             {{ object.categories.name }}
                         {% else %}
-                            Pas de catégorie
+                            <span class="px-2"><i class="fa-solid fa-ban"></i></span>
                         {% endif %}
-                        -
                         {% if object.subCategories is defined and object.subCategories is not null %}
+                            -
                             {{ object.subCategories.name }}
-                        {% else %}
-                            Pas de sous-catégorie
                         {% endif %}
                    </h4>
                 </div>
                 <div class="col-12">
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex">
                         <em>Population :&nbsp;</em>
                         {% if object.population is defined and object.population is not null %}
                             {{ object.population.name }}
@@ -74,7 +72,7 @@
                             <span class="px-2"><i class="fa-solid fa-ban"></i></span>
                         {% endif %}
                     </div>
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex">
                         <em>Origine :&nbsp;</em>
                         {% if object.origin is defined and object.origin is not null %}
                             {{ object.origin.name }}
@@ -82,7 +80,7 @@
                             <span class="px-2"><i class="fa-solid fa-ban"></i></span>
                         {% endif %}
                     </div>
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex">
                         <em>Divinité :&nbsp;</em>
                         {% if object.gods is defined and object.gods is not null %}
                             {{ object.gods.name }}
@@ -90,7 +88,7 @@
                             <span class="px-2"><i class="fa-solid fa-ban"></i></span>
                         {% endif %}
                     </div>
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex">
                         <em>Divinité associées :&nbsp;</em>
                         {% if object.relatedGods is defined and object.relatedGods is not null %}
                             {% for relatedGod in object.relatedGods %}
@@ -100,7 +98,7 @@
                             <span class="px-2"><i class="fa-solid fa-ban"></i></span>
                         {% endif %}
                     </div>
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex">
                         <em>Datation :&nbsp;</em>
                         {% if object.era is defined and object.era is not null %}
                             {{ object.era }}
@@ -108,15 +106,7 @@
                             <span class="px-2"><i class="fa-solid fa-ban"></i></span>
                         {% endif %}
                     </div>
-                    <div class="d-flex align-items-center">
-                        <em>Fonction d'usage :&nbsp;</em>
-                        {% if object.commentary is defined and object.commentary is not null %}
-                            {{ object.commentary }}
-                        {% else %}
-                            <span class="px-2"><i class="fa-solid fa-ban"></i></span>
-                        {% endif %}
-                    </div>
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex">
                         <em>Remarques :&nbsp;</em>
                         {% if object.remarks is defined and object.remarks is not null %}
                             {{ object.remarks }}
@@ -124,6 +114,23 @@
                             <span class="px-2"><i class="fa-solid fa-ban"></i></span>
                         {% endif %}
                     </div>
+                    <div class="d-flex">
+                        <em>Etat :&nbsp;</em>
+                        {% if object.state is defined and object.state is not null %}
+                            {{ object.state.name }}
+                        {% else %}
+                            <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex">
+                        <em>Remarque sur l'état :&nbsp;</em>
+                        {% if object.stateCommentary is defined and object.stateCommentary is not null %}
+                            {{ object.stateCommentary }}
+                        {% else %}
+                            <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+                        {% endif %}
+                    </div>
+
                 </div>
 
             </div>
@@ -135,27 +142,20 @@
                     <em>Description : <br></em>
                     {{ object.description }}
                 {% else %}
-                    Pas de déscription
+                    Pas de description
                 {% endif %}
             </div>
         </div>
+        <div class="col-12 p-4">
+            <em>Fonction d'usage :&nbsp;</em>
+            {% if object.commentary is defined and object.commentary is not null %}
+                {{ object.commentary }}
+            {% else %}
+                <span class="px-2"><i class="fa-solid fa-ban"></i></span>
+            {% endif %}
+        </div>
         <div class="row">
-            <div class="col-12 px-4">
-                <em>Etat :&nbsp;</em>
-                {% if object.state is defined and object.state is not null %}
-                    {{ object.state.name }}
-                {% else %}
-                    <span class="px-2"><i class="fa-solid fa-ban"></i></span>
-                {% endif %}
-            </div>
-            <div class="col-12 px-4 pb-4">
-                <em>Remarque sur l'état :&nbsp;</em>
-                {% if object.stateCommentary is defined and object.stateCommentary is not null %}
-                    {{ object.stateCommentary }}
-                {% else %}
-                    <span class="px-2"><i class="fa-solid fa-ban"></i></span>
-                {% endif %}
-            </div>
+
         </div>
 
         <hr>
@@ -208,8 +208,8 @@
         <hr>
 
         <div class="row">
-            <div class="col-4 px-4">
-                <div class="d-flex align-items-center">
+            <div class="col-12 col-md-4 px-4">
+                <div class="d-flex">
                     <em>Poids :&nbsp;</em>
                     {% if object.weight is defined and object.weight is not null %}
                         {{ object.weight }} g
@@ -217,7 +217,7 @@
                         <span class="px-2"><i class="fa-solid fa-ban"></i></span>
                     {% endif %}
                 </div>
-                <div class="d-flex align-items-center">
+                <div class="d-flex">
                     <em>Hauteur :&nbsp;</em>
                     {% if object.sizeHigh is defined and object.sizeHigh is not null %}
                         {{ object.sizeHigh }} cm
@@ -225,7 +225,7 @@
                         <span class="px-2"><i class="fa-solid fa-ban"></i></span>
                     {% endif %}
                 </div>
-                <div class="d-flex align-items-center">
+                <div class="d-flex">
                     <em>Longueur :&nbsp;</em>
                     {% if object.sizeLength is defined and object.sizeLength is not null %}
                         {{ object.sizeLength }} cm
@@ -233,7 +233,7 @@
                         <span class="px-2"><i class="fa-solid fa-ban"></i></span>
                     {% endif %}
                 </div>
-                <div class="d-flex align-items-center">
+                <div class="d-flex">
                     <em>Profondeur :&nbsp;</em>
                     {% if object.sizeDepth is defined and object.sizeDepth is not null %}
                         {{ object.sizeDepth }} cm
@@ -242,8 +242,8 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="col-4 px-4">
-                <div class="d-flex align-items-center">
+            <div class="col-12 col-md-4 px-4">
+                <div class="d-flex">
                     <em>Exposition :&nbsp;</em>
                     {% if object.location is defined and object.location is not null %}
                         {{ object.location.nameFR }}
@@ -251,7 +251,7 @@
                         <span class="px-2"><i class="fa-solid fa-ban"></i></span>
                     {% endif %}
                 </div>
-                <div class="d-flex align-items-center">
+                <div class="d-flex">
                     <em>Etage :&nbsp;</em>
                     {% if object.floor is defined and object.floor is not null %}
                         {{ object.floor }}
@@ -259,7 +259,7 @@
                         <span class="px-2"><i class="fa-solid fa-ban"></i></span>
                     {% endif %}
                 </div>
-                <div class="d-flex align-items-center">
+                <div class="d-flex">
                     <em>N° Virtrine :&nbsp;</em>
                     {% if object.showcaseCode is defined and object.showcaseCode is not null %}
                         {{ object.showcaseCode }}
@@ -267,7 +267,7 @@
                         <span class="px-2"><i class="fa-solid fa-ban"></i></span>
                     {% endif %}
                 </div>
-                <div class="d-flex align-items-center">
+                <div class="d-flex">
                     <em>N° Etagère :&nbsp;</em>
                     {% if object.shelf is defined and object.shelf is not null %}
                         {{ object.shelf }}
@@ -277,8 +277,8 @@
                 </div>
             </div>
 
-            <div class="col-4 px-4">
-                <div class="d-flex align-items-center">
+            <div class="col-12 col-md-4 px-4">
+                <div class="d-flex">
                     <em>Mode d'acquisition :&nbsp;</em>
                     {% if object.historicDetail is defined and object.historicDetail is not null %}
                         {{ object.historicDetail }}
@@ -286,7 +286,7 @@
                         <span class="px-2"><i class="fa-solid fa-ban"></i></span>
                     {% endif %}
                 </div>
-                <div class="d-flex align-items-center">
+                <div class="d-flex">
                     <em>Date d'acquisition :&nbsp;</em>
                     {% if object.historicDate is defined and object.historicDate is not null %}
                         {{ object.historicDate|format_datetime(locale='fr',pattern="dd MMMM YYYY") }}
@@ -294,7 +294,7 @@
                         <span class="px-2"><i class="fa-solid fa-ban"></i></span>
                     {% endif %}
                 </div>
-                <div class="d-flex align-items-center">
+                <div class="d-flex">
                     <em>Crée le :&nbsp;</em>
                     {% if object.createdAt is defined and object.createdAt is not null %}
                         {{ object.createdAt|format_datetime(locale='fr',pattern="dd MMMM YYYY") }}
@@ -302,7 +302,7 @@
                         <span class="px-2"><i class="fa-solid fa-ban"></i></span>
                     {% endif %}
                 </div>
-                <div class="d-flex align-items-center">
+                <div class="d-flex">
                     <em>Modifié le :&nbsp;</em>
                     {% if object.updatedAt is defined and object.updatedAt is not null %}
                         {{ object.updatedAt|format_datetime(locale='fr',pattern="dd MMMM YYYY") }}

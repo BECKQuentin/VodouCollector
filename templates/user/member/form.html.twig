@@ -9,8 +9,13 @@
         {% endif %}
     </div>
 
-    <div class="row">
+    <div class="d-flex">
         <div class="col-md-4">{{ form_row(form.email) }}</div>
+        {% if adding_member is defined %}
+            <div title="Un email de confirmation de compte sera envoyé à l'utilisateur">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+        {% endif %}
     </div>
     <div class="row">
         {% if user is defined and app.user is same as user or adding_member is defined %}

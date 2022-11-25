@@ -19,6 +19,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -126,15 +127,15 @@ class ObjectsFormType extends AbstractType
                 'label'         => 'Fonction d\' usage',
                 'required'      => false
             ])
-            ->add('weight', IntegerType::class, [
+            ->add('weight', NumberType::class, [
                 'label'         => 'Poids(g)',
                 'required'      => false
             ])
-            ->add('sizeHigh', IntegerType::class, [
+            ->add('sizeHigh', NumberType::class, [
                 'label'         => 'H(cm)',
                 'required'      => false
             ])
-            ->add('sizeLength', IntegerType::class, [
+            ->add('sizeLength', NumberType::class, [
                 'label'         => 'L(cm)',
                 'required'      => false
             ])

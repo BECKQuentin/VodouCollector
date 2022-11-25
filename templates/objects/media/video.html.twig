@@ -1,9 +1,15 @@
 {% extends "base.html.twig" %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('mediaObject') }}
+{% endblock %}
+
 {% block body %}
 
-    <div class="content_box">
-        <div class="d-flex justify-content-between">
+
+    <div class="content_box" data-controller="media">
+        <div class="position-relative d-flex justify-content-between">
             {% include 'objects/objects/navbar_objects_link.html.twig' %}
             {% include 'objects/objects/navbar_objects_tool_standard.html.twig' %}
         </div>
@@ -31,7 +37,7 @@
                 {% else %}
                     <div class="d-flex flex-column text-center pt-5 pb-5">
                         <p class="fs-2"><i class="fa-solid fa-ban"></i></p>
-                        <p>Cette objet n'a pas de vidéo</p>
+                        <p>Cet objet n'a pas de vidéo</p>
                     </div>
                 {% endif %}
 

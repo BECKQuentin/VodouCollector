@@ -26,12 +26,11 @@ export default class extends Controller {
     // }
 
     connect() {
-        console.log('connected')
+
     }
 
     modifyPagination(e) {
         let value = e.currentTarget.innerText;
-
     }
 
 

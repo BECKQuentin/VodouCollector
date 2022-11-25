@@ -71,3 +71,7 @@
     transform: scale(1.08);
 }
 
+
+#object_view em {
+    min-width: fit-content;
+}

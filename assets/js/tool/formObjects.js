@@ -1,3 +1,6 @@
+
+
+
 //DISABLED INPUT ELEMENT FOR EXPOSITION OR NOT
 // document.getElementById('objects_form_floor').disabled = true;
 //

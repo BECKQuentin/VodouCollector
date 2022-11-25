@@ -32,26 +32,32 @@ class YoutubeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
                 //extraire code youtube de l'url
-                $link   = $form->getData('link');
-                $arrLink = explode('/', $link->getLink());
-                $url    = end($arrLink);
-                $arrUrl = explode('=', $url);
-                $code   = end($arrUrl);
+                $url   = $form->getData('link')->getLink();
+                $arrLink = explode('/', $url);
+                if ($arrLink[2] == 'www.youtube.com') {
+                    preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match);
+                    $youtube_id = $match[1];
+                    //Flush in BDD
+                    $youtube->setObjects($objects);
+                    $youtube->setLink($youtube_id);
 
-                //Flush in BDD
-                $youtube->setObjects($objects);
-                $youtube->setLink($code);
+                    $action = new Action();
+                    $action->setName('Video youtube ajouté');
+                    $action->setObject($objects);
+                    $action->setCreatedBy($this->getUser());
+                    $action->setCategory($actionCategoryRepository->find(2));
 
-                $action = new Action();
-                $action->setName('Video youtube ajouté');
-                $action->setObject($objects);
-                $action->setCreatedBy($this->getUser());
-                $action->setCategory($actionCategoryRepository->find(2));
+                    $em = $doctrine->getManager();
+                    $em->persist($youtube);
+                    $em->persist($action);
+                    $em->flush();
 
-                $em = $doctrine->getManager();
-                $em->persist($youtube);
-                $em->persist($action);
-                $em->flush();
+                } else {
+                    $this->addFlash('danger', 'Ceci n\'est pas une vidéo youtube valide');
+                    $this->redirectToRoute('objects_youtube',
+                        ['id' => $objects->getId()]);
+                }
+
 
                 //vider l'input
                 unset($entity);

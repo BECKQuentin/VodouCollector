@@ -16,30 +16,6 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
               integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-        {#        #}{# Bootstrap #}
-{#        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"#}
-{#              integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">#}
-
-{#        <!--Font-Famaily-->#}
-{#        <link rel="preconnect" href="https://fonts.gstatic.com">#}
-{#        <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">#}
-
-        <!--CSS-->
-{#        <link rel="stylesheet" href="{{asset('css/base/style.scss')}}">#}
-{#        <link rel="stylesheet" href="{{asset('css/base/home.scss')}}">#}
-{#        <link rel="stylesheet" href="{{asset('css/base/toolbar.css')}}">#}
-{#        <link rel="stylesheet" href="{{asset('css/objects/objects.css')}}">#}
-{#        <link rel="stylesheet" href="{{asset('css/objects/tags.css')}}">#}
-{#        <link rel="stylesheet" href="{{asset('css/objects/form.css')}}">#}
-{#        <link rel="stylesheet" href="{{asset('css/objects/media.css')}}">#}
-{#        <link rel="stylesheet" href="{{asset('css/search/search.css')}}">#}
-{#        <link rel="stylesheet" href="{{asset('css/site/style.scss')}}">#}
-{#        <link rel="stylesheet" href="{{asset('css/bundles/captcha.css')}}">#}
-        <!--Bundles-->
-
-
-{#        <link rel="stylesheet" href="{{asset('styles/mediaQueries.styles')}}">#}
-{#        <link rel="stylesheet" href="{{asset('styles/error.styles')}}">#}
     {% endblock %}
 
 
@@ -60,7 +36,7 @@
                 <div id="page" class="offset-1 offset-md-2 col-11 col-md-10">
 
                     <div class="d-flex">
-                        <div class="col-9 m-0 p-0">
+                        <div class="col-12 col-sm-9 m-0 p-0">
                             {% if app.request.get('_route') == 'objects' %}
                                 {% include 'base/tool/search_item_toolbar.html.twig' %}
                             {% else %}

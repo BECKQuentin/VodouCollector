@@ -3,6 +3,7 @@
     "app": {
       "js": [
         "/build/runtime.js",
+        "/build/vendors-node_modules_core-js_internals_function-name_js-node_modules_core-js_internals_object-792382.js",
         "/build/vendors-node_modules_core-js_internals_export_js.js",
         "/build/vendors-node_modules_core-js_internals_array-iteration_js-node_modules_core-js_internals_arra-0f55ce.js",
         "/build/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_bootstrap_dist_js_boo-97205b.js",
@@ -16,6 +17,7 @@
     "site_style": {
       "js": [
         "/build/runtime.js",
+        "/build/vendors-node_modules_core-js_internals_function-name_js-node_modules_core-js_internals_object-792382.js",
         "/build/vendors-node_modules_core-js_internals_export_js.js",
         "/build/vendors-node_modules_core-js_internals_array-iteration_js-node_modules_core-js_internals_arra-0f55ce.js",
         "/build/site_style.js"
@@ -24,8 +26,16 @@
     "search": {
       "js": [
         "/build/runtime.js",
+        "/build/vendors-node_modules_core-js_internals_function-name_js-node_modules_core-js_internals_object-792382.js",
         "/build/vendors-node_modules_core-js_internals_export_js.js",
         "/build/search.js"
+      ]
+    },
+    "mediaObject": {
+      "js": [
+        "/build/runtime.js",
+        "/build/vendors-node_modules_core-js_internals_function-name_js-node_modules_core-js_internals_object-792382.js",
+        "/build/mediaObject.js"
       ]
     }
   }

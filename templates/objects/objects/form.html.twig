@@ -57,7 +57,7 @@
                         </div>
                     </div>
                     <div class="carousel-caption d-none d-md-block">
-                        <h5 class="m-0">Cette objet n'a pas d'image</h5>
+                        <h5 class="m-0">Cet objet n'a pas d'image</h5>
                     </div>
                 {% endif %}
             </div>
@@ -65,12 +65,12 @@
         <div class="col-md-8 form_description">
             {{ form_row(form.description) }}
         </div>
+        <div class="col-12">
+            {{ form_row(form.commentary) }}
+        </div>
     </div>
     <hr>
-    {#            <div class="row">#}
-    {#                <div class="col-md-2">{{ form_row(form.era) }}</div>#}
-    {#                <div class="col-md-2">{{ form_row(form.historicDetail) }}</div>#}
-    {#            </div>#}
+
 
     <div class="row mb-2">
         <div class="col-md-3">{{ form_row(form.historicDetail) }}</div>
@@ -81,11 +81,11 @@
 
     <div class="row mb-2">
         <div class="no_arrow col-md-2">{{ form_row(form.materials) }}</div>
-        <div class="no_arrow col-md-1">
+        <div class="no_arrow col-md-1 px-1">
             {{ form_row(form.weight) }}
             {{ form_row(form.sizeHigh) }}
         </div>
-        <div class="no_arrow col-md-1">
+        <div class="no_arrow col-md-1 px-1">
             {{ form_row(form.sizeLength) }}
             {{ form_row(form.sizeDepth) }}
         </div>
@@ -101,9 +101,7 @@
         <div class="col-6">{{ form_row(form.museumCatalogue) }}</div>
         <div class="col-6">{{ form_row(form.book) }}</div>
     </div>
-    <div class="row mb-2">
-        <div class="col-md-12">{{ form_row(form.commentary) }}</div>
-    </div>
+
     <div class="row mb-2">
         <div class="col-md-12">{{ form_row(form.remarks) }}</div>
     </div>

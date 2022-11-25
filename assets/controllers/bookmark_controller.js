@@ -26,7 +26,7 @@ export default class extends Controller {
     }
 
     connect() {
-        console.log('connected')
+
     }
 
     saveBookmark(e) {

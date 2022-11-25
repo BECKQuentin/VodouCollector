@@ -19,6 +19,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -92,7 +93,7 @@ class ObjectsController extends AbstractController
             $em->persist($objects);
             $em->flush();
 
-            $this->addFlash('success', "L'article a bien été ajoutée");
+            $this->addFlash('success', "L'article a bien été ajouté");
             return $this->redirectToRoute('objects');
         }
 
@@ -143,6 +144,19 @@ class ObjectsController extends AbstractController
     #[IsGranted("ROLE_ADMIN", message: "Seules les ADMINS peuvent faire ça")]
     public function deletObjects(Objects $objects, ActionCategoryRepository $actionCategoryRepository,  ManagerRegistry $doctrine): Response
     {
+        //Suppression des images
+        $images = $objects->getImages();
+        $filesystem = new Filesystem();
+        foreach ($images as $image) {
+            $filesystem->remove($image->getAbsolutePath());
+        }
+
+        //Suppression des Videos
+        $videos = $objects->getVideos();
+        foreach ($videos as $video) {
+            $filesystem->remove($video->getAbsolutePath());
+        }
+
         $action = new Action();
         $action->setName('Objet supprimé');
         $action->setOthersValue($objects->getCode() . ' - ' . $objects->getTitle());
@@ -172,11 +186,10 @@ class ObjectsController extends AbstractController
     #[IsGranted("ROLE_MEMBER", message: "Seules les ADMINS peuvent faire ça")]
     public function pdfObjects(Objects $object, ManagerRegistry $doctrine): Response
     {
+
         // Configure Dompdf according to your needs
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
-
-
 
         // Instantiate Dompdf with our options
         $dompdf = new Dompdf($pdfOptions);
@@ -188,21 +201,26 @@ class ObjectsController extends AbstractController
             'object' => $object,
         ]);
 
+
         // Load HTML to Dompdf
         $dompdf->loadHtml($html);
+
+
 
         // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
         $dompdf->setPaper('A4', 'portrait');
 
+
+
         // Render the HTML as PDF
         $dompdf->render();
-
-
 
         // Output the generated PDF to Browser (force download)
         $dompdf->stream($object->getCode() . '-' . $object->getTitle().".pdf", [
             "Attachment" => true
         ]);
+
+
         return new Response();
     }
 

@@ -1,0 +1,32 @@
+div em {
+    color: #8a2a2d;
+}
+.d-flex {
+    display: flex;
+}
+.title {
+    padding: 10px 7px;
+    background-color: #8a2a2d;
+    display: -webkit-box;
+}
+.title span {
+    font-size: 12px;
+}
+.row {
+    display: inline;
+}
+.column_1 {
+    float: left;
+    width: 50%;
+}
+.column_2 {
+    margin-left: 50%;
+    width: 50%;
+}
+hr {
+    color: #8a2a2d;
+    margin: 1rem;
+    border: 0;
+    border-top: 1px solid;
+    opacity: .25;
+}
