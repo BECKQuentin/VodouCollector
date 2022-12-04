@@ -14,7 +14,7 @@ import './styles/base/responsive.scss';
 import './styles/base/toolbar.scss';
 import './styles/objects/form.css';
 import './styles/objects/media.scss';
-import './styles/objects/objects.css';
+import './styles/objects/objects.scss';
 import './styles/objects/tags.css';
 import './styles/search/search.scss';
 import './styles/site/style.css';

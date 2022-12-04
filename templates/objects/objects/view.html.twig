@@ -5,44 +5,14 @@
 
         {% include 'objects/objects/navbar_objects_link.html.twig' %}
 
-        <div class="row">
+        <div class="d-flex flex-column flex-md-row align-items-center">
             <div class="col-5">
-                <div id="carouselFormObjects" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
-                    {% if object is defined and object.images.count > 0 %}
-                        <div class="carousel-inner">
-                            {% for img in object.images %}
-                                <div class="carousel-item {{ loop.first ? 'active' }}">
-                                    <div class="img-ratio" style="--ratio:80%;">
-                                        <div class="img">
-                                            <img src="{{ img.name|image }}" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <h5 class="m-0">{{ img.code }}</h5>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselFormObjects" role="button" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselFormObjects" role="button" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    {% else %}
-                        <div class="img-ratio" style="--ratio:80%;">
-                            <div class="img">
-                                <img src="{{ asset('upload/defaultsImages/cropped-logo-musee-vodou.png') }}" alt="">
-                            </div>
-                        </div>
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5 class="m-0">Cet objet n'a pas d'image</h5>
-                        </div>
-                    {% endif %}
-                </div>
+
+                <!--Image Carousel + Modal-->
+                {% include 'objects/objects/carousel_modal_objects.html.twig' %}
+                
             </div>
+
             <div class="col-7">
                 <p class="p-0 m-0">
                     {% if object.quantity != 1 %}

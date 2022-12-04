@@ -21,10 +21,11 @@
                 <th scope="col">Image</th>
                 <th scope="col">Titre</th>
                 <th scope="col">Categories</th>
-                <th scope="col">Dieux</th>
-                <th scope="col">Collection</th>
-                <th scope="col">Exposition</th>
-                <th scope="col">Emplacement</th>
+                <th scope="col">Vodou</th>
+                <th scope="col">Fonction d'usage</th>
+                {% if is_granted('ROLE_MEMBER') %}
+                    <th scope="col">Emplacement</th>
+                {% endif %}
                 <th scope="col">Action</th>
             </tr>
             </thead>
@@ -36,20 +37,57 @@
 {#                            <input type="checkbox" class="boxSelectObject">#}
 {#                        </th>#}
                         <th scope="row">{{ object.code }}</th>
+
+                        <!--Images-->
                         <td>
-                            <div style="width: 80px !important;">
+                            <!-- Modal -->
+                            <div class="modal fade" id="modalListingObjectImg{{ object.code }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalListingObjectImg{{ object.code }}">{{ object.code }} - {{ object.title }}</h5>
+                                            <button type="button" class="btn btn-vodou close" data-bs-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div id="carouselListingObjectImg{{ object.code }}" class="carousel slide" data-bs-ride="carousel">
+                                                <div class="carousel-inner">
+                                                    {% for img in object.images %}
+                                                        <div class="carousel-item {{ loop.first ? 'active' }}">
+                                                            <img class="d-block w-100" src="{{ img.name|image }}" alt="">
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                                <a class="carousel-control-prev" href="#carouselListingObjectImg{{ object.code }}" role="button" data-bs-slide="prev">
+                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                </a>
+                                                <a class="carousel-control-next" href="#carouselListingObjectImg{{ object.code }}" role="button" data-bs-slide="next">
+                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Img-->
+                            <div class="object_listing_img">
                                 <div class="img-ratio" style="--ratio:150%;">
                                     <div class="img">
                                         {% for img in object.images %}
                                             {% if loop.first %}
-                                                <img src="{{ img.name|image }}" alt="">
+                                                    <img data-bs-toggle="modal" data-bs-target="#modalListingObjectImg{{ object.code }}" src="{{ img.name|image }}" alt="">
                                             {% endif %}
                                         {% endfor %}
                                     </div>
                                 </div>
                             </div>
+
                         </td>
+
+                        <!--Titre-->
                         <th title="{{ object.title }}">{{ object.title|u.truncate(10, '...') }}</th>
+
                         <td>
                             {% if object.categories != null %}
                                 <a class="list_tag_link" href="{{ path('objects', {'categories[]': object.categories.id}) }}">
@@ -57,6 +95,8 @@
                                 </a>
                             {% endif %}
                         </td>
+
+                        <!--Vodou-->
                         <td>
                             {% if object.gods != null %}
                                 <a class="list_tag_link" href="{{ path('objects', {'gods[]': object.gods.id}) }}">
@@ -64,63 +104,60 @@
                                 </a>
                             {% endif %}
                         </td>
-                        <td>
-                            <ul>
-                                {% for book in object.book|slice(0, 5) %}
-                                    <li title="{{ book.title }}">
-                                        {{ book.title|u.truncate(10, '...') }}
-                                    </li>
-                                {% endfor %}
-                                {% if object.book|length > 5 %}
-                                    <li>...</li>
-                                {% endif %}
-                            </ul>
 
-                        </td>
+
+                        <!--Fonction usage-->
                         <td>
-                            {% if object.isBasemented != null %}
-                                <a class="list_tag_link_bg" href="{{ path('objects', {'isBasemented': 1}) }}">
-                                    <span class="object_basemented px-2">Avec Socle</span>
-                                </a>
-                            {% endif %}
-                            {% if object.location != null %}
-                                {% if object.location.id == 1 %}
-                                    <a class="list_tag_link_bg" href="{{ path('objects', {'location[]': 1}) }}">
-                                        <span class="object_exposed_rent px-2">{{ object.location.nameFR }}</span>
-                                    </a>
-                                {% endif %}
-                                {% if object.location.id == 2 %}
-                                    <a class="list_tag_link_bg" href="{{ path('objects', {'location[]': 2}) }}">
-                                        <span class="object_exposed_perma px-2">{{ object.location.nameFR }}</span>
-                                    </a>
-                                {% endif %}
-                                {% if object.location.id == 3 %}
-                                    <a class="list_tag_link_bg" href="{{ path('objects', {'location[]': 3}) }}">
-                                        <span class="object_exposed_tempo px-2">{{ object.location.nameFR }}</span>
-                                    </a>
-                                {% endif %}
-                                {% if object.location.id == 4 %}
-                                    <a class="list_tag_link_bg" href="{{ path('objects', {'location[]': 4}) }}">
-                                        <span class="object_exposed_stock px-2">{{ object.location.nameFR }}</span>
-                                    </a>
-                                {% endif %}
-                            {% endif %}
+                            {{ object.commentary|u.truncate(150, '...') }}
                         </td>
-                        <td>
-                            {% if object.floor %}
-                                <a class="list_tag_link" href="{{ path('objects', {'floor[]': object.floor.id}) }}">
-                                    {{ object.floor.name }}
-                                </a>
-                            {% endif %}
-                            <div class="d-flex">
-                                {% if object.showcaseCode %}
-                                    {{ object.showcaseCode }} -
+
+                        <!--Emplacement-->
+                        {% if is_granted('ROLE_MEMBER') %}
+                            <td>
+                                {% if object.floor %}
+                                    <a class="list_tag_link" href="{{ path('objects', {'floor[]': object.floor.id}) }}">
+                                        {{ object.floor.name }}
+                                    </a>
                                 {% endif %}
-                                {% if object.shelf %}
-                                    {{ object.shelf }}
+                                <div class="d-flex justify-content-center">
+                                    {% if object.showcaseCode %}
+                                        {{ object.showcaseCode }} -
+                                    {% endif %}
+                                    {% if object.shelf %}
+                                        {{ object.shelf }}
+                                    {% endif %}
+                                </div>
+
+                                {% if object.isBasemented != null %}
+                                    <a class="list_tag_link_bg" href="{{ path('objects', {'isBasemented': 1}) }}">
+                                        <span class="object_basemented px-2">Avec Socle</span>
+                                    </a>
                                 {% endif %}
-                            </div>
-                        </td>
+                                {% if object.location != null %}
+                                    {% if object.location.id == 1 %}
+                                        <a class="list_tag_link_bg" href="{{ path('objects', {'location[]': 1}) }}">
+                                            <span class="object_exposed_rent px-2">{{ object.location.nameFR }}</span>
+                                        </a>
+                                    {% endif %}
+                                    {% if object.location.id == 2 %}
+                                        <a class="list_tag_link_bg" href="{{ path('objects', {'location[]': 2}) }}">
+                                            <span class="object_exposed_perma px-2">{{ object.location.nameFR }}</span>
+                                        </a>
+                                    {% endif %}
+                                    {% if object.location.id == 3 %}
+                                        <a class="list_tag_link_bg" href="{{ path('objects', {'location[]': 3}) }}">
+                                            <span class="object_exposed_tempo px-2">{{ object.location.nameFR }}</span>
+                                        </a>
+                                    {% endif %}
+                                    {% if object.location.id == 4 %}
+                                        <a class="list_tag_link_bg" href="{{ path('objects', {'location[]': 4}) }}">
+                                            <span class="object_exposed_stock px-2">{{ object.location.nameFR }}</span>
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+
 
                         <td colspan="1">
                             <div class="d-flex flex-wrap">

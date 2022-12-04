@@ -19,9 +19,9 @@ class YoutubeLinkFormType extends AbstractType
                 'attr' => array('style' => 'width: 350px')
             ])
             ->add('submit', SubmitType::class, [
-                'label'     => 'Ajouter',
-                'attr'      => [
-                    'class' => 'btn-vodou'
+                'label' => 'Ajouter',
+                'attr' => [
+                    'class' => 'btn-vodou btn-vodou-submit'
                 ]
             ])
         ;

@@ -26,7 +26,7 @@ class MediaFormType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider',
                 'attr' => [
-                    'class' => 'btn-vodou'
+                    'class' => 'btn-vodou btn-vodou-submit my-2'
                 ]
             ])
 //            ->add('code')

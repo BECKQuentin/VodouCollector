@@ -108,6 +108,9 @@ tbody tr:last-child td
     border-radius: 4px;
     border-bottom: solid 2px var(--main);
 }
+.btn-vodou-submit {
+    background-color: var(--main) !important;
+}
 /*BTN VODOU NEON*/
 .btn-vodou-neon {
     position: relative;
@@ -197,6 +200,7 @@ a:not(.activated) span:hover {
     height: 100vh !important;
 }
 .content_box {
+    position: relative;
     border: none;
     background-color: #FFFFFF;
     padding-bottom: 10px;
@@ -305,7 +309,6 @@ a:not(.activated) span:hover {
     background-color: transparent !important;
 }
 
-
 /*--IMG RATIO--*/
 .img-ratio {
     position: relative;
@@ -354,4 +357,3 @@ a:not(.activated) span:hover {
     width: 100%;
     object-fit: cover;
 }
-

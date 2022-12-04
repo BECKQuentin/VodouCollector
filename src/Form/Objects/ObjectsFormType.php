@@ -33,7 +33,7 @@ class ObjectsFormType extends AbstractType
 
         $builder
             ->add('code', TextType::class, [
-                'label'         => 'Code',
+                'label'         => 'Numéro Inventaire',
                 'required'      => true
             ])
             ->add('title', TextType::class, [
@@ -186,7 +186,13 @@ class ObjectsFormType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider',
                 'attr' => [
-                    'class' => 'btn-vodou my-3'
+                    'class' => 'btn-vodou btn-vodou-submit my-2'
+                ]
+            ])
+            ->add('submit2', SubmitType::class, [
+                'label' => 'Valider',
+                'attr' => [
+                    'class' => 'btn-vodou btn-vodou-submit my-3'
                 ]
             ])
         ;

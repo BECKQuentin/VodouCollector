@@ -39,7 +39,7 @@
     background-color: #fff;
 }
 .table_listing_row:hover {
-    transform: scale(1.015);
+    //transform: scale(1.015);
     border-radius: 4px;
     background-color: rgba(138, 42, 45, 0.85);
 }
@@ -71,7 +71,37 @@
     transform: scale(1.08);
 }
 
-
 #object_view em {
     min-width: fit-content;
 }
+
+.object_listing_img {
+    width: 80px;
+    cursor: pointer;
+    //:hover {
+    //    cursor: pointer;
+    //    position: absolute;
+    //    width: 150px;
+    //}
+}
+
+
+
+
+/*test**/
+/*.container {*/
+/*    display: flex;*/
+/*    overflow-x: scroll;*/
+/*    padding: 24px;*/
+/*    width: 210px;*/
+/*    scroll-snap-type: x mandatory;*/
+/*    !*scroll-padding: 24px;*!*/
+/*    border-radius: 8px;*/
+/*    gap: 12px;*/
+/*}*/
+/*.container .item {*/
+/*    !*flex: 0 0 100%;*!*/
+/*    !*padding: 24px;*!*/
+/*    border-radius: 8px;*/
+/*    scroll-snap-align: start;*/
+/*}*/
