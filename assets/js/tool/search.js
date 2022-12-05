@@ -64,3 +64,8 @@ sortDateUpdate.addEventListener('change', e => {
         isSortNumericReverse.checked = false
     }
 })
+
+
+//Stockage des Ids de recherche dans le local storage pour fiche suivante dans la vue
+let  idsSearchObjs =  document.getElementById('idsSearchObjs').dataset.idSearchObject;
+localStorage.setItem('idsSearchObjs', idsSearchObjs);

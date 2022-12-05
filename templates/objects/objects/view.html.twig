@@ -1,9 +1,17 @@
 {% extends "base.html.twig" %}
 
-{% block body %}
-    <div id="object_view" class="content_box">
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('object') }}
+{% endblock %}
 
-        {% include 'objects/objects/navbar_objects_link.html.twig' %}
+{% block body %}
+
+    <div id="object_view" class="content_box" data-id-object="{{ object.id }}">
+
+        <div class="position-relative">
+            {% include 'objects/objects/navbar_objects_link.html.twig' %}
+        </div>
 
         <div class="d-flex flex-column flex-md-row align-items-center">
             <div class="col-5">
@@ -284,8 +292,6 @@
         </div>
 
 
-
-
-
     </div>
+
 {% endblock %}
