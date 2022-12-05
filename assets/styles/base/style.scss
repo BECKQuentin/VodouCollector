@@ -198,6 +198,7 @@ a:not(.activated) span:hover {
     background-color: var(--second);
     overflow-y: auto;
     height: 100vh !important;
+    transition: all ease 0.2s;
 }
 .content_box {
     position: relative;

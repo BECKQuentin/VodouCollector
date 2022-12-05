@@ -26,6 +26,7 @@ import './styles/app.scss';
 // import './js/tool/search';
 import './js/tool/formObjects';
 import './js/site/statistics';
+import './js/site/interface';
 // import './js/site/style';
 
 import './bootstrap';

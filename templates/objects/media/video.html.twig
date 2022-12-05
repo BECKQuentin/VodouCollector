@@ -3,13 +3,14 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('mediaObject') }}
+    {{ encore_entry_script_tags('object') }}
 {% endblock %}
 
 {% block body %}
 
 
-    <div class="content_box" data-controller="media">
-        <div class="position-relative d-flex justify-content-between">
+    <div class="content_box" data-id-object="{{ object.id }}">
+        <div class="position-relative">
             {% include 'objects/objects/navbar_objects_link.html.twig' %}
             {% include 'objects/objects/navbar_objects_tool_standard.html.twig' %}
         </div>

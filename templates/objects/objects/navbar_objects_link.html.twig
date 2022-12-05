@@ -1,6 +1,5 @@
 <div class="navbar_objects d-flex align-items-center flex-wrap">
 
-
     {% if route_name != 'objects_view' %}
         <h4 class="p-2 btn-vodou">
             <a href="{{ path('objects_view', {id:object.id}) }}">
@@ -78,10 +77,9 @@
             </div>
     {% endif %}
 
+</div>
 
-
-
-
-
-
+<div class="d-flex justify-content-between">
+    <a href="{{ app.request.uri }}" id="prev_object" title="Objet précédent de la recherche"><i class="btn-vodou fa-solid fa-chevron-left p-2"></i></a>
+    <a href="{{ app.request.uri }}" id="next_object" title="Objet suivant de la recherche"><i class="btn-vodou fa-solid fa-chevron-right p-2"></i></a>
 </div>

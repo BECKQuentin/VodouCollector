@@ -4,6 +4,28 @@
     top: 0;
     bottom: 0;
     height: 100vh;
+    transition: all ease 0.2s;
+}
+
+#hideToolbar {
+    position: absolute;
+    z-index: 99999;
+    top: 50%;
+    right: -10px;
+    padding: 7px;
+    background-color: white;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    i {
+        cursor: pointer;
+    }
+}
+.toolbar_retract {
+    width: 58px !important;
+}
+.toolbar_retract_page {
+    width: auto !important;
+    margin-left: 58px !important;
 }
 .overlay_page {
     animation: overlay 1 0.8s forwards;
@@ -26,6 +48,9 @@ nav {
 }
 .nav-link {
     color: black;
+    span {
+        transition: all ease 0.2s;
+    }
 }
 /*.navbar-nav li a:hover {*/
 /*    animation: border 1s forwards, growUp 1s forwards;*/

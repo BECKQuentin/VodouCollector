@@ -1,7 +1,12 @@
 {% extends "base.html.twig" %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('object') }}
+{% endblock %}
+
 {% block body %}
-    <div class="content_box">
+    <div class="content_box" data-id-object="{{ object.id }}">
         {% include 'objects/objects/navbar_objects_link.html.twig' %}
 
 
