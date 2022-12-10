@@ -16,31 +16,35 @@ export default class extends Controller {
     //     // this.element.textContent = 'Hello Stimulus! Edit me in assets/controllers/hello_controller.js';
     //     console.log('ok')
     // }
-    static targets = [
-        'button'
-    ]
-    static values = {
-        url: String,
-        interval: Number,
-        params: Object,
-    }
+    // static targets = [
+    //     'button'
+    // ]
+    // static values = {
+    //     url: String,
+    //     interval: Number,
+    //     params: Object,
+    // }
 
     connect() {
 
     }
 
+    addGroupBookmark(e) {
+        let button = e.currentTarget;
+        console.log(e);
+    }
+
+
     saveBookmark(e) {
-        let button = e.currentTarget
+        let button = e.currentTarget;
         fetch(e.currentTarget.dataset.url).then( (response) => {
             button.querySelector('i').classList.toggle('fa-regular')
             button.querySelector('i').classList.toggle('fa-solid')
-
             if (button.querySelector('i').classList.contains('fa-regular')) {
                 button.title = 'Ajouter aux favoris';
             } else {
                 button.title = 'Retirer des favoris';
             }
-
             return response.blob();
         })
     }

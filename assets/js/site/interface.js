@@ -5,6 +5,14 @@ let textNavLink = document.querySelectorAll('.nav-link span');
 let hideToolbar = document.getElementById('hideToolbar');
 
 hideToolbar.addEventListener('click', () => {
+    retractToolbar();
+})
+
+if (localStorage.getItem('retractToolbar') === 'true') {
+    retractToolbar();
+}
+
+function retractToolbar() {
     toolbar.classList.toggle('toolbar_retract');
     page.classList.toggle('toolbar_retract_page');
     hideToolbar.querySelector('i').classList.toggle('fa-chevron-right')
@@ -16,7 +24,9 @@ hideToolbar.addEventListener('click', () => {
 
     if (toolbar.classList.contains('toolbar_retract')) {
         hideShowToolbarSpan()
+        localStorage.setItem('retractToolbar', 'true');
     } else {
+        localStorage.setItem('retractToolbar', 'false');
         setTimeout(() => {
             hideShowToolbarSpan()
         }, 200)
@@ -26,8 +36,7 @@ hideToolbar.addEventListener('click', () => {
             item.classList.toggle('d-md-inline');
         })
     }
-
-})
+}
 
 
 

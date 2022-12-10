@@ -58,7 +58,6 @@ class YoutubeController extends AbstractController
                         ['id' => $objects->getId()]);
                 }
 
-
                 //vider l'input
                 unset($entity);
                 unset($form);
@@ -67,12 +66,14 @@ class YoutubeController extends AbstractController
 
                 return $this->render('objects/media/youtube.html.twig', [
                     'object'    => $objects,
+                    'bookmarks' => $this->getUser()->getBookmark(),
                     'form'      => $form->createView(),
                 ]);
 
         }
         return $this->render('objects/media/youtube.html.twig', [
         'object'    => $objects,
+        'bookmarks' => $this->getUser()->getBookmark(),
         'form'      => $form->createView(),
         ]);
 

@@ -231,6 +231,23 @@ a:not(.activated) span:hover {
 
 
 /*******LOGIN*****/
+$randBgLogin: random(3);
+$listBgLogin: AnimatedShape, Snow, Wave;
+$nthBgLogin: nth($listBgLogin, $randBgLogin);
+#login {
+    height: 100vh !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url("../../img/base/background/#{$nthBgLogin}.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.logo_login {
+    height: 135px;
+}
 .login {
     background-color: #FFFFFF;
     border-radius: 5px;
@@ -250,6 +267,8 @@ a:not(.activated) span:hover {
 #loginDropdownLink::after {
     content: none;
 }
+
+/*BTN*/
 .btn-vodou-active {
     display: flex;
     border-radius: 4px;

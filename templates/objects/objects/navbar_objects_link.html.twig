@@ -1,24 +1,24 @@
 <div class="navbar_objects d-flex align-items-center flex-wrap">
 
     {% if route_name != 'objects_view' %}
-        <h4 class="p-2 btn-vodou">
+        <h4 title="Vue fiche" class="p-2 btn-vodou">
             <a href="{{ path('objects_view', {id:object.id}) }}">
                 {{ object.title|u.truncate(20, '...') }}
             </a>
         </h4>
     {% else %}
-        <h4 class="p-2 btn-vodou-active">
+        <h4 title="Vue fiche" class="p-2 btn-vodou-active">
             {{ object.title|u.truncate(20, '...') }}
         </h4>
     {% endif %}
 
     {% if is_granted('ROLE_ADMIN') %}
         {% if route_name != 'objects_edit' %}
-            <a href="{{ path('objects_edit', {id:object.id}) }}" class="btn btn-vodou">
+            <a title="Editer" href="{{ path('objects_edit', {id:object.id}) }}" class="btn btn-vodou">
                 <i class="fa-solid fa-pen"></i>
             </a>
         {% else %}
-            <div class="p-2 btn-vodou-active">
+            <div title="Editer" class="p-2 btn-vodou-active">
                 <i class="fa-solid fa-pen"></i>
             </div>
         {% endif %}
@@ -28,11 +28,11 @@
 
     {% if is_granted('ROLE_MEMBER') %}
         {% if route_name != 'objects_medias' %}
-            <a href="{{ path('objects_medias', {id:object.id}) }}" class="btn btn-vodou">
+            <a title="Media" href="{{ path('objects_medias', {id:object.id}) }}" class="btn btn-vodou">
                 <i class="fa-solid fa-images"></i>
             </a>
         {% else %}
-            <div class="p-2 btn-vodou-active">
+            <div title="Media" class="p-2 btn-vodou-active">
                 <i class="fa-solid fa-images"></i>
                 <div class="fs-8 m-0 px-1">( jpg, png, gif )</div>
             </div>
@@ -40,32 +40,32 @@
         {% endif %}
 
         {% if route_name != 'objects_videos' %}
-            <a href="{{ path('objects_videos', {id:object.id}) }}" class="btn btn-vodou">
+            <a title="Vidéos" href="{{ path('objects_videos', {id:object.id}) }}" class="btn btn-vodou">
                 <i class="fa-solid fa-film "></i>
             </a>
         {% else %}
-            <div class="p-2 btn-vodou-active">
+            <div title="Vidéos" class="p-2 btn-vodou-active">
                 <i class="fa-solid fa-film"></i>
                 <div class="fs-8 m-0 px-1">( avi, flv, mov, webm, mp4, wmv, 3gp )</div>
             </div>
         {% endif %}
 
         {% if route_name != 'objects_youtube' %}
-            <a href="{{ path('objects_youtube', {id:object.id}) }}" class="btn btn-vodou">
+            <a title="Youtube" href="{{ path('objects_youtube', {id:object.id}) }}" class="btn btn-vodou">
                 <i class="fa-brands fa-youtube"></i>
             </a>
         {% else %}
-            <div class="p-2 btn-vodou-active">
+            <div title="Youtube" class="p-2 btn-vodou-active">
                 <i class="fa-brands fa-youtube"></i>
             </div>
         {% endif %}
 
         {% if route_name != 'objects_files' %}
-            <a href="{{ path('objects_files', {id:object.id}) }}" class="btn btn-vodou">
+            <a title="Fichier Annexe" href="{{ path('objects_files', {id:object.id}) }}" class="btn btn-vodou">
                 <i class="fa-solid fa-file"></i>
             </a>
         {% else %}
-            <div class="p-2 btn-vodou-active">
+            <div title="Fichier Annexe" class="p-2 btn-vodou-active">
                 <i class="fa-solid fa-file"></i>
                 <div class="fs-8 m-0 px-1">( pdf, xls )</div>
             </div>
@@ -79,7 +79,52 @@
 
 </div>
 
-<div class="d-flex justify-content-between">
-    <a href="{{ app.request.uri }}" id="prev_object" title="Objet précédent de la recherche"><i class="btn-vodou fa-solid fa-chevron-left p-2"></i></a>
-    <a href="{{ app.request.uri }}" id="next_object" title="Objet suivant de la recherche"><i class="btn-vodou fa-solid fa-chevron-right p-2"></i></a>
+<!--Seconde ligne-->
+<div class="d-flex justify-content-between" data-controller="bookmark">
+    <div class="d-flex">
+        <a class="btn btn-vodou" href="{{ app.request.uri }}" id="prev_object" title="Objet précédent de la recherche"><i class="fa-solid fa-chevron-left"></i></a>
+        {% if object is defined %}
+
+            <!--Ajout aux favoris Groupé-->
+            <div>
+                <button class="btn btn-vodou" data-bs-toggle="modal" data-bs-target="#groupBookmark">
+                    <i title="Ajouter aux Favoris partagés" class="fa-solid fa-star"></i>
+                </button>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="groupBookmark" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Ajouter aux Favoris partagés</h5>
+                            <button type="button" class="close btn btn-vodou" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {{ object.id }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--Ajout aux favoris personel-->
+            <div>
+                <button data-action="click->bookmark#saveBookmark"
+                        data-url="{{ path('objects_bookmark', {id:object.id}) }}"
+                        class="btn btn-vodou">
+                    {% if object.id not in bookmarks %}
+                        <i title="Ajouter aux favoris" class="fa-regular fa-bookmark"></i>
+                    {% else %}
+                        <i title="Retirer des favoris" class="fa-solid fa-bookmark"></i>
+                    {% endif %}
+                </button>
+            </div>
+        {% endif %}
+    </div>
+    <div class="d-flex">
+        <a class="btn btn-vodou" href="{{ app.request.uri }}" id="next_object" title="Objet suivant de la recherche"><i class="fa-solid fa-chevron-right"></i></a>
+    </div>
+
 </div>

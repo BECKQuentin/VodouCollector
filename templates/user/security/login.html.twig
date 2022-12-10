@@ -2,40 +2,52 @@
 
 {% block login %}
 
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <div id="login">
 
-    <h1 class="text-center mx-5 my-4">Login</h1>
-
-    <div class="d-flex flex-column align-items-center">
-        <form action="{{ path('app_login') }}" method="post" style="max-width: 280px">
-            <div class="form-group">
-                <label for="inputEmail">Email:</label>
-                <input class="form-control" type="text" id="inputEmail" name="email" value="{{ last_username }}"/>
-            </div>
-            <div class="form-group">
-                <label for="password">Mot de passe:</label>
-                <input class="form-control" type="password" id="password" name="password"/>
-            </div>
-
-            {% if csrf_token('authenticate') %}
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+        <div class="content_box py-4 px-3 py-sm-5 px-sm-4">
+            {% if error %}
+                <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
 
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" name="_remember_me"> Se souvenir de moi
-                </label>
+            
+            <div><img class="logo_login" src="{{ asset('img/base/logos/cropped-logo-musee-vodou.png') }}" alt=""></div>
+{#            <h1 class="text-center mx-5 mb-4">Login</h1>#}
+
+            <div class="d-flex flex-column align-items-center">
+                <form action="{{ path('app_login') }}" method="post" style="max-width: 280px">
+                    <div class="form-group mb-2">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-user px-1"></i>
+                            <input class="form-control" type="text" id="inputEmail" name="email" placeholder="Email" value="{{ last_username }}"/>
+                        </div>
+
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-lock px-1"></i>
+                            <input class="form-control" type="password" id="password" name="password" placeholder="Password"/>
+                        </div>
+
+                    </div>
+
+                    {% if csrf_token('authenticate') %}
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+                    {% endif %}
+
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                        </label>
+                    </div>
+
+                    {#captcha#}
+                    {#            {% include '@GemonosCaptchaBundle/Resources/views/form.html.twig' %}#}
+
+                    <button type="submit" class="btn btn-vodou">Connexion</button>
+                </form>
             </div>
-
-{#captcha#}
-{#            {% include '@GemonosCaptchaBundle/Resources/views/form.html.twig' %}#}
-
-            <button type="submit" class="btn btn-vodou">Connexion</button>
-        </form>
+        </div>
     </div>
-
 
 {% endblock %}
 

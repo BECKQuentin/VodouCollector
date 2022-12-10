@@ -68,6 +68,7 @@ class MediaController extends AbstractController
 
         return $this->render('objects/media/media.html.twig', [
             'object' => $objects,
+            'bookmarks'      => $this->getUser()->getBookmark(),
             'form'   => $form->createView(),
         ]);
     }

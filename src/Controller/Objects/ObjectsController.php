@@ -135,6 +135,7 @@ class ObjectsController extends AbstractController
 
         return $this->render('objects/objects/edit.html.twig', [
             'object'    => $objects,
+            'bookmarks'      => $this->getUser()->getBookmark(),
             'form'      => $form->createView(),
         ]);
     }
@@ -178,6 +179,7 @@ class ObjectsController extends AbstractController
     {
         return $this->render('objects/objects/view.html.twig', [
             'object'    => $object,
+            'bookmarks'      => $this->getUser()->getBookmark(),
         ]);
     }
 

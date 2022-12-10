@@ -67,6 +67,7 @@ class VideoController extends AbstractController
 
         return $this->render('objects/media/video.html.twig', [
             'object'    => $objects,
+            'bookmarks'      => $this->getUser()->getBookmark(),
             'form'      => $form->createView(),
         ]);
     }

@@ -8,12 +8,11 @@
 
     <div id="objectsForm">
 
-        <div class="position-absolute top-0 end-0">
-            {{ form_row(form.submitAndAdd) }}
+        <div class="d-flex position-absolute top-0 end-0">
             {% if object is defined %}
-                {{ form_row(form.submit, { 'label': 'Ajouter' }) }}
-            {% else %}
                 {{ form_row(form.submit) }}
+            {% else %}
+                {{ form_row(form.submit, { 'label': 'Ajouter' }) }}
             {% endif %}
         </div>
 
@@ -103,11 +102,10 @@
         <hr>
 
         <div class="d-flex justify-content-end">
-            {{ form_row(form.submitAndAdd2) }}
             {% if object is defined %}
-                {{ form_row(form.submit2, { 'label': 'Ajouter' }) }}
-            {% else %}
                 {{ form_row(form.submit2) }}
+            {% else %}
+                {{ form_row(form.submit2, { 'label': 'Ajouter' }) }}
             {% endif %}
         </div>
     </div>

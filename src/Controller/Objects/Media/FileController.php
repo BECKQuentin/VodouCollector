@@ -71,6 +71,7 @@ class FileController extends AbstractController
             'object'    => $objects,
             'form'      => $form->createView(),
             'extension' => $objects->getFiles(),
+            'bookmarks'      => $this->getUser()->getBookmark(),
         ]);
     }
 
